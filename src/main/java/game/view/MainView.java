@@ -14,9 +14,10 @@ public class MainView extends JPanel{
     // private final MainViewModel MainViewModel;
 
     // Images
-    private final Image backgroundImage;
-    private final ImageIcon clickerImage;
-    private final ImageIcon clickerClickedImage;
+    private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();;
+    private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
+    private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
+
 
     // Buttons
     private final JButton clicker;
@@ -30,10 +31,6 @@ public class MainView extends JPanel{
     public MainView() {
         // this.MainViewModel = mainViewModel;
 
-        // Storing images in variables
-        this.backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();
-        this.clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
-        this.clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
         setPreferredSize(new Dimension(720, 540));
         setLayout(null);
 
