@@ -17,8 +17,6 @@ public class MainView extends JPanel{
     private final Image backgroundImage;
     private final ImageIcon clickerImage;
     private final ImageIcon clickerClickedImage;
-    private final ImageIcon slotImage;
-    private final ImageIcon lockedSlotImage;
 
     // Buttons
     private final JButton clicker;
@@ -36,30 +34,33 @@ public class MainView extends JPanel{
         this.backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();
         this.clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
         this.clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
-        this.slotImage = new ImageIcon(getClass().getResource("/images/Slot.png"));
-        this.lockedSlotImage = new ImageIcon(getClass().getResource("/images/SlotLocked.png"));
-        // Slots
+        setPreferredSize(new Dimension(720, 540));
+        setLayout(null);
+
+        // Instantiating Slots
         this.slot1 = new Slot(true);  // unlocked at start
         this.slot2 = new Slot(false);
         this.slot3 = new Slot(false);
         this.slot4 = new Slot(false);
 
-        setPreferredSize(new Dimension(720, 540));
-
         clicker = getClicker();
-        clicker.setBounds(260, 200, 200, 200); // x, y, width, height
+
+        clicker.setBounds(260, 50, 200, 200); // x, y, width, height
         add(clicker);
 
         final JPanel slotsPanel = new JPanel();
+        slotsPanel.setOpaque(false);
         slotsPanel.add(slot1);
         slotsPanel.add(slot2);
         slotsPanel.add(slot3);
         slotsPanel.add(slot4);
         slotsPanel.setLayout(new GridLayout(1, 4, 40, 0));
 
+        slotsPanel.setBounds(110, 280, 520, 150);
         add(slotsPanel);
     }
 
+    // Making a clicker JButton with custom graphic.
     private JButton getClicker() {
         final JButton clicker;
         clicker = new JButton();
@@ -70,7 +71,6 @@ public class MainView extends JPanel{
         clicker.setPressedIcon(clickerClickedImage);
         return clicker;
     }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

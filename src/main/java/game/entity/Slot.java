@@ -11,16 +11,23 @@ public class Slot extends JButton {
     private boolean unlocked;
     private final ImageIcon unlockedImage;
     private final ImageIcon lockedImage;
+    private final ImageIcon unlockedClickedImage;
+    private final ImageIcon lockedClickedImage;
     private Pet pet;
 
     public Slot(boolean unlocked) {
         this.unlocked = unlocked;
         this.unlockedImage = new ImageIcon(getClass().getResource("/images/Slot.png"));
         this.lockedImage = new ImageIcon(getClass().getResource("/images/SlotLocked.png"));
+        this.unlockedClickedImage = new ImageIcon(getClass().getResource("/images/SlotClicked.png"));
+        this.lockedClickedImage = new ImageIcon(getClass().getResource("/images/SlotLockedClicked.png"));
+
         if (unlocked) {
             setIcon(unlockedImage);
+            setPressedIcon(unlockedClickedImage);
         } else {
             setIcon(lockedImage);
+            setPressedIcon(lockedClickedImage);
         }
         ImageIcon icon = (ImageIcon) getIcon();
         setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
