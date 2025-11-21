@@ -1,8 +1,4 @@
 package game.entity;
-import game.Constants.java;
-
-import game.Constants;
-
 import game.Constants;
 
 import java.util.HashMap;
@@ -36,9 +32,11 @@ public class Pet {
         final int baseClick;
         final int baseRecovery;
         final String tier;
+        private static final String COMMON_TIER = "common";
+        private static final String ELITE_TIER = "elite";
 
         public BreedData(int baseEnergy, int baseClick, int baseRecovery) {
-            this(baseEnergy, baseClick, baseRecovery, "common");
+            this(baseEnergy, baseClick, baseRecovery, COMMON_TIER);
         }
 
         public BreedData(int baseEnergy, int baseClick, int baseRecovery, String tier) {
@@ -51,28 +49,27 @@ public class Pet {
     private static Map<String, BreedData> createBreedData() {
         Map<String, BreedData> data = new HashMap<>();
 
-        data.put("labrador retriever", new BreedData(5, 4, 5, "common"));
-        data.put("golden retriever", new BreedData(5, 3, 5, "common"));
-        data.put("french bulldog", new BreedData(2, 3, 2, "common"));
-        data.put("poodle", new BreedData(4, 5, 5, "common"));
-        data.put("beagle", new BreedData(4, 4, 4, "common"));
-        data.put("shih tzu", new BreedData(3, 2, 4, "common"));
-        data.put("boxer", new BreedData(5, 5, 3, "common"));
-        data.put("pomeranian", new BreedData(2, 6, 4, "common"));
-        data.put("siberian husky", new BreedData(8, 7, 5, "elite"));
-        data.put("german shepherd", new BreedData(7, 6, 6, "elite"));
+            data.put("labrador retriever", new BreedData(5, 4, 5, BreedData.COMMON_TIER));
+            data.put("golden retriever", new BreedData(5, 3, 5, BreedData.COMMON_TIER));
+            data.put("french bulldog", new BreedData(2, 3, 2, BreedData.COMMON_TIER));
+            data.put("poodle", new BreedData(4, 5, 5, BreedData.COMMON_TIER));
+            data.put("beagle", new BreedData(4, 4, 4, BreedData.COMMON_TIER));
+            data.put("shih tzu", new BreedData(3, 2, 4, BreedData.COMMON_TIER));
+            data.put("boxer", new BreedData(5, 5, 3, BreedData.COMMON_TIER));
+            data.put("pomeranian", new BreedData(2, 6, 4, BreedData.COMMON_TIER));
+            data.put("siberian husky", new BreedData(8, 7, 5, BreedData.ELITE_TIER));
+            data.put("german shepherd", new BreedData(7, 6, 6, BreedData.ELITE_TIER));
 
-        data.put("siamese", new BreedData(5, 6, 4, "common"));
-        data.put("british shorthair", new BreedData(5, 4, 5, "common"));
-        data.put("persian", new BreedData(3, 2, 3, "common"));
-        data.put("russian blue", new BreedData(4, 5, 6, "common"));
-        data.put("ragdoll", new BreedData(4, 3, 5, "common"));
-        data.put("american shorthair", new BreedData(5, 4, 5, "common"));
-        data.put("sphynx", new BreedData(4, 6, 4, "common"));
-        data.put("scottish fold", new BreedData(4, 3, 4, "common"));
-        data.put("maine coon", new BreedData(7, 6, 6, "elite"));
-        data.put("bengal", new BreedData(8, 7, 5, "elite"));
-
+            data.put("siamese", new BreedData(5, 6, 4, BreedData.COMMON_TIER));
+            data.put("british shorthair", new BreedData(5, 4, 5, BreedData.COMMON_TIER));
+            data.put("persian", new BreedData(3, 2, 3, BreedData.COMMON_TIER));
+            data.put("russian blue", new BreedData(4, 5, 6, BreedData.COMMON_TIER));
+            data.put("ragdoll", new BreedData(4, 3, 5, BreedData.COMMON_TIER));
+            data.put("american shorthair", new BreedData(5, 4, 5, BreedData.COMMON_TIER));
+            data.put("sphynx", new BreedData(4, 6, 4, BreedData.COMMON_TIER));
+            data.put("scottish fold", new BreedData(4, 3, 4, BreedData.COMMON_TIER));
+            data.put("maine coon", new BreedData(7, 6, 6, BreedData.ELITE_TIER));
+            data.put("bengal", new BreedData(8, 7, 5, BreedData.ELITE_TIER));
         return data;
     }
 
@@ -105,7 +102,7 @@ public class Pet {
 
     private int calculateSellingPrice(String tier) {
         int basePrice = Constants.SELLING_BASE_PRICE;
-        if ("elite".equalsIgnoreCase(tier)) {
+        if (BreedData.ELITE_TIER.equalsIgnoreCase(tier)) {
             basePrice *= 2;
         }
         return basePrice * this.affectionLevel;
