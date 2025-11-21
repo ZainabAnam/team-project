@@ -19,6 +19,8 @@ public class LootBox extends Item{
      * will be implemented in the future with api
      */
     private void initializeBreedLists() {
+        this.catBreedList=new ArrayList<>(Arrays.asList("catA","catB","catC"));
+        this.dogBreedList=new ArrayList<>(Arrays.asList("dogA","dogB","dogC"));
     }
 
     public Pet getPet(){

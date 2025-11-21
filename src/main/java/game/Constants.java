@@ -53,14 +53,23 @@ public final class Constants {
     public static final int PET_TOY_MEDIUM_AFFECTION_INCREASE = 2;
     public static final int PET_TOY_PREMIUM_AFFECTION_INCREASE = 3;
     
+    // Item name constants
+    public static final String ITEM_KIBBLE = "Kibble";
+    public static final String ITEM_CANNED_FOOD = "Canned Food";
+    public static final String ITEM_HOME_COOKED = "Home-Cooked";
+    public static final String ITEM_CHEW_TOY = "Chew Toy";
+    public static final String ITEM_TOSS_TOY = "Toss Toy";
+    public static final String ITEM_PLUSH_TOY = "Plush Toy";
+    public static final String ITEM_LOOT_BOX = "Loot Box";
+    
     //Shop item constants
     public static final List<Item> itemList=new ArrayList<Item>(
-        Arrays.asList(new PetFood("kibble",PET_FOOD_BASIC_PRICE,PET_ENERGY_BASIC_INCREASE),
-                        new PetFood("canned food",PET_FOOD_MEDIUM_PRICE,PET_ENERGY_MEDIUM_INCREASE),
-                        new PetFood("home-cooked",PET_FOOD_PREMIUM_PRICE,PET_ENERGY_PREMIUM_INCREASE),
-                        new PetToy("chew toy",PET_TOY_BASIC_PRICE,PET_TOY_BASIC_AFFECTION_INCREASE),
-                        new PetToy("toss toy",PET_TOY_MEDIUM_PRICE,PET_TOY_MEDIUM_AFFECTION_INCREASE),
-                        new PetToy("plush toy",PET_TOY_PREMIUM_PRICE,PET_TOY_PREMIUM_AFFECTION_INCREASE)));
+        Arrays.asList(new PetFood(ITEM_KIBBLE,PET_FOOD_BASIC_PRICE,PET_ENERGY_BASIC_INCREASE),
+                        new PetFood(ITEM_CANNED_FOOD,PET_FOOD_MEDIUM_PRICE,PET_ENERGY_MEDIUM_INCREASE),
+                        new PetFood(ITEM_HOME_COOKED,PET_FOOD_PREMIUM_PRICE,PET_ENERGY_PREMIUM_INCREASE),
+                        new PetToy(ITEM_CHEW_TOY,PET_TOY_BASIC_PRICE,PET_TOY_BASIC_AFFECTION_INCREASE),
+                        new PetToy(ITEM_TOSS_TOY,PET_TOY_MEDIUM_PRICE,PET_TOY_MEDIUM_AFFECTION_INCREASE),
+                        new PetToy(ITEM_PLUSH_TOY,PET_TOY_PREMIUM_PRICE,PET_TOY_PREMIUM_AFFECTION_INCREASE)));
     
     // Upgrade limits and pricing
     public static final int MAX_CLICK_BONUS_UPGRADES = 5;

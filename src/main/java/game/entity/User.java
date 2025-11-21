@@ -142,7 +142,6 @@ public class User {
         
         //helper method for unlockPetSlot
         public int getCurrentUnlockSlotPrice(){
-            // Price increases with each unlock: 100, 200, 300 for slots 3, 4, 5
             return (this.unlockedSlots - Constants.INITIAL_SLOTS + 1) * Constants.UNLOCK_SLOT_BASE_PRICE;
         }
 
@@ -156,10 +155,6 @@ public class User {
 
         public void subtractCoins(int coins) {
             this.coinCount -= coins;
-        }
-
-        public int getClickBonus(){
-            return this.clickBonus;
         }
 
         public int getCoinCount(){
