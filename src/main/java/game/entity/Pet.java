@@ -1,5 +1,4 @@
 package game.entity;
-import game.Constants.java;
 
 import game.Constants;
 
