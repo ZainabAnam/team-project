@@ -1,4 +1,4 @@
-package game.use_case.PetCard.SellPet;
+package game.use_case.PetCard.RenamePet;
 
 public interface RenamePetOutputBoundary {
 }
