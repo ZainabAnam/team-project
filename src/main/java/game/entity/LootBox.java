@@ -19,6 +19,28 @@ public class LootBox extends Item{
      * will be implemented in the future with api
      */
     private void initializeBreedLists() {
+
+        dogBreedList.add("Labrador Retriever");
+        dogBreedList.add("Golden Retriever");
+        dogBreedList.add("French Bulldog");
+        dogBreedList.add("Poodle");
+        dogBreedList.add("Beagle");
+        dogBreedList.add("Shih Tzu");
+        dogBreedList.add("Boxer");
+        dogBreedList.add("Pomeranian");
+        dogBreedList.add("Siberian Husky");
+        dogBreedList.add("German Shepherd");
+
+        catBreedList.add("Siamese");
+        catBreedList.add("British Shorthair");
+        catBreedList.add("Persian");
+        catBreedList.add("Russian Blue");
+        catBreedList.add("Ragdoll");
+        catBreedList.add("American Shorthair");
+        catBreedList.add("Sphynx");
+        catBreedList.add("Scottish Fold");
+        catBreedList.add("Maine Coon");
+        catBreedList.add("Bengal");
     }
 
     public Pet getPet(){
@@ -37,7 +59,14 @@ public class LootBox extends Item{
             breed = this.dogBreedList.get(randomIndex);
         }
 
-        Pet randomPet=new Pet(type,breed);
+        String randomName = generateRandomName();
+        Pet randomPet = new Pet(type, breed, randomName);
         return randomPet;
+    }
+
+    private String generateRandomName(){
+        Random random = new Random();
+        String[] names= {"Buddy", "Max", "Charlie", "Lucy", "Bailey", "Daisy", "Molly", "Jack"};
+        return names[random.nextInt(names.length)];
     }
 }
