@@ -56,6 +56,9 @@ public class User {
             return this.clickBonusTime;
         }
 
+        public List<Pet> getPetInventory() { return this.PetInventory; }
+        public List<Item> getItemsList() { return this.itemsList; }
+
         //pre: the unlockPetSlot should be less than 5
         public void unlockPetSlot(){
             this.unlockedSlots+=1;
