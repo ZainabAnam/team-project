@@ -9,7 +9,7 @@ import java.util.*;
     */
 
 public class User {
-        public int coinCount;
+        private int coinCount;
         private int clickBonus;
         private int clickBonusTime;//helper for counting the times of upgrades
         private int unlockedSlots;
@@ -52,7 +52,7 @@ public class User {
         //pre: coinCheck is true
         public void buyLootBox(LootBox lootBox){
             this.buy(lootBox.getPrice());
-            this.addToPetInventory(lootBox.getPet());
+            // this.addToPetInventory(lootBox.getPet());
         }
 
         //adding a pet to the pet inventory
@@ -149,7 +149,22 @@ public class User {
             return this.unlockedSlots;
         }
 
-        
+        public void addCoins(int coins) {
+            this.coinCount += coins;
+        }
+
+        public void subtractCoins(int coins) {
+            this.coinCount -= coins;
+        }
+
+        public int getClickBonus(){
+            return this.clickBonus;
+        }
+
+        public int getCoinCount(){
+            return this.coinCount;
+        }
+
 
 
 }

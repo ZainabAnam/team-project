@@ -1,0 +1,31 @@
+Dogs
+
+| Breed              | Tier     | Base Energy | Base Click | Base Recovery |
+| ------------------ | -------- | ----------- | ---------- | ------------- |
+| Labrador Retriever | Common   | 5           | 4          | 5             |
+| Golden Retriever   | Common   | 5           | 3          | 5             |
+| French Bulldog     | Common   | 2           | 3          | 2             |
+| Poodle             | Common   | 4           | 5          | 5             |
+| Beagle             | Common   | 4           | 4          | 4             |
+| Shih Tzu           | Common   | 3           | 2          | 4             |
+| Boxer              | Common   | 5           | 5          | 3             |
+| Pomeranian         | Common   | 2           | 6          | 4             |
+| Siberian Husky     | Elite    | 8           | 7          | 5             |
+| German Shepherd    | Elite    | 7           | 6          | 6             |
+____________________________________________________________________________
+
+Cats 
+
+| Breed              | Tier     | Base Energy | Base Click | Base Recovery |
+| ------------------ | -------- | ----------- | ---------- | ------------- |
+| Siamese            | Common   | 5           | 6          | 4             |
+| British Shorthair  | Common   | 5           | 4          | 5             |
+| Persian            | Common   | 3           | 2          | 3             |
+| Russian Blue       | Common   | 4           | 5          | 6             |
+| Ragdoll            | Common   | 4           | 3          | 5             |
+| American Shorthair | Common   | 5           | 4          | 5             |
+| Sphynx             | Common   | 4           | 6          | 4             |
+| Scottish Fold      | Common   | 4           | 3          | 4             |
+| Maine Coon         | Elite    | 7           | 6          | 6             |
+| Bengal             | Elite    | 8           | 7          | 5             |
+____________________________________________________________________________
