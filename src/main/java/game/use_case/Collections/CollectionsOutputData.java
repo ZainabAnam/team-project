@@ -23,11 +23,9 @@ public class CollectionsOutputData {
     public List<Pet> getPets() {
         return pets;
     }
-
     public List<PetFood> getPetFoods() {
         return petFoods;
     }
-
     public List<PetToy> getPetToys() {
         return petToys;
     }
