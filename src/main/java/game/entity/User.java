@@ -33,7 +33,7 @@ public class User {
 
         public void buyLootBox(LootBox lootBox){
             this.buy(lootBox.getPrice());
-            // this.addToPetInventory(lootBox.getPet());
+
         }
 
         public void buyPetFood(PetFood petFood){

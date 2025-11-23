@@ -11,13 +11,11 @@ import java.awt.*;
  */
 public class MainView extends JPanel{
     private final String viewName = "Pet Clicker";
-    // private final MainViewModel MainViewModel;
 
     // Images
     private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();;
     private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
     private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
-
 
     // Buttons
     private final JButton clicker;
@@ -26,10 +24,7 @@ public class MainView extends JPanel{
     private final Slot slot3;
     private final Slot slot4;
 
-    // private MainController mainController = null;
-
     public MainView() {
-        // this.MainViewModel = mainViewModel;
 
         setPreferredSize(new Dimension(720, 540));
         setLayout(null);

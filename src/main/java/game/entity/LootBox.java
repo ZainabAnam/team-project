@@ -6,8 +6,5 @@ public class LootBox extends Item{
         super(price);
     }
 
-//    public Pet getPet(){
-//        Pet randomPet=new Pet();
-//        return randomPet;
-//    }
+
 }
