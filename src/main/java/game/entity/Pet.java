@@ -1,12 +1,14 @@
 package game.entity;
 import game.Constants;
 
-import game.Constants;
-
 public class Pet {
     /**
      * petType == 'Dog' || petType == 'Cat'
      * petBreed is a valid breed of Dog (if applicable) or Cat (if applicable)
+     * tier is 'Common' || 'Elite'
+     * baseEnergy >= 0
+     * baseClick >= 0
+     * baseRecovery >= 0
      * visualURL is a valid URL
      * affectionLevel >= 0
      * energyLevel >= 0
@@ -16,6 +18,11 @@ public class Pet {
 
     final String petType;
     final String petBreed;
+    
+    final String tier;
+    final int baseEnergy;
+    final int baseClick;
+    final int baseRecovery;
 //  final String visualURL;
     int affectionXP;
     int affectionLevel;
@@ -26,16 +33,18 @@ public class Pet {
 
     private String name;
 
-
-
-    public Pet(String petType, String petBreed) {
+    public Pet(String petType, String petBreed, String tier, int baseEnergy, int baseClick, int baseRecovery) {
         this.petType = petType;
         this.petBreed = petBreed;
+        this.tier = tier;
+        this.baseEnergy = baseEnergy;
+        this.baseClick = baseClick;
+        this.baseRecovery = baseRecovery;
         // call to visual database to get appropriate url
         this.affectionXP = Constants.INITIAL_AFFECTION_XP;
         this.affectionLevel = Constants.INITIAL_AFFECTION_LEVEL;
-        this.energyLevel = Constants.INITIAL_ENERGY_LEVEL;
-        // call to info database to get clicking speed
+        this.energyLevel = baseEnergy;
+        this.clickingSpeed = baseClick;
         this.sellingPrice = Constants.SELLING_BASE_PRICE;
         this.deployStatus = false;
     }
@@ -66,5 +75,29 @@ public class Pet {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getPetType() {
+        return this.petType;
+    }
+
+    public String getPetBreed() {
+        return this.petBreed;
+    }
+
+    public String getTier() {
+        return this.tier;
+    }
+
+    public int getBaseEnergy() {
+        return this.baseEnergy;
+    }
+
+    public int getBaseClick() {
+        return this.baseClick;
+    }
+
+    public int getBaseRecovery() {
+        return this.baseRecovery;
     }
 }
