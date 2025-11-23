@@ -1,10 +1,9 @@
 package game.entity;
 
 public class PetFood extends Item{
-    private int price;
     private int energyIncrease;
-    public PetFood(int price,int energyIncrease) {
-        super(price);
+    public PetFood(String name, int price,int energyIncrease) {
+        super(name,price,"PetFood");
         this.energyIncrease=energyIncrease;
     }
 
