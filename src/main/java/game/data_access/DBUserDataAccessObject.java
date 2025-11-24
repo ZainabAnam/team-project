@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * The DAO for user data.
  */
-public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface, SellPetDataAccessInterface, RenamePetDataAccessInterface {
+public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface{
     private final String userID;
     String url = "fillerURL";
 
@@ -50,10 +50,6 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
             throw new RuntimeException(ex);
         }
         return null;
-    }
-    public void saveUser(User user) {
-
-        //TODO: save database here
     }
 
     /**
