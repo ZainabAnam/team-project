@@ -159,6 +159,11 @@ public class User {
         }
 
         public int getClickBonus(){
+            return this.clickBonus;
+        }
+
+        public int getCoinCount(){
+            return this.coinCount;
         }
 
 
