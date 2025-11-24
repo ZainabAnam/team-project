@@ -126,9 +126,6 @@ public class User {
             return this.clickBonusTime;
         }
 
-        public List<Pet> getPetInventory() { return this.PetInventory; }
-        public List<Item> getItemsList() { return this.itemsList; }
-
         //pre: the unlockPetSlot should be less than 5
         public int getCurrentUpgradePrice(){
             return this.getClickBonusTime()*Constants.UPGRADE_CLICKER_BASE_PRICE;
@@ -160,10 +157,6 @@ public class User {
 
         public void subtractCoins(int coins) {
             this.coinCount -= coins;
-        }
-
-        public int getClickBonus(){
-            return this.clickBonus;
         }
 
         public int getCoinCount(){
