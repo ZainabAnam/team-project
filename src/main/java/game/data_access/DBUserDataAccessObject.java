@@ -30,7 +30,7 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
      */
     @Override
     public User getUser(String userID) {
-        final game.data_access.OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -48,6 +48,14 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
             throw new RuntimeException(ex);
         }
         return null;
+    }
+    public void saveUser(User user) {
+
+        System.out.println("=== USER SAVE ===");
+        System.out.println("User: " + this.userID);
+        System.out.println("Coins: " + user.getCoinCount());
+        System.out.println("Pets: " + user.getPetInventory().size());
+        System.out.println("=================");
     }
 
     /**
