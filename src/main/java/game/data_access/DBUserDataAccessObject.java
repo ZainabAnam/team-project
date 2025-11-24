@@ -1,6 +1,7 @@
 package game.data_access;
 
 import game.entity.User;
+import game.use_case.PetCard.SellPet.SellPetDataAccessInterface;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,7 +17,7 @@ import java.io.IOException;
 /**
  * The DAO for user data.
  */
-public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface {
+public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface, SellPetDataAccessInterface {
     private final String userID;
     String url = "fillerURL";
 
@@ -30,7 +31,7 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
      */
     @Override
     public User getUser(String userID) {
-        final game.data_access.OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -48,6 +49,14 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
             throw new RuntimeException(ex);
         }
         return null;
+    }
+    public void saveUser(User user) {
+
+        System.out.println("=== USER SAVE ===");
+        System.out.println("User: " + this.userID);
+        System.out.println("Coins: " + user.getCoinCount());
+        System.out.println("Pets: " + user.getPetInventory().size());
+        System.out.println("=================");
     }
 
     /**

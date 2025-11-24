@@ -194,7 +194,23 @@ public class User {
             return -1; // Pet not found or it's deployed
         }
 
+    public boolean canSellPet(int petIndex) {
+        if (petIndex < 0 || petIndex >= petInventory.size()) {
+            return false;
+        }
+        Pet pet = petInventory.get(petIndex);
+        return !pet.isDeployed();
+    }
 
+        public boolean canSellPet(Pet pet) {
+        return pet != null &&
+                petInventory.contains(pet) &&
+                !pet.isDeployed();
+    }
+
+    public int getCoinCount() {
+        return coinCount;
+    }
 
 
     }
