@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * The DAO for user data.
  */
-public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface, SellPetDataAccessInterface {
+public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface {
     private final String userID;
     String url = "fillerURL";
 
