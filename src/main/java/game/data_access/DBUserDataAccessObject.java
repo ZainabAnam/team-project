@@ -52,11 +52,7 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
     }
     public void saveUser(User user) {
 
-        System.out.println("=== USER SAVE ===");
-        System.out.println("User: " + this.userID);
-        System.out.println("Coins: " + user.getCoinCount());
-        System.out.println("Pets: " + user.getPetInventory().size());
-        System.out.println("=================");
+        //TODO: save database here
     }
 
     /**
