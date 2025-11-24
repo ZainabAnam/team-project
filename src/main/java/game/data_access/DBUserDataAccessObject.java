@@ -50,10 +50,6 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
         }
         return null;
     }
-    public void saveUser(User user) {
-
-        //TODO: save database here
-    }
 
     /**
      * There is a filler String as a URL for the method.  This will be updated when a database URL is specified.
