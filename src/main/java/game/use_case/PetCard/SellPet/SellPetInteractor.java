@@ -22,22 +22,30 @@ public class SellPetInteractor implements SellPetInputBoundary {
             return;
         }
 
-        // Check if index valid
-        if (!user.canSellPet(inputData.getPetIndex())) {
-            outputBoundary.prepareFailView("Cannot sell pet: pet may be deployed or invalid index");
+        // check if index valid
+        int petIndex = inputData.getPetIndex();
+        if (petIndex < 0 || petIndex >= user.getPetInventory().size()) {
+            outputBoundary.prepareFailView("Invalid pet index");
             return;
         }
 
-        // Get pet info（before selling）
-        Pet pet = user.getPetInventory().get(inputData.getPetIndex());
+        // get pet info
+        Pet pet = user.getPetInventory().get(petIndex);
+
+        // check if sellable
+        if (!user.canSellPet(pet)) {
+            outputBoundary.prepareFailView("Cannot sell pet: pet is currently deployed");
+            return;
+        }
+
         String petName = pet.getName();
         int sellingPrice = pet.getSellingPrice();
 
-        // sell your pet
-        int result = user.sellPetByIndex(inputData.getPetIndex());
+        // sell your pet (sellPetByIndex returns price，>0 when succeeds)
+        int result = user.sellPetByIndex(petIndex);
 
         if (result > 0) {
-            // sold
+            // successful sell
             userDataAccess.saveUser(user);
 
             SellPetOutputData outputData = new SellPetOutputData(
