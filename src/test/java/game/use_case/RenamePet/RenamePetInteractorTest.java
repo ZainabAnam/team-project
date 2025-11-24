@@ -1,5 +1,8 @@
 package game.use_case.RenamePet;
 
-public class RenamePetInteractorTest {
+import game.entity.Pet;
+import game.entity.User;
+
+class RenamePetInteractorTest {
 
 }
