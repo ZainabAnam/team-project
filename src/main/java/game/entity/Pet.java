@@ -66,4 +66,16 @@ public class Pet {
     public String getName() {
         return this.name;
     }
+
+    public int getAffectionXP() {
+        return this.affectionXP;
+    }
+
+    public int getAffectionLevel() {
+        return this.affectionLevel;
+    }
+
+    public void increaseAffectionLevel() {
+        this.affectionLevel++;
+    }
 }

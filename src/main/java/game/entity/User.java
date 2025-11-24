@@ -169,7 +169,4 @@ public class User {
         public int getCoinCount(){
             return this.coinCount;
         }
-
-
-
 }

@@ -13,7 +13,7 @@ public final class Constants {
     //Pet initial constants
     public static final int INITIAL_LEVEL = 1;
     public static final int INITIAL_AFFECTION_XP=0;
-    public static final int INITIAL_AFFECTION_LEVEL=1;
+    public static final int INITIAL_AFFECTION_LEVEL=0;
     public static final int INITIAL_ENERGY_LEVEL=100;
 
     public static final int MAX_ENERGY_LEVEL = 100;
