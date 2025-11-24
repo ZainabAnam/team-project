@@ -1,9 +1,13 @@
 package game.entity;
 
 import game.Constants;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.nio.file.*;
+import java.util.List;
 
 /**
  * Loot box for random new pets
@@ -73,7 +77,7 @@ public class LootBox extends Item{
                             int baseClick = Integer.parseInt(baseClickStr);
                             int baseRecovery = Integer.parseInt(baseRecoveryStr);
                             
-                            Pet pet = new Pet(currentType, breed, tier, baseEnergy, baseClick, baseRecovery);
+                            Pet pet = new Pet(currentType, breed, tier, baseEnergy, baseClick, baseRecovery,getPetIcon(breed));
                             petList.add(pet);
                         } catch (NumberFormatException e) {
                             continue;
@@ -102,7 +106,13 @@ public class LootBox extends Item{
             selectedPet.getTier(),
             selectedPet.getBaseEnergy(),
             selectedPet.getBaseClick(),
-            selectedPet.getBaseRecovery()
+            selectedPet.getBaseRecovery(),
+                selectedPet.petIcon
         );
+    }
+
+    //TODO:add imageIcon method
+    private ImageIcon getPetIcon(String breed){
+        return new ImageIcon();
     }
 }
