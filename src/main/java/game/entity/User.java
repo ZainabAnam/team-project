@@ -52,7 +52,7 @@ public class User {
         //pre: coinCheck is true
         public void buyLootBox(LootBox lootBox){
             this.buy(lootBox.getPrice());
-            // this.addToPetInventory(lootBox.getPet());
+
         }
 
         //adding a pet to the pet inventory
@@ -126,6 +126,10 @@ public class User {
             return this.clickBonusTime;
         }
 
+        public List<Pet> getPetInventory() { return this.PetInventory; }
+        public List<Item> getItemsList() { return this.itemsList; }
+
+        //pre: the unlockPetSlot should be less than 5
         public int getCurrentUpgradePrice(){
             return this.getClickBonusTime()*Constants.UPGRADE_CLICKER_BASE_PRICE;
         }
@@ -164,7 +168,6 @@ public class User {
         public int getCoinCount(){
             return this.coinCount;
         }
-
 
 
 }
