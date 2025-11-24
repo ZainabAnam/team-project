@@ -1,21 +1,14 @@
-package game.use_case.SlotAddPet;
+package game.use_case.SlotAddPet.ConfirmPet;
 
 /*
-* The output boundary for the Adding Pet to Slot use case.
-*/
-public interface SlotAddPetOutputBoundary {
+ * The output boundary for the Adding Pet to Slot use case.
+ */
+public interface ConfirmPetOutputBoundary {
     /*
-    * Prepares the success view for the Adding Pet to Slot Use Case.
-    * @param outputData is the output data
-    */
-    void prepareSuccessView(SlotAddPetOutputData outputData);
-
-    /*
-     * Prepares the fail view for the Adding Pet to Slot Use Case.
-     * Case: Slot is locked
+     * Prepares the success view after the pet has been selected for the slot.
      * @param outputData is the output data
      */
-    void prepareLockedSlotView(String errorMessage);
+    void preparePetSlotView(ConfirmPetOutputData outputData);
 
     /*
      * Prepares the fail view for the Adding Pet to Slot Use Case.

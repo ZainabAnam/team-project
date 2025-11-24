@@ -1,7 +1,7 @@
-package game.use_case.SlotAddPet;
+package game.use_case.SlotAddPet.SelectPet;
 
 /*
-* The usecase for adding a pet to a slot (to autoclick for the user).
+* The usecase for clicking a slot.
 * */
 public interface SlotAddPetInputBoundary {
 

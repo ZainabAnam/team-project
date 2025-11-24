@@ -1,4 +1,4 @@
-package game.use_case.SlotAddPet;
+package game.use_case.SlotAddPet.SelectPet;
 
 import game.entity.*;
 
@@ -11,20 +11,8 @@ public class SlotAddPetOutputData {
 
     public SlotAddPetOutputData(Slot slot) {
         this.slot = slot;
-        Pet pet = slot.getPet();
     }
     public Slot getSlot() {
         return slot;
     }
-
-    public String getPetName(){
-        return slot.getPet().getName();
-    }
-
-    public int getPetEnergyLevel(){
-        return slot.getPet().getEnergyLevel();
-    }
-
-
-
 }

@@ -60,8 +60,9 @@ public class LootBox extends Item{
         }
 
         String randomName = generateRandomName();
-        Pet randomPet = new Pet(type, breed, randomName);
-        return randomPet;
+        //Pet randomPet = new Pet(type, breed, randomName);
+        //return randomPet;
+        return null;
     }
 
     private String generateRandomName(){
