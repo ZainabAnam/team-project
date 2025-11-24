@@ -1,4 +1,6 @@
 package game.entity;
+import game.Constants.java;
+
 import game.Constants;
 
 import java.util.HashMap;
