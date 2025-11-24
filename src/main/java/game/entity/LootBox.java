@@ -1,6 +1,8 @@
 package game.entity;
 
 import game.Constants;
+
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -46,6 +48,7 @@ public class LootBox extends Item{
     public Pet getPet(){
         String type;
         String breed;
+        ImageIcon petIcon;
 
         Random random = new Random();
         int typeIndex=random.nextInt(2);
@@ -53,14 +56,16 @@ public class LootBox extends Item{
             type="Cat";
             int randomIndex = random.nextInt(this.catBreedList.size());
             breed = this.catBreedList.get(randomIndex);
+            petIcon = new ImageIcon("cat.png");
         }else{
             type="Dog";
             int randomIndex = random.nextInt(this.dogBreedList.size());
             breed = this.dogBreedList.get(randomIndex);
+            petIcon =  new ImageIcon("dog.png");
         }
 
         String randomName = generateRandomName();
-        Pet randomPet = new Pet(type, breed, randomName);
+        Pet randomPet = new Pet(type, breed, petIcon);
         return randomPet;
     }
 
