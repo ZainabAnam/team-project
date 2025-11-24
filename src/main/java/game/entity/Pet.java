@@ -1,17 +1,21 @@
 package game.entity;
 
+import game.Constants;
+
 public class Pet {
-    // petType == 'Dog' || petType == 'Cat'
-    // petBreed is a valid breed of Dog (if applicable) or Cat (if applicable)
-    // visualURL is a valid URL
-    // affectionLevel >= 0
-    // energyLevel >= 0
-    // clickingSpeed >= 0
-    // sellingPrice >= 0
+    /**
+     * petType == 'Dog' || petType == 'Cat'
+     * petBreed is a valid breed of Dog (if applicable) or Cat (if applicable)
+     * visualURL is a valid URL
+     * affectionLevel >= 0
+     * energyLevel >= 0
+     * clickingSpeed >= 0
+     * sellingPrice >= 0
+     */
 
     final String petType;
     final String petBreed;
-    // final String visualURL;
+//  final String visualURL;
     int affectionXP;
     int affectionLevel;
     int energyLevel;
@@ -19,17 +23,19 @@ public class Pet {
     int sellingPrice;
     boolean deployStatus;
 
+    private String name;
+
 
 
     public Pet(String petType, String petBreed) {
         this.petType = petType;
         this.petBreed = petBreed;
         // call to visual database to get appropriate url
-        this.affectionXP = 0;
-        this.affectionLevel = 1;
-        this.energyLevel = 100;
+        this.affectionXP = Constants.INITIAL_AFFECTION_XP;
+        this.affectionLevel = Constants.INITIAL_AFFECTION_LEVEL;
+        this.energyLevel = Constants.INITIAL_ENERGY_LEVEL;
         // call to info database to get clicking speed
-        // call to info database to get selling price
+        this.sellingPrice = Constants.SELLING_BASE_PRICE;
         this.deployStatus = false;
     }
 
@@ -51,5 +57,13 @@ public class Pet {
 
     public void deployPet() {
         this.deployStatus = true;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
