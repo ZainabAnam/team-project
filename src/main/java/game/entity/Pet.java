@@ -2,6 +2,8 @@ package game.entity;
 
 import game.Constants;
 
+import javax.swing.*;
+
 public class Pet {
     /**
      * petType == 'Dog' || petType == 'Cat'
@@ -15,28 +17,29 @@ public class Pet {
 
     final String petType;
     final String petBreed;
-//  final String visualURL;
+    final ImageIcon petVisual;
     int affectionXP;
     int affectionLevel;
     int energyLevel;
     int clickingSpeed;
     int sellingPrice;
-    boolean deployStatus;
+    boolean isDeployed;
 
     private String name;
 
 
 
-    public Pet(String petType, String petBreed) {
+    public Pet(String petType, String petBreed, ImageIcon petVisual) {
         this.petType = petType;
         this.petBreed = petBreed;
+        this.petVisual = petVisual;
         // call to visual database to get appropriate url
         this.affectionXP = Constants.INITIAL_AFFECTION_XP;
         this.affectionLevel = Constants.INITIAL_AFFECTION_LEVEL;
         this.energyLevel = Constants.INITIAL_ENERGY_LEVEL;
         // call to info database to get clicking speed
         this.sellingPrice = Constants.SELLING_BASE_PRICE;
-        this.deployStatus = false;
+        this.isDeployed = false;
     }
 
     public void upgradeClickSpeed() {
@@ -56,7 +59,7 @@ public class Pet {
     }
 
     public void deployPet() {
-        this.deployStatus = true;
+        this.isDeployed = true;
     }
 
     public void setName(String name) {
@@ -65,5 +68,17 @@ public class Pet {
 
     public String getName() {
         return this.name;
+    }
+
+    public ImageIcon getPetVisual() {
+        return this.petVisual;
+    }
+
+    public int getEnergyLevel() {
+        return energyLevel;
+    }
+
+    public boolean getIsDeployed() {
+        return isDeployed;
     }
 }

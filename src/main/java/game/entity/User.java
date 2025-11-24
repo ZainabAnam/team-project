@@ -74,7 +74,7 @@ public class User {
             this.itemsAmountList.put(itemName, itemsAmountList.get(itemName) + 1);
         }
 
-        //checking if the user have enough items 
+        //checking if the user have enough items
         public boolean itemCheck(String itemName){
             return this.itemsAmountList.get(itemName) > 0;
         }
@@ -91,18 +91,18 @@ public class User {
             }
             this.itemsAmountList.put(itemName, itemsAmountList.get(itemName) - 1);
         }
-        
+
         // other getter methods
         public List<Pet> getPetInventory() {
-            return new ArrayList<>(this.petInventory); 
+            return new ArrayList<>(this.petInventory);
         }
-        
+
         public HashMap<String, Integer> getItemsAmountList() {
-            return new HashMap<>(this.itemsAmountList); 
+            return new HashMap<>(this.itemsAmountList);
         }
-        
+
         public HashMap<String, Item> getItemsList() {
-            return new HashMap<>(this.itemsList); 
+            return new HashMap<>(this.itemsList);
         }
 
         // Validation for upgrading the click bonus
@@ -117,7 +117,7 @@ public class User {
             this.clickBonus=Constants.CLICKBONUS_INCREASE_BASE*this.clickBonusTime;
             this.clickBonusTime+=1;
         }
-                
+
         public int getClickBonus() {
             return this.clickBonus;
         }
@@ -125,9 +125,6 @@ public class User {
         public int getClickBonusTime(){
             return this.clickBonusTime;
         }
-
-        public List<Pet> getPetInventory() { return this.PetInventory; }
-        public List<Item> getItemsList() { return this.itemsList; }
 
         //pre: the unlockPetSlot should be less than 5
         public int getCurrentUpgradePrice(){
@@ -143,7 +140,7 @@ public class User {
             this.buy(this.getCurrentUnlockSlotPrice());
             this.unlockedSlots+=1;
         }
-        
+
         //helper method for unlockPetSlot
         public int getCurrentUnlockSlotPrice(){
             // Price increases with each unlock: 100, 200, 300 for slots 3, 4, 5
@@ -160,10 +157,6 @@ public class User {
 
         public void subtractCoins(int coins) {
             this.coinCount -= coins;
-        }
-
-        public int getClickBonus(){
-            return this.clickBonus;
         }
 
         public int getCoinCount(){

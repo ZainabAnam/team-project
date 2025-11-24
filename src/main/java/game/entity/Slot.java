@@ -14,6 +14,7 @@ public class Slot extends JButton {
     private final ImageIcon lockedImage = new ImageIcon(getClass().getResource("/images/SlotLocked.png"));
     private final ImageIcon unlockedClickedImage = new ImageIcon(getClass().getResource("/images/SlotClicked.png"));
     private final ImageIcon lockedClickedImage = new ImageIcon(getClass().getResource("/images/SlotLockedClicked.png"));
+    private boolean petTired = false;
 
     public Slot(boolean unlocked) {
         this.unlocked = unlocked;
@@ -47,19 +48,39 @@ public class Slot extends JButton {
         return unlocked;
     }
 
+    // Check if the pet is tired.
+    public boolean isPetTired() { return petTired; }
+
+    // Get Pet info.
+    public Pet getPet() { return pet; }
+
     // Add Pet to slot.
     public void addPet(Pet pet) {
         this.pet = pet;
+        updateAppearance();
+    }
+
+    // Set Pet to a tired status.
+    public void petTired(Pet pet) {
+        if (pet.getEnergyLevel() == 0) {
+            this.petTired = true;
+        }
     }
 
     // Remove Pet from slot.
     public void removePet(Pet pet) {
         this.pet = null;
+        this.petTired = false;
+        updateAppearance();
     }
 
     // Update the button's appearance depending on whether a pet is slotted in.
     private void updateAppearance() {
-
+        if (this.pet != null) {
+            ImageIcon petPic = this.pet.getPetVisual();
+            setIcon(petPic);
+        } else {
+            setIcon(unlockedImage);
+        }
     }
-
 }
