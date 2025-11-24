@@ -1,4 +1,5 @@
 package game.use_case.PetCard.RenamePet;
 
-public class RenamePetInputBoundary {
+public interface RenamePetInputBoundary {
+    void execute(RenamePetInputData inputData);
 }
