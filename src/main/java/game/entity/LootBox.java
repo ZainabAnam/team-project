@@ -115,4 +115,10 @@ public class LootBox extends Item{
     private ImageIcon getPetIcon(String breed){
         return new ImageIcon();
     }
+
+    private String generateRandomName(){
+        Random random = new Random();
+        String[] names= {"Buddy", "Max", "Charlie", "Lucy", "Bailey", "Daisy", "Molly", "Jack"};
+        return names[random.nextInt(names.length)];
+    }
 }

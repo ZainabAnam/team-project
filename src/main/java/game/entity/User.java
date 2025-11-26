@@ -74,7 +74,7 @@ public class User {
             this.itemsAmountList.put(itemName, itemsAmountList.get(itemName) + 1);
         }
 
-        //checking if the user have enough items 
+        //checking if the user have enough items
         public boolean itemCheck(String itemName){
             return this.itemsAmountList.get(itemName) > 0;
         }
@@ -91,18 +91,18 @@ public class User {
             }
             this.itemsAmountList.put(itemName, itemsAmountList.get(itemName) - 1);
         }
-        
+
         // other getter methods
         public List<Pet> getPetInventory() {
-            return new ArrayList<>(this.petInventory); 
+            return new ArrayList<>(this.petInventory);
         }
-        
+
         public HashMap<String, Integer> getItemsAmountList() {
-            return new HashMap<>(this.itemsAmountList); 
+            return new HashMap<>(this.itemsAmountList);
         }
-        
+
         public HashMap<String, Item> getItemsList() {
-            return new HashMap<>(this.itemsList); 
+            return new HashMap<>(this.itemsList);
         }
 
         // Validation for upgrading the click bonus
@@ -117,7 +117,7 @@ public class User {
             this.clickBonus=Constants.CLICKBONUS_INCREASE_BASE*this.clickBonusTime;
             this.clickBonusTime+=1;
         }
-                
+
         public int getClickBonus() {
             return this.clickBonus;
         }
@@ -126,6 +126,7 @@ public class User {
             return this.clickBonusTime;
         }
 
+        //pre: the unlockPetSlot should be less than 5
         public int getCurrentUpgradePrice(){
             return this.getClickBonusTime()*Constants.UPGRADE_CLICKER_BASE_PRICE;
         }
@@ -139,7 +140,7 @@ public class User {
             this.buy(this.getCurrentUnlockSlotPrice());
             this.unlockedSlots+=1;
         }
-        
+
         //helper method for unlockPetSlot
         public int getCurrentUnlockSlotPrice(){
             return (this.unlockedSlots - Constants.INITIAL_SLOTS + 1) * Constants.UNLOCK_SLOT_BASE_PRICE;
@@ -160,7 +161,6 @@ public class User {
         public int getCoinCount(){
             return this.coinCount;
         }
-
 
 
 }
