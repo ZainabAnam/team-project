@@ -1,67 +1,120 @@
 package game.entity;
 
 import game.Constants;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.io.*;
+import java.nio.file.*;
+import java.util.List;
 
 /**
  * Loot box for random new pets
  */
 public class LootBox extends Item{
-    private List<String>dogBreedList=new ArrayList<>();
-    private List<String>catBreedList=new ArrayList<>();
+    private List<Pet> petList = new ArrayList<>();
 
     public LootBox(){
         super("LootBox", Constants.LOOT_BOX_PRICE,"LootBox");
-        initializeBreedLists();
+        initializePetList();
     }
     
     /**
-     * will be implemented in the future with api
+     * Reads pet-list file and creates Pet objects for all breeds
      */
-    private void initializeBreedLists() {
+    private void initializePetList() {
+        try {
+            Path filePath = Paths.get("pet-list");
+            List<String> lines = Files.readAllLines(filePath);
+            
+            String currentType = null;
+            boolean inTable = false;
+            
+            for (String line : lines) {
+                line = line.trim();
+                
+                // Skip empty lines
+                if (line.isEmpty() || line.startsWith("_")) {
+                    inTable = false;
+                    continue;
+                }
+                
+                // Detect type (Dogs or Cats)
+                if (line.equals("Dogs")) {
+                    currentType = "Dog";
+                    inTable = false;
+                    continue;
+                } else if (line.equals("Cats")) {
+                    currentType = "Cat";
+                    inTable = false;
+                    continue;
+                }
+                
+                // find header
+                if (line.contains("Breed") && line.contains("Tier")) {
+                    inTable = true;
+                    continue;
+                }
+                
+                // Skip 
+                if (line.startsWith("|") && line.contains("---")) {
+                    continue;
+                }
+                
+                // Parse table rows
+                if (inTable && line.startsWith("|") && currentType != null) {
+                    String[] parts = line.split("\\|");
+                    if (parts.length >= 6) {
+                        String breed = parts[1].trim();
+                        String tier = parts[2].trim();
+                        String baseEnergyStr = parts[3].trim();
+                        String baseClickStr = parts[4].trim();
+                        String baseRecoveryStr = parts[5].trim();
+                        
+                        try {
+                            int baseEnergy = Integer.parseInt(baseEnergyStr);
+                            int baseClick = Integer.parseInt(baseClickStr);
+                            int baseRecovery = Integer.parseInt(baseRecoveryStr);
 
-        dogBreedList.add("Labrador Retriever");
-        dogBreedList.add("Golden Retriever");
-        dogBreedList.add("French Bulldog");
-        dogBreedList.add("Poodle");
-        dogBreedList.add("Beagle");
-        dogBreedList.add("Shih Tzu");
-        dogBreedList.add("Boxer");
-        dogBreedList.add("Pomeranian");
-        dogBreedList.add("Siberian Husky");
-        dogBreedList.add("German Shepherd");
-
-        catBreedList.add("Siamese");
-        catBreedList.add("British Shorthair");
-        catBreedList.add("Persian");
-        catBreedList.add("Russian Blue");
-        catBreedList.add("Ragdoll");
-        catBreedList.add("American Shorthair");
-        catBreedList.add("Sphynx");
-        catBreedList.add("Scottish Fold");
-        catBreedList.add("Maine Coon");
-        catBreedList.add("Bengal");
+                            Pet pet = new Pet(currentType, breed, tier, baseEnergy, baseClick, baseRecovery, getPetIcon(breed));
+                            petList.add(pet);
+                        } catch (NumberFormatException e) {
+                            System.err.println("Error parsing number for breed: " + breed);
+                            continue;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read pet-list file", e);
+        }
     }
 
     public Pet getPet(){
-        String type;
-        String breed;
-
-        Random random = new Random();
-        int typeIndex=random.nextInt(2);
-        if (typeIndex==0){
-            type="Cat";
-            int randomIndex = random.nextInt(this.catBreedList.size());
-            breed = this.catBreedList.get(randomIndex);
-        }else{
-            type="Dog";
-            int randomIndex = random.nextInt(this.dogBreedList.size());
-            breed = this.dogBreedList.get(randomIndex);
+        if (petList.isEmpty()) {
+            throw new RuntimeException("Pet list is empty. Cannot get pet.");
         }
+        
+        Random random = new Random();
+        int randomIndex = random.nextInt(petList.size());
+        Pet selectedPet = petList.get(randomIndex);
+        
+        // Create a new Pet instance with the same properties
+        return new Pet(
+            selectedPet.getPetType(),
+            selectedPet.getPetBreed(),
+            selectedPet.getTier(),
+            selectedPet.getBaseEnergy(),
+            selectedPet.getBaseClick(),
+            selectedPet.getBaseRecovery(),
+                selectedPet.getPetIcon()
+        );
+    }
 
-        String randomName = generateRandomName();
-        Pet randomPet = new Pet(type, breed, randomName);
-        return randomPet;
+    //TODO:add imageIcon method
+    private ImageIcon getPetIcon(String breed){
+        return new ImageIcon();
     }
 
     private String generateRandomName(){
