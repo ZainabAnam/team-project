@@ -21,7 +21,7 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testBuyLootBoxSuccess() {
-        dataAccess.getUser().coinCount = 100;
+        dataAccess.getUser().addCoins(100);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
 
         interactor.execute(new BuyLootBoxInputData());
@@ -32,7 +32,7 @@ public class BuyLootBoxInteractorTest {
         assertNotNull(outputBoundary.lastOutputData.getLootboxPet());
         
         //make sure the user is changing correctly
-        assertEquals(100-Constants.LOOT_BOX_PRICE, dataAccess.getUser().coinCount); 
+        assertEquals(100-Constants.LOOT_BOX_PRICE, dataAccess.getUser().getCoinCount()); 
         assertEquals(initialPetCount + 1, dataAccess.getUser().getPetInventory().size());
         
         // Check the new pet is the same as returned in output
@@ -45,7 +45,7 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testBuyLootBoxInsufficientCoins() {
-        dataAccess.getUser().coinCount = 30; 
+        dataAccess.getUser().addCoins(30); 
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
 
         interactor.execute(new BuyLootBoxInputData());
@@ -56,7 +56,7 @@ public class BuyLootBoxInteractorTest {
         assertNull(outputBoundary.lastOutputData.getLootboxPet());
         
         //make sure the user is changing correctly
-        assertEquals(30, dataAccess.getUser().coinCount);
+        assertEquals(30, dataAccess.getUser().getCoinCount());
         assertEquals(initialPetCount, dataAccess.getUser().getPetInventory().size());
     }
     
@@ -65,18 +65,18 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testMultipleLootBoxPurchases() {
-        dataAccess.getUser().coinCount = 150;
+        dataAccess.getUser().addCoins(150);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
         
         // First purchase
         interactor.execute(new BuyLootBoxInputData());
         assertTrue(outputBoundary.lastOutputData.isSuccess());
-        assertEquals(150-Constants.LOOT_BOX_PRICE, dataAccess.getUser().coinCount); 
+        assertEquals(150-Constants.LOOT_BOX_PRICE, dataAccess.getUser().getCoinCount()); 
         
         // Second purchase
         interactor.execute(new BuyLootBoxInputData());
         assertTrue(outputBoundary.lastOutputData.isSuccess());
-        assertEquals(150-Constants.LOOT_BOX_PRICE*2, dataAccess.getUser().coinCount);
+        assertEquals(150-Constants.LOOT_BOX_PRICE*2, dataAccess.getUser().getCoinCount());
         
         // Check final state
         assertEquals(initialPetCount + 2, dataAccess.getUser().getPetInventory().size());

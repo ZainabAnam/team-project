@@ -32,7 +32,7 @@ public class ShopState {
     }
 
     public int getCurrentCoins() {
-        return currentUser != null ? currentUser.coinCount : Constants.INITIAL_COINS;
+        return currentUser != null ? currentUser.getCoinCount() : Constants.INITIAL_COINS;
     }
 
     public int getCurrentClickLevel() {

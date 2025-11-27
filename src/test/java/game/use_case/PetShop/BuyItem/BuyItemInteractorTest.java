@@ -19,7 +19,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyItemSuccess() {
-        dataAccess.getUser().coinCount = 100;
+        dataAccess.getUser().addCoins(100);
 
         interactor.execute(new BuyItemInputData("Kibble"));
 
@@ -29,7 +29,7 @@ public class BuyItemInteractorTest {
         assertTrue(outputBoundary.lastOutputData.isSuccess());
 
         //make sure the user is changing correctly
-        assertEquals(100-Constants.PET_FOOD_BASIC_PRICE, dataAccess.getUser().coinCount); 
+        assertEquals(100-Constants.PET_FOOD_BASIC_PRICE, dataAccess.getUser().getCoinCount()); 
         assertEquals(1, dataAccess.getUser().getItemsAmountList().get("Kibble"));
     }
     
@@ -38,7 +38,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyItemInsufficientCoins() {
-        dataAccess.getUser().coinCount = 5;
+        dataAccess.getUser().addCoins(5);
 
         interactor.execute(new BuyItemInputData("Kibble"));
         
@@ -48,7 +48,7 @@ public class BuyItemInteractorTest {
         assertFalse(outputBoundary.lastOutputData.isSuccess());
         
         //make sure the user is changing correctly
-        assertEquals(5, dataAccess.getUser().coinCount);
+        assertEquals(5, dataAccess.getUser().getCoinCount());
         assertEquals(0, dataAccess.getUser().getItemsAmountList().get("Kibble"));
     }
     
@@ -57,7 +57,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyToyItemSuccess() {
-        dataAccess.getUser().coinCount = 200;
+        dataAccess.getUser().addCoins(200);
 
         interactor.execute(new BuyItemInputData("Chew Toy"));
 
@@ -67,7 +67,7 @@ public class BuyItemInteractorTest {
         assertTrue(outputBoundary.lastOutputData.isSuccess());
 
         //make sure the user is changing correctly
-        assertEquals(200-Constants.PET_TOY_BASIC_PRICE, dataAccess.getUser().coinCount);
+        assertEquals(200-Constants.PET_TOY_BASIC_PRICE, dataAccess.getUser().getCoinCount());
         assertEquals(1, dataAccess.getUser().getItemsAmountList().get("Chew Toy"));
     }
     

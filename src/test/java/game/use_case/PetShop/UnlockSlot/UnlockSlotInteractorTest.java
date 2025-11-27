@@ -20,7 +20,7 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testUnlockSlotSuccess() {
-        dataAccess.getUser().coinCount = 150;
+        dataAccess.getUser().addCoins(150);
         int initialSlots = dataAccess.getUser().getUnlockedSlots();
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUnlockSlotPrice();
@@ -33,7 +33,7 @@ public class UnlockSlotInteractorTest {
         assertEquals(initialSlots + 1, outputBoundary.lastOutputData.getAfterSlots());
         
         //make sure the user is changing correctly
-        assertEquals(150-storeCurrentPrice, dataAccess.getUser().coinCount); 
+        assertEquals(150-storeCurrentPrice, dataAccess.getUser().getCoinCount()); 
         assertEquals(initialSlots + 1, dataAccess.getUser().getUnlockedSlots());
     }
     
@@ -42,7 +42,7 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testUnlockSlotInsufficientCoins() {
-        dataAccess.getUser().coinCount = 50; 
+        dataAccess.getUser().addCoins(50); 
         int initialSlots = dataAccess.getUser().getUnlockedSlots();
         
         interactor.execute(new UnlockSlotInputData());
@@ -54,7 +54,7 @@ public class UnlockSlotInteractorTest {
         assertEquals(initialSlots, outputBoundary.lastOutputData.getAfterSlots());
         
         //make sure the user is changing correctly
-        assertEquals(50, dataAccess.getUser().coinCount);
+        assertEquals(50, dataAccess.getUser().getCoinCount());
         assertEquals(initialSlots, dataAccess.getUser().getUnlockedSlots());
     }
     
@@ -63,13 +63,13 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testUnlockSlotMaxSlots() {
-        dataAccess.getUser().coinCount = 10000;
+        dataAccess.getUser().addCoins(10000);
         for (int i = 0; i < Constants.MAX_PET_SLOTS; i++) {
             dataAccess.getUser().unlockPetSlot();
         }
         int maxSlots = dataAccess.getUser().getUnlockedSlots();
 
-        dataAccess.getUser().coinCount = 100;
+        dataAccess.getUser().addCoins(100);
 
         interactor.execute(new UnlockSlotInputData());
         
@@ -80,7 +80,7 @@ public class UnlockSlotInteractorTest {
         assertEquals(maxSlots, outputBoundary.lastOutputData.getAfterSlots());
         
         //make sure the user is changing correctly
-        assertEquals(100, dataAccess.getUser().coinCount);
+        assertEquals(100, dataAccess.getUser().getCoinCount());
         assertEquals(maxSlots, dataAccess.getUser().getUnlockedSlots());
     }
     
@@ -89,28 +89,28 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testMultipleUnlocks() {
-        dataAccess.getUser().coinCount = 1000;
+        dataAccess.getUser().addCoins(1000);
         
         int storeCurrentPrice = dataAccess.getUser().getCurrentUnlockSlotPrice();
 
         interactor.execute(new UnlockSlotInputData());
         assertTrue(outputBoundary.lastOutputData.isSuccess());
-        assertEquals(1000-storeCurrentPrice, dataAccess.getUser().coinCount);
+        assertEquals(1000-storeCurrentPrice, dataAccess.getUser().getCoinCount());
         assertEquals(Constants.INITIAL_SLOTS+1, dataAccess.getUser().getUnlockedSlots());
 
-        int storeCurrentCoin = dataAccess.getUser().coinCount;
+        int storeCurrentCoin = dataAccess.getUser().getCoinCount();
         storeCurrentPrice = dataAccess.getUser().getCurrentUnlockSlotPrice();
   
         interactor.execute(new UnlockSlotInputData());
         assertTrue(outputBoundary.lastOutputData.isSuccess());
-        assertEquals(storeCurrentCoin-storeCurrentPrice, dataAccess.getUser().coinCount); 
+        assertEquals(storeCurrentCoin-storeCurrentPrice, dataAccess.getUser().getCoinCount()); 
         assertEquals(4, dataAccess.getUser().getUnlockedSlots());
 
-        storeCurrentCoin = dataAccess.getUser().coinCount;
+        storeCurrentCoin = dataAccess.getUser().getCoinCount();
 
         interactor.execute(new UnlockSlotInputData());
         assertTrue(!outputBoundary.lastOutputData.isSuccess());
-        assertEquals(storeCurrentCoin, dataAccess.getUser().coinCount); 
+        assertEquals(storeCurrentCoin, dataAccess.getUser().getCoinCount()); 
         assertEquals(4, dataAccess.getUser().getUnlockedSlots());
     }
     

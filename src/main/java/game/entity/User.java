@@ -52,7 +52,7 @@ public class User {
         //pre: coinCheck is true
         public void buyLootBox(LootBox lootBox){
             this.buy(lootBox.getPrice());
-
+            this.addToPetInventory(lootBox.getPet());
         }
 
         //adding a pet to the pet inventory
