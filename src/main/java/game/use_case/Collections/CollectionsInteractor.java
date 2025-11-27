@@ -33,14 +33,14 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
         List<PetFood> foods = new ArrayList<>();
         List<PetToy> toys = new ArrayList<>();
 
-        for (Item item : user.getItemsList()) {
+        /*for (Item item : user.getItemsList()) {
             if (item instanceof PetFood) {
                 foods.add((PetFood) item);
             }
             if (item instanceof PetToy) {
                 toys.add((PetToy) item);
             }
-        }
+        }*/
 
         CollectionsOutputData outputData = new CollectionsOutputData(pets, foods, toys);
         outputBoundary.presentSuccess(outputData);

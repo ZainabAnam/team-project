@@ -9,6 +9,8 @@ import game.use_case.PetShop.UpgradeClicker.UpgradeClickerInputData;
 import game.use_case.PetShop.UnlockSlot.UnlockSlotInputBoundary;
 import game.use_case.PetShop.UnlockSlot.UnlockSlotInputData;
 
+import game.Constants;
+
 /**
  * Controller for shop operations.
  * This class handles all shop-related user interactions and converts them to use case calls.
@@ -83,41 +85,41 @@ public class ShopController {
      * Buy basic pet food.
      */
     public void buyBasicPetFood() {
-        buyItem("kibble");
+        buyItem(Constants.ITEM_KIBBLE);
     }
     
     /**
      * Buy medium pet food.
      */
     public void buyMediumPetFood() {
-        buyItem("canned food");
+        buyItem(Constants.ITEM_CANNED_FOOD);
     }
     
     /**
      * Buy premium pet food.
      */
     public void buyPremiumPetFood() {
-        buyItem("home-cooked");
+        buyItem(Constants.ITEM_HOME_COOKED);
     }
     
     /**
      * Buy basic pet toy .
      */
     public void buyBasicPetToy() {
-        buyItem("chew toy");
+        buyItem(Constants.ITEM_CHEW_TOY);
     }
     
     /**
      * Buy medium pet toy .
      */
     public void buyMediumPetToy() {
-        buyItem("toss toy");
+        buyItem(Constants.ITEM_TOSS_TOY);
     }
     
     /**
      * Buy premium pet toy.
      */
     public void buyPremiumPetToy() {
-        buyItem("plush toy");
+        buyItem(Constants.ITEM_PLUSH_TOY);
     }
 }
