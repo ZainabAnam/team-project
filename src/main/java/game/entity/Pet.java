@@ -1,10 +1,9 @@
 package game.entity;
 import game.Constants;
-
-import game.Constants;
-
+import javax.swing.ImageIcon;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Pet {
     /**
@@ -26,8 +25,22 @@ public class Pet {
     int clickingSpeed;
     int sellingPrice;
     boolean deployStatus;
+    private String tier;
+    private int baseEnergy;
+    private int baseClick;
+    private int baseRecovery;
+    private ImageIcon petIcon;
 
     private String name;
+
+    public boolean getIsDeployed() {
+        return this.deployStatus == true;
+    }
+
+    // add an empty image just for now
+    public ImageIcon getPetVisual() {
+        return new ImageIcon();
+    }
 
     private static class BreedData {
         final int baseEnergy;
@@ -91,6 +104,23 @@ public class Pet {
         this.energyLevel = data.baseEnergy * 20;
         this.clickingSpeed = data.baseClick;
         this.sellingPrice = calculateSellingPrice(data.tier);
+        this.deployStatus = false;
+    }
+
+    public Pet(String petType, String petBreed, String tier, int baseEnergy, int baseClick, int baseRecovery, ImageIcon petIcon) {
+        this.petType = petType;
+        this.petBreed = petBreed;
+        this.tier = tier;
+        this.baseEnergy = baseEnergy;
+        this.baseClick = baseClick;
+        this.baseRecovery = baseRecovery;
+        this.petIcon = petIcon;
+        this.name = generateRandomName();
+        this.affectionXP = Constants.INITIAL_AFFECTION_XP;
+        this.affectionLevel = calculateAffectionLevel();
+        this.energyLevel = baseEnergy * 20;
+        this.clickingSpeed = baseClick;
+        this.sellingPrice = calculateSellingPrice(tier);
         this.deployStatus = false;
     }
 
@@ -171,6 +201,18 @@ public class Pet {
     public int getClickingSpeed() { return clickingSpeed; }
     public int getSellingPrice() { return sellingPrice; }
     public boolean isDeployed() { return deployStatus; }
+    public String getTier() { return tier; }
+    public int getBaseEnergy() { return baseEnergy; }
+    public int getBaseClick() { return baseClick; }
+    public int getBaseRecovery() { return baseRecovery; }
+    public ImageIcon getPetIcon() { return petIcon; }
+
+    private String generateRandomName() {
+        String[] names = {"Buddy", "Max", "Charlie", "Lucy", "Bailey", "Daisy", "Molly", "Jack"};
+        Random random = new Random();
+        return names[random.nextInt(names.length)];
+    }
+
 
     @Override
     public String toString() {
