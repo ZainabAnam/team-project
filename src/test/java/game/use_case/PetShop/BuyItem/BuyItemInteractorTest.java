@@ -19,7 +19,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyItemSuccess() {
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
 
         interactor.execute(new BuyItemInputData("Kibble"));
 
@@ -38,7 +38,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyItemInsufficientCoins() {
-        dataAccess.getUser().addCoins(5);
+        dataAccess.getUser().setCoins(5);
 
         interactor.execute(new BuyItemInputData("Kibble"));
         
@@ -57,7 +57,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyToyItemSuccess() {
-        dataAccess.getUser().addCoins(200);
+        dataAccess.getUser().setCoins(200);
 
         interactor.execute(new BuyItemInputData("Chew Toy"));
 

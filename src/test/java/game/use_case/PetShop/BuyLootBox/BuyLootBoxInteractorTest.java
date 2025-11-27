@@ -21,7 +21,7 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testBuyLootBoxSuccess() {
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
 
         interactor.execute(new BuyLootBoxInputData());
@@ -45,7 +45,7 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testBuyLootBoxInsufficientCoins() {
-        dataAccess.getUser().addCoins(30); 
+        dataAccess.getUser().setCoins(30); 
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
 
         interactor.execute(new BuyLootBoxInputData());
@@ -65,7 +65,7 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testMultipleLootBoxPurchases() {
-        dataAccess.getUser().addCoins(150);
+        dataAccess.getUser().setCoins(150);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
         
         // First purchase

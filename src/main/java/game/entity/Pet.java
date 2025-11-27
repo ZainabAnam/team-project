@@ -112,4 +112,14 @@ public class Pet {
     }
 
     public int getEnergyLevel() {return this.energyLevel;}
+
+
+    //TODO: need to implenment this
+    public ImageIcon getPetVisual() {
+    return new ImageIcon();
+    }
+
+    public boolean getIsDeployed() {
+        return this.isDeployed;
+    }
 }
