@@ -1,6 +1,7 @@
 package game.data_access;
 
 import game.entity.User;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyUserDataAccessInterface;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,7 +17,7 @@ import java.io.IOException;
 /**
  * The DAO for user data.
  */
-public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface {
+public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface, IncreaseEnergyUserDataAccessInterface {
     private final String userID;
     String url = "fillerURL";
 

@@ -25,6 +25,9 @@ public class MainView extends JPanel{
     private final JButton slot_3;
     private final JButton slot_4;
 
+    // Panels
+    private final JPanel coinCount;
+
     // private MainController mainController = null;
 
     public MainView() {
@@ -40,6 +43,12 @@ public class MainView extends JPanel{
         clicker = getClicker();
         clicker.setBounds(260, 400, 200, 200); // x, y, width, height
         add(clicker);
+
+        coinCount = getCoinCountPanel();
+        coinCount.setBounds(600, 400, 90, 50);
+//        add(coinCount);
+//        NOTE: I haven't been able to align the panel onscreen without offsetting
+//        the clicker.  Will fix when I can.
 
         final JPanel slotsPanel = new JPanel();
         slot_1 = new JButton("Slot 1");
@@ -61,6 +70,28 @@ public class MainView extends JPanel{
         clicker.setFocusPainted(false);
         clicker.setPressedIcon(clickerClickedImage);
         return clicker;
+    }
+
+    private JPanel getCoinCountPanel() {
+        final JPanel coinCountPanel = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(90, 50);
+            }
+        };
+
+        coinCountPanel.setVisible(true);
+        coinCountPanel.setLayout(new BoxLayout(coinCountPanel, BoxLayout.Y_AXIS));
+
+        final JLabel coinCountLabel = new JLabel("Coin Count");
+        coinCountLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        coinCountPanel.add(coinCountLabel);
+
+        JLabel coinCountNumber = new JLabel("0",  SwingConstants.CENTER);
+        coinCountNumber.setFont(new Font("Arial", Font.BOLD, 20));
+        coinCountPanel.add(coinCountNumber);
+
+        return coinCountPanel;
     }
 
     @Override

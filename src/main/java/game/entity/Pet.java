@@ -66,4 +66,8 @@ public class Pet {
     public String getName() {
         return this.name;
     }
+
+    public int getEnergyLevel() {
+        return this.energyLevel;
+    }
 }
