@@ -19,7 +19,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyItemSuccess() {
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
 
         interactor.execute(new BuyItemInputData("Kibble"));
 
@@ -38,7 +38,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyItemInsufficientCoins() {
-        dataAccess.getUser().addCoins(5);
+        dataAccess.getUser().setCoins(5);
 
         interactor.execute(new BuyItemInputData("Kibble"));
         
@@ -50,6 +50,15 @@ public class BuyItemInteractorTest {
         //make sure the user is changing correctly
         assertEquals(5, dataAccess.getUser().getCoinCount());
         assertEquals(0, dataAccess.getUser().getItemsAmountList().get("Kibble"));
+
+        //make sure outputing the right data
+        assertEquals(ShopMessageConstants.INSUFFICIENT_COINS, outputBoundary.lastOutputData.getMessage());
+        assertEquals("Plush Toy", outputBoundary.lastOutputData.getItemName());
+        assertFalse(outputBoundary.lastOutputData.isSuccess());
+
+        //make sure the user is changing correctly
+        assertEquals(5, dataAccess.getUser().getCoinCount());
+        assertEquals(0, dataAccess.getUser().getItemsAmountList().get("Plush Toy"));
     }
     
     /**
@@ -57,7 +66,7 @@ public class BuyItemInteractorTest {
      */
     @Test
     public void testBuyToyItemSuccess() {
-        dataAccess.getUser().addCoins(200);
+        dataAccess.getUser().setCoins(200);
 
         interactor.execute(new BuyItemInputData("Chew Toy"));
 
@@ -70,7 +79,7 @@ public class BuyItemInteractorTest {
         assertEquals(200-Constants.PET_TOY_BASIC_PRICE, dataAccess.getUser().getCoinCount());
         assertEquals(1, dataAccess.getUser().getItemsAmountList().get("Chew Toy"));
     }
-    
+
     private static class TestDataAccess implements BuyItemDataAccessInterface {
         private User user = new User();
         

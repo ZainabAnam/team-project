@@ -20,7 +20,7 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testUnlockSlotSuccess() {
-        dataAccess.getUser().addCoins(150);
+        dataAccess.getUser().setCoins(150);
         int initialSlots = dataAccess.getUser().getUnlockedSlots();
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUnlockSlotPrice();
@@ -42,7 +42,7 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testUnlockSlotInsufficientCoins() {
-        dataAccess.getUser().addCoins(50); 
+        dataAccess.getUser().setCoins(50);
         int initialSlots = dataAccess.getUser().getUnlockedSlots();
         
         interactor.execute(new UnlockSlotInputData());
@@ -63,13 +63,13 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testUnlockSlotMaxSlots() {
-        dataAccess.getUser().addCoins(10000);
+        dataAccess.getUser().setCoins(10000);
         for (int i = 0; i < Constants.MAX_PET_SLOTS; i++) {
             dataAccess.getUser().unlockPetSlot();
         }
         int maxSlots = dataAccess.getUser().getUnlockedSlots();
 
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
 
         interactor.execute(new UnlockSlotInputData());
         
@@ -89,7 +89,7 @@ public class UnlockSlotInteractorTest {
      */
     @Test
     public void testMultipleUnlocks() {
-        dataAccess.getUser().addCoins(1000);
+        dataAccess.getUser().setCoins(1000);
         
         int storeCurrentPrice = dataAccess.getUser().getCurrentUnlockSlotPrice();
 

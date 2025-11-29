@@ -20,7 +20,7 @@ public class UpgradeClickerInteractorTest {
      */
     @Test
     public void testUpgradeClickerSuccess() {
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
         int initialLevel = dataAccess.getUser().getClickBonusTime();
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUpgradePrice();
@@ -42,7 +42,7 @@ public class UpgradeClickerInteractorTest {
      */
     @Test
     public void testUpgradeClickerInsufficientCoins() {
-        dataAccess.getUser().addCoins(30); // Less than upgrade price (50)
+        dataAccess.getUser().setCoins(30); // Less than upgrade price (50)
         int initialLevel = dataAccess.getUser().getClickBonusTime();
         
         interactor.execute(new UpgradeClickerInputData());
@@ -63,13 +63,13 @@ public class UpgradeClickerInteractorTest {
      */
     @Test
     public void testUpgradeClickerMaxLevel() {
-        dataAccess.getUser().addCoins(10000);
+        dataAccess.getUser().setCoins(10000);
         for (int i = 0; i < Constants.MAX_CLICK_BONUS_UPGRADES; i++) {
             dataAccess.getUser().upgradeClickBonus();
         }
         int maxLevel = dataAccess.getUser().getClickBonusTime();
 
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
 
         interactor.execute(new UpgradeClickerInputData());
         
@@ -89,7 +89,7 @@ public class UpgradeClickerInteractorTest {
      */
     @Test
     public void testMultipleUpgrades() {
-        dataAccess.getUser().addCoins(500);
+        dataAccess.getUser().setCoins(500);
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUpgradePrice();
         

@@ -145,6 +145,8 @@ public class User {
             return this.unlockedSlots;
         }
 
+        public void setCoins(int coins){this.coinCount=coins;}
+
         public void addCoins(int coins) {
             this.coinCount += coins;
         }
