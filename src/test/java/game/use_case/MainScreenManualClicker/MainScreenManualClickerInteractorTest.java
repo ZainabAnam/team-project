@@ -33,6 +33,13 @@ public class MainScreenManualClickerInteractorTest {
         assertEquals(Constants.INITIAL_COINS, user.getCoinCount());
     }
 
+    @Test
+    public void testClickerReflection() {
+        User user = dataAccess.getUser("test");
+        user.addCoins(Constants.INITIAL_CLICKBONUS);
+        assertEquals(Constants.INITIAL_COINS + user.getClickBonus(), user.getCoinCount());
+    }
+
     private static class TestDataAccess implements ManualClickerUserDataAccessInterface {
         private User user = new User();
 
