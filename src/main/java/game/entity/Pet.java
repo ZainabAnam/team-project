@@ -114,6 +114,7 @@ public class Pet {
         this.baseEnergy = baseEnergy;
         this.baseClick = baseClick;
         this.baseRecovery = baseRecovery;
+        // call to visual database to get appropriate url
         this.petIcon = petIcon;
         this.name = generateRandomName();
         this.affectionXP = Constants.INITIAL_AFFECTION_XP;
