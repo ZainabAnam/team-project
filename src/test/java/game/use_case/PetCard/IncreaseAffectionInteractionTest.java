@@ -29,6 +29,7 @@ public class IncreaseAffectionInteractionTest {
                 imageIcon);
         pet.setName("Max");
         increaseAffectionInteractor.execute(new IncreaseAffectionInputData("test", "Max", 1));
+        assertEquals(1, pet.getAffectionXP());
     }
 
     @Test
@@ -38,7 +39,9 @@ public class IncreaseAffectionInteractionTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-
+        // toy wasn't/couldn't be used to increase affection
+        increaseAffectionInteractor.execute(new IncreaseAffectionInputData("test", "Max", 0));
+        assertEquals(0, pet.getAffectionXP());
     }
 
     private static class TestDataAccess implements IncreaseAffectionUserDataAccessInterface {
