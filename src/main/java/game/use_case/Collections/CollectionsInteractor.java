@@ -8,6 +8,7 @@ import game.entity.PetToy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CollectionsInteractor implements CollectionsInputBoundary {
 
@@ -33,12 +34,14 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
         List<PetFood> foods = new ArrayList<>();
         List<PetToy> toys = new ArrayList<>();
 
-        for (Item item : user.getItemsList()) {
-            if (item instanceof PetFood) {
-                foods.add((PetFood) item);
+        //TODO: remember, in this output data, u are not outputting the amount of each item
+        //u have a hashmap includes all the item name and amount in User class: user.getAmountList()
+        for (Map.Entry<String, Item> item : user.getItemsList().entrySet()) {
+            if (item.getValue() instanceof PetFood) {
+                foods.add((PetFood) item.getValue());
             }
-            if (item instanceof PetToy) {
-                toys.add((PetToy) item);
+            if (item.getValue() instanceof PetToy) {
+                toys.add((PetToy) item.getValue());
             }
         }
 
