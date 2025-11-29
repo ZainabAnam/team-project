@@ -6,8 +6,19 @@ public class SellPetState {
     private int newCoinCount = 0;
     private String message = "";
     private boolean success = false;
+    private String previousView = "";
 
     public SellPetState() {}
+
+    public SellPetState(SellPetState copy) {
+        this.petName = copy.petName;
+        this.sellingPrice = copy.sellingPrice;
+        this.newCoinCount = copy.newCoinCount;
+        this.message = copy.message;
+        this.success = copy.success;
+        this.previousView = copy.previousView;
+    }
+
 
     // Getters and Setters
     public String getPetName() { return petName; }
@@ -24,4 +35,11 @@ public class SellPetState {
 
     public boolean isSuccess() { return success; }
     public void setSuccess(boolean success) { this.success = success; }
+    public String getPreviousView() {
+        return previousView;
+    }
+
+    public void setPreviousView(String previousView) {
+        this.previousView = previousView;
+    }
 }

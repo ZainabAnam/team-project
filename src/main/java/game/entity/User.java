@@ -195,7 +195,7 @@ public class User {
             }
             return -1; // Pet not found or it's deployed
         }
-
+    public void setCoins(int coins){this.coinCount=coins;}
         public void addCoins(int coins) {
             this.coinCount += coins;
         }
