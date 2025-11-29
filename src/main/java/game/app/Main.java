@@ -1,17 +1,39 @@
-package game.app;
+//package game.app;
+//
+//import game.interface_adapter.ViewManagerModel;
+//import game.view.MainView;
+//
+//import javax.swing.*;
+//
+//public class Main {
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame("Pet Clicker");
+//        frame.setContentPane(new MainView(new ViewManagerModel()));
+//        frame.pack();
+//        frame.setLocationRelativeTo(null);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+//    }
+//}
 
-import game.view.MainView;
+package game.app;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Pet Clicker");
-        frame.setContentPane(new MainView());
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+
+        AppBuilder builder = new AppBuilder()
+                .addMainView()
+                .addShopView()
+                .addShopUseCases()
+                .addCollectionsView();
+
+        JFrame app = builder.build();
+
+        app.setSize(1000, 800);
+        app.setLocationRelativeTo(null);
+        app.setResizable(false);
+        app.setVisible(true);
     }
 }
-

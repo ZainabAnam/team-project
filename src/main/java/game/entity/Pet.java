@@ -74,9 +74,15 @@ public class Pet {
         return this.petVisual;
     }
 
-    public int getEnergyLevel() {
-        return energyLevel;
-    }
+    public String getBreed() { return this.petBreed; }
+
+    public int getLevel() { return this.affectionLevel; }
+
+    public int getAffectionXP() { return this.affectionLevel; }
+
+    public int getSellingPrice() { return this.sellingPrice; }
+
+    public int getEnergyLevel() { return energyLevel; }
 
     public boolean getIsDeployed() {
         return isDeployed;
