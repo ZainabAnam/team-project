@@ -12,5 +12,5 @@ import java.beans.PropertyChangeListener;
 /**
  * The View for a Pet Card.
  */
-public class PetCardView {
-}
+public class PetCardView extends JPanel {
+    }

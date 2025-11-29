@@ -113,5 +113,25 @@ public class Pet {
 
     public int getEnergyLevel() {return this.energyLevel;}
 
+    public ImageIcon getPetVisual() {
+        return this.petIcon;
+    }
+
     public boolean isDeployed() {return this.isDeployed;}
+
+    public int getAffectionXP() {
+        return this.affectionXP;
+    }
+
+    public int getAffectionLevel() {
+        return this.affectionLevel;
+    }
+
+    public int getSellingPrice() {
+        return this.sellingPrice;
+    }
+
+    public int getClickingSpeed() {
+        return this.clickingSpeed;
+    }
 }
