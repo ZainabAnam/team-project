@@ -18,7 +18,7 @@ public class SlotAddPetInteractor implements SlotAddPetInputBoundary{
             userPresenter.prepareLockedSlotView("This Slot is locked. You can buy it in the shop.");
         } else if (slotAddPetInputData.getPet().getEnergyLevel() == 0) {
             userPresenter.preparePetTiredView("This Pet is tired. Deploy anyway?");
-        } else if (slotAddPetInputData.getPet().getIsDeployed()) {
+        } else if (slotAddPetInputData.getPet().isDeployed()) {
             userPresenter.preparePetAlreadyDeployed("This Pet is already deployed in another slot.");
         }
         else {

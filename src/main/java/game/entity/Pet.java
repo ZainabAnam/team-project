@@ -112,4 +112,6 @@ public class Pet {
     }
 
     public int getEnergyLevel() {return this.energyLevel;}
+
+    public boolean isDeployed() {return this.isDeployed;}
 }
