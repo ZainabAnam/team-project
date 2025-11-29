@@ -76,10 +76,11 @@ public class LootBox extends Item{
                             int baseEnergy = Integer.parseInt(baseEnergyStr);
                             int baseClick = Integer.parseInt(baseClickStr);
                             int baseRecovery = Integer.parseInt(baseRecoveryStr);
-                            
-                            Pet pet = new Pet(currentType, breed, tier, baseEnergy, baseClick, baseRecovery,getPetIcon(breed));
+
+                            Pet pet = new Pet(currentType, breed, tier, baseEnergy, baseClick, baseRecovery, getPetIcon(breed));
                             petList.add(pet);
                         } catch (NumberFormatException e) {
+                            System.err.println("Error parsing number for breed: " + breed);
                             continue;
                         }
                     }
@@ -107,7 +108,7 @@ public class LootBox extends Item{
             selectedPet.getBaseEnergy(),
             selectedPet.getBaseClick(),
             selectedPet.getBaseRecovery(),
-                selectedPet.petIcon
+                selectedPet.getPetIcon()
         );
     }
 

@@ -69,10 +69,9 @@ public class ShopPresenter implements BuyItemOutputBoundary, BuyLootBoxOutputBou
         
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
-        
-        // TODO: Navigate to pet naming view
-        // viewManagerModel.setState("pet_naming");
-        // viewManagerModel.firePropertyChange();
+
+        viewManagerModel.setState("rename_pet");
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
