@@ -46,7 +46,7 @@ public class MainView extends JPanel{
 
         coinCount = getCoinCountPanel();
         coinCount.setBounds(600, 400, 90, 50);
-//        add(coinCount);
+        add(coinCount);
 //        NOTE: I haven't been able to align the panel onscreen without offsetting
 //        the clicker.  Will fix when I can.
 
