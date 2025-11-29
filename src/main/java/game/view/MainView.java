@@ -1,5 +1,7 @@
 package game.view;
 
+import game.entity.Slot;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,58 +11,61 @@ import java.awt.*;
  */
 public class MainView extends JPanel{
     private final String viewName = "Pet Clicker";
-    // private final MainViewModel MainViewModel;
 
     // Images
-    private final Image backgroundImage;
-    private final ImageIcon clickerImage;
-    private final ImageIcon clickerClickedImage;
-    private final ImageIcon slotImage;
-    private final ImageIcon lockedSlotImage;
-
-    // Buttons
-    private final JButton clicker;
-    private final JButton slot_1;
-    private final JButton slot_2;
-    private final JButton slot_3;
-    private final JButton slot_4;
-
-    // Panels
-    private final JPanel coinCount;
-
-    // private MainController mainController = null;
+    private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();;
+    private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
+    private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
 
     public MainView() {
-        // this.MainViewModel = mainViewModel;
-        this.backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();
-        this.clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
-        this.clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
-        this.slotImage = new ImageIcon(getClass().getResource("/images/Slot.png"));
-        this.lockedSlotImage = new ImageIcon(getClass().getResource("/images/SlotLocked.png"));
 
         setPreferredSize(new Dimension(720, 540));
+        setLayout(null);
 
-        clicker = getClicker();
-        clicker.setBounds(260, 400, 200, 200); // x, y, width, height
+        // Setting up/adding the main clicker.
+        JButton clicker = getClicker();
+        clicker.setBounds(260, 50, 200, 200); // x, y, width, height
         add(clicker);
 
-        coinCount = getCoinCountPanel();
-        coinCount.setBounds(600, 400, 90, 50);
-        add(coinCount);
-//        NOTE: I haven't been able to align the panel onscreen without offsetting
-//        the clicker.  Will fix when I can.
+        // Instantiating Slots.
+        Slot slot1 = new Slot(true);  // unlocked at start
+        Slot slot2 = new Slot(false);
+        Slot slot3 = new Slot(false);
+        Slot slot4 = new Slot(false);
 
         final JPanel slotsPanel = new JPanel();
-        slot_1 = new JButton("Slot 1");
-        slot_2 = new JButton("Slot 2");
-        slot_3 = new JButton("Slot 3");
-        slot_4 = new JButton("Slot 4");
-        slotsPanel.add(slot_1);
-        slotsPanel.add(slot_2);
-        slotsPanel.add(slot_3);
-        slotsPanel.add(slot_4);
+        slotsPanel.setOpaque(false);
+        slotsPanel.add(slot1);
+        slotsPanel.add(slot2);
+        slotsPanel.add(slot3);
+        slotsPanel.add(slot4);
+        slotsPanel.setLayout(new GridLayout(1, 4, 40, 0));
+
+        slotsPanel.setBounds(110, 280, 520, 150);
+        add(slotsPanel);
+
+        // Menu Buttons
+        JButton shop = new JButton("Shop");
+        shop = getMenuButton(shop);
+        JButton collections = new JButton("Collections");
+        collections = getMenuButton(collections);
+        JButton save =  new JButton("Save");
+        save = getMenuButton(save);
+
+        final JPanel menuButtons = new JPanel();
+        menuButtons.setOpaque(false);
+        menuButtons.add(shop);
+        menuButtons.add(collections);
+        menuButtons.add(save);
+        menuButtons.setLayout(new GridLayout(1, 3, 80, 0));
+
+        menuButtons.setBounds(55, 480, 610, 50);
+        add(menuButtons);
+
+
     }
 
+    // Making a clicker JButton with custom graphic.
     private JButton getClicker() {
         final JButton clicker;
         clicker = new JButton();
@@ -72,26 +77,12 @@ public class MainView extends JPanel{
         return clicker;
     }
 
-    private JPanel getCoinCountPanel() {
-        final JPanel coinCountPanel = new JPanel() {
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(90, 50);
-            }
-        };
-
-        coinCountPanel.setVisible(true);
-        coinCountPanel.setLayout(new BoxLayout(coinCountPanel, BoxLayout.Y_AXIS));
-
-        final JLabel coinCountLabel = new JLabel("Coin Count");
-        coinCountLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        coinCountPanel.add(coinCountLabel);
-
-        JLabel coinCountNumber = new JLabel("0",  SwingConstants.CENTER);
-        coinCountNumber.setFont(new Font("Arial", Font.BOLD, 20));
-        coinCountPanel.add(coinCountNumber);
-
-        return coinCountPanel;
+    // Customizing other menu buttons
+    private JButton getMenuButton(JButton menuButton) {
+        menuButton.setSize(150, 50);
+        menuButton.setBackground(Color.orange);
+        menuButton.setBorderPainted(false);
+        return menuButton;
     }
 
     @Override
