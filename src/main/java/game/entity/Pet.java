@@ -113,13 +113,25 @@ public class Pet {
 
     public int getEnergyLevel() {return this.energyLevel;}
 
-
-    //TODO: need to implenment this
     public ImageIcon getPetVisual() {
-    return new ImageIcon();
+        return this.petIcon;
     }
 
-    public boolean getIsDeployed() {
-        return this.isDeployed;
+    public boolean isDeployed() {return this.isDeployed;}
+
+    public int getAffectionXP() {
+        return this.affectionXP;
+    }
+
+    public int getAffectionLevel() {
+        return this.affectionLevel;
+    }
+
+    public int getSellingPrice() {
+        return this.sellingPrice;
+    }
+
+    public int getClickingSpeed() {
+        return this.clickingSpeed;
     }
 }
