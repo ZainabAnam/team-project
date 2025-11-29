@@ -158,7 +158,6 @@ public class SellPetView extends JPanel implements PropertyChangeListener {
     private class ConfirmListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // 使用控制器执行出售
             sellPetController.execute(currentPetIndex, currentUsername);
         }
     }
