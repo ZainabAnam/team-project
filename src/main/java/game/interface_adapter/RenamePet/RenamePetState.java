@@ -5,6 +5,7 @@ public class RenamePetState {
         private String newName = "";
         private String message = "";
         private boolean success = false;
+    private String previousView = "";
 
         public RenamePetState() {
         }
@@ -15,6 +16,7 @@ public class RenamePetState {
             this.newName = copy.newName;
             this.message = copy.message;
             this.success = copy.success;
+            this.previousView = copy.previousView;
         }
 
         // Getters and Setters
@@ -48,5 +50,12 @@ public class RenamePetState {
 
         public void setSuccess(boolean success) {
             this.success = success;
+        }
+        public String getPreviousView() {
+            return previousView;
+        }
+
+        public void setPreviousView(String previousView) {
+            this.previousView = previousView;
         }
     }
