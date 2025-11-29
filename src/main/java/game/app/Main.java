@@ -9,6 +9,7 @@ public class Main {
                 .addShopView()
                 .addShopUseCases()
                 .addRenamePetView()
+                .addSellPetView()
                 .build();
 
         application.pack();
