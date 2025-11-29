@@ -1,9 +1,7 @@
 package game.data_access;
 
 import game.entity.User;
-import game.use_case.PetCard.RenamePet.RenamePetDataAccessInterface;
-import game.use_case.PetCard.SellPet.SellPetDataAccessInterface;
-import okhttp3.MediaType;
+/*import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -18,7 +16,7 @@ import java.io.IOException;
 /**
  * The DAO for user data.
  */
-public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface, SellPetDataAccessInterface {
+/*public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterface {
     private final String userID;
     String url = "fillerURL";
 
@@ -30,7 +28,7 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
      * Note: this method is executed assuming that userInDatabase evaluates to true
      * There is a filler String as a URL for the method.  This will be updated when a database URL is specified.
      */
-    @Override
+    /* @Override
     public User getUser(String userID) {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
@@ -51,17 +49,13 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
         }
         return null;
     }
-    public void saveUser(User user) {
-
-        //TODO: save database here
-    }
 
     /**
      * There is a filler String as a URL for the method.  This will be updated when a database URL is specified.
      * @param userID
      * @return
      */
-    @Override
+    /*@Override
     public Boolean userExists(String userID) {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
         final Request request = new Request.Builder()
@@ -82,4 +76,4 @@ public class DBUserDataAccessObject implements ManualClickerUserDataAccessInterf
             throw new RuntimeException(ex);
         }
     }
-}
+}*/

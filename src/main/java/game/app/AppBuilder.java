@@ -1,8 +1,12 @@
 package game.app;
 
+import game.data_access.RenamePetDataAccessObject;
+import game.entity.User;
+import game.interface_adapter.RenamePet.RenamePetController;
 import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.shop.ShopViewModel;
 import game.interface_adapter.shop.ShopPresenter;
+import game.use_case.PetCard.RenamePet.RenamePetInteractor;
 import game.view.ShopView;
 import game.view.ViewManager;
 import game.use_case.PetShop.ShopController;
@@ -11,6 +15,11 @@ import game.use_case.PetShop.BuyLootBox.*;
 import game.use_case.PetShop.UpgradeClicker.*;
 import game.use_case.PetShop.UnlockSlot.*;
 import game.data_access.ShopDataAccessObject;
+import game.interface_adapter.RenamePet.RenamePetViewModel;
+import game.interface_adapter.RenamePet.RenamePetPresenter;
+import game.view.PetRenameView;
+import game.use_case.PetCard.RenamePet.RenamePetDataAccessInterface;
+
 
 
 import javax.swing.*;
@@ -27,6 +36,9 @@ public class AppBuilder {
     private ShopPresenter shopPresenter;
     private ShopController shopController;
     private ShopDataAccessObject shopDataAccessObject;
+    private PetRenameView petRenameView;
+    private RenamePetViewModel renamePetViewModel;
+    private RenamePetDataAccessInterface renamePetDataAccess;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -63,6 +75,32 @@ public class AppBuilder {
         // Set controller in view
         shopView.setShopController(shopController);
         
+        return this;
+    }
+    public AppBuilder addRenamePetView() {
+        renamePetViewModel = new RenamePetViewModel();
+
+
+        if (shopDataAccessObject != null) {
+            renamePetDataAccess = new RenamePetDataAccessObject(shopDataAccessObject.getCurrentUser());
+        } else {
+            renamePetDataAccess = new RenamePetDataAccessObject(new User());
+        }
+
+        RenamePetPresenter renamePetPresenter = new RenamePetPresenter(
+                viewManagerModel,
+                renamePetViewModel
+        );
+
+        RenamePetInteractor renamePetInteractor = new RenamePetInteractor(
+                renamePetDataAccess,
+                renamePetPresenter
+        );
+
+        RenamePetController renamePetController = new RenamePetController(renamePetInteractor);
+        petRenameView = new PetRenameView(renamePetController, renamePetViewModel);
+        cardPanel.add(petRenameView, "rename_pet");
+
         return this;
     }
 

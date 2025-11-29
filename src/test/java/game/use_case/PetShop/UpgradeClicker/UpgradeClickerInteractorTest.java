@@ -20,7 +20,7 @@ public class UpgradeClickerInteractorTest {
      */
     @Test
     public void testUpgradeClickerSuccess() {
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
         int initialLevel = dataAccess.getUser().getClickBonusTime();
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUpgradePrice();
@@ -42,54 +42,54 @@ public class UpgradeClickerInteractorTest {
      */
     @Test
     public void testUpgradeClickerInsufficientCoins() {
-        dataAccess.getUser().addCoins(30); // Less than upgrade price (50)
+        dataAccess.getUser().setCoins(30); // Less than upgrade price (50)
         int initialLevel = dataAccess.getUser().getClickBonusTime();
-        
+
         interactor.execute(new UpgradeClickerInputData());
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.INSUFFICIENT_COINS, outputBoundary.lastOutputData.getMessage());
         assertFalse(outputBoundary.lastOutputData.isSuccess());
         assertEquals(initialLevel, outputBoundary.lastOutputData.getBeforeLevel());
         assertEquals(initialLevel, outputBoundary.lastOutputData.getAfterLevel());
-        
+
         //make sure the user is changing correctly
         assertEquals(30, dataAccess.getUser().getCoinCount());
         assertEquals(initialLevel, dataAccess.getUser().getClickBonusTime());
     }
-    
+
     /**
      * Test clicker upgrade at max level.
      */
     @Test
     public void testUpgradeClickerMaxLevel() {
-        dataAccess.getUser().addCoins(10000);
+        dataAccess.getUser().setCoins(10000);
         for (int i = 0; i < Constants.MAX_CLICK_BONUS_UPGRADES; i++) {
             dataAccess.getUser().upgradeClickBonus();
         }
         int maxLevel = dataAccess.getUser().getClickBonusTime();
 
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
 
         interactor.execute(new UpgradeClickerInputData());
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.MAX_LEVEL_REACHED, outputBoundary.lastOutputData.getMessage());
         assertFalse(outputBoundary.lastOutputData.isSuccess());
         assertEquals(maxLevel, outputBoundary.lastOutputData.getBeforeLevel());
         assertEquals(maxLevel, outputBoundary.lastOutputData.getAfterLevel());
-        
+
         //make sure the user is changing correctly
         assertEquals(100, dataAccess.getUser().getCoinCount());
         assertEquals(maxLevel, dataAccess.getUser().getClickBonusTime());
     }
-    
+
     /**
      * Test multiple upgrades with increasing prices.
      */
     @Test
     public void testMultipleUpgrades() {
-        dataAccess.getUser().addCoins(500);
+        dataAccess.getUser().setCoins(500);
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUpgradePrice();
         

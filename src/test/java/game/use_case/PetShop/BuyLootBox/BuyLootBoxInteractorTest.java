@@ -21,51 +21,51 @@ public class BuyLootBoxInteractorTest {
      */
     @Test
     public void testBuyLootBoxSuccess() {
-        dataAccess.getUser().addCoins(100);
+        dataAccess.getUser().setCoins(100);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
 
         interactor.execute(new BuyLootBoxInputData());
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.LOOTBOX_SUCCESS, outputBoundary.lastOutputData.getMessage());
         assertTrue(outputBoundary.lastOutputData.isSuccess());
         assertNotNull(outputBoundary.lastOutputData.getLootboxPet());
-        
+
         //make sure the user is changing correctly
-        assertEquals(100-Constants.LOOT_BOX_PRICE, dataAccess.getUser().getCoinCount()); 
+        assertEquals(100-Constants.LOOT_BOX_PRICE, dataAccess.getUser().getCoinCount());
         assertEquals(initialPetCount + 1, dataAccess.getUser().getPetInventory().size());
-        
+
         // Check the new pet is the same as returned in output
         Pet newPet = dataAccess.getUser().getPetInventory().get(dataAccess.getUser().getPetInventory().size() - 1);
         assertEquals(newPet, outputBoundary.lastOutputData.getLootboxPet());
     }
-    
+
     /**
      * Test loot box purchase with insufficient coins.
      */
     @Test
     public void testBuyLootBoxInsufficientCoins() {
-        dataAccess.getUser().addCoins(30); 
+        dataAccess.getUser().setCoins(30);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
 
         interactor.execute(new BuyLootBoxInputData());
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.INSUFFICIENT_COINS, outputBoundary.lastOutputData.getMessage());
         assertFalse(outputBoundary.lastOutputData.isSuccess());
         assertNull(outputBoundary.lastOutputData.getLootboxPet());
-        
+
         //make sure the user is changing correctly
         assertEquals(30, dataAccess.getUser().getCoinCount());
         assertEquals(initialPetCount, dataAccess.getUser().getPetInventory().size());
     }
-    
+
     /**
      * Test multiple loot box purchases.
      */
     @Test
     public void testMultipleLootBoxPurchases() {
-        dataAccess.getUser().addCoins(150);
+        dataAccess.getUser().setCoins(150);
         int initialPetCount = dataAccess.getUser().getPetInventory().size();
         
         // First purchase

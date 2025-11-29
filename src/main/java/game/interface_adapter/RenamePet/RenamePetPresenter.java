@@ -4,6 +4,8 @@ import game.interface_adapter.ViewManagerModel;
 import game.use_case.PetCard.RenamePet.RenamePetOutputBoundary;
 import game.use_case.PetCard.RenamePet.RenamePetOutputData;
 
+import javax.swing.*;
+
 public class RenamePetPresenter implements RenamePetOutputBoundary {
     private final RenamePetViewModel renamePetViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -25,9 +27,25 @@ public class RenamePetPresenter implements RenamePetOutputBoundary {
         renamePetViewModel.setState(currentState);
         renamePetViewModel.firePropertyChange();
 
-        // 可以在这里触发回到collection view
-        // viewManagerModel.setState("collection");
-        // viewManagerModel.firePropertyChange();
+        Timer timer = new Timer(2000, e -> {
+            returnToPreviousView();
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+    private void returnToPreviousView() {
+        RenamePetState currentState = renamePetViewModel.getState();
+        String previousView = currentState.getPreviousView();
+        System.out.println("🎯 Returning to shop view"+ previousView);
+        // go back to previous page
+        if (previousView != null && !previousView.isEmpty()) {
+            viewManagerModel.setState(previousView);
+        } else {
+            viewManagerModel.setState("shop");//return to shop is the default
+        }
+
+        viewManagerModel.firePropertyChange();
+        renamePetViewModel.setState(new RenamePetState());
     }
 
     @Override
