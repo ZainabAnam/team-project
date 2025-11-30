@@ -11,8 +11,8 @@ public class ManualClickerController {
         this.interactor = interactor;
     }
 
-    public void execute() {
-        final ManualClickerInputData inputData = new ManualClickerInputData("fillerID");
+    public void execute(String userID) {
+        final ManualClickerInputData inputData = new ManualClickerInputData(userID);
         this.interactor.execute(inputData);
     }
 }

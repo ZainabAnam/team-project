@@ -11,7 +11,9 @@ import java.beans.PropertyChangeSupport;
 public class ViewModel<T> {
 
     private final String viewName;
+
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
     private T state;
 
     public ViewModel(String viewName) {
@@ -47,6 +49,10 @@ public class ViewModel<T> {
         this.support.firePropertyChange(propertyName, null, this.state);
     }
 
+    /**
+     * Adds a PropertyChangeListener to this ViewModel.
+     * @param listener The PropertyChangeListener to be added
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.support.addPropertyChangeListener(listener);
     }

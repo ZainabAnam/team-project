@@ -52,7 +52,7 @@ public class User {
         //pre: coinCheck is true
         public void buyLootBox(LootBox lootBox){
             this.buy(lootBox.getPrice());
-
+            this.addToPetInventory(lootBox.getPet());
         }
 
         //adding a pet to the pet inventory
@@ -96,11 +96,9 @@ public class User {
         public List<Pet> getPetInventory() {
             return new ArrayList<>(this.petInventory);
         }
-
         public HashMap<String, Integer> getItemsAmountList() {
             return new HashMap<>(this.itemsAmountList);
         }
-
         public HashMap<String, Item> getItemsList() {
             return new HashMap<>(this.itemsList);
         }
@@ -117,11 +115,9 @@ public class User {
             this.clickBonus=Constants.CLICKBONUS_INCREASE_BASE*this.clickBonusTime;
             this.clickBonusTime+=1;
         }
-
         public int getClickBonus() {
             return this.clickBonus;
         }
-
         public int getClickBonusTime(){
             return this.clickBonusTime;
         }
@@ -145,10 +141,11 @@ public class User {
         public int getCurrentUnlockSlotPrice(){
             return (this.unlockedSlots - Constants.INITIAL_SLOTS + 1) * Constants.UNLOCK_SLOT_BASE_PRICE;
         }
-
         public int getUnlockedSlots() {
             return this.unlockedSlots;
         }
+
+        public void setCoins(int coins){this.coinCount=coins;}
 
         public void addCoins(int coins) {
             this.coinCount += coins;

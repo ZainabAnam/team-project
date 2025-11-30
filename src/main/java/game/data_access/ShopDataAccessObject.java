@@ -20,7 +20,6 @@ public class ShopDataAccessObject implements BuyItemDataAccessInterface,
     public ShopDataAccessObject() {
         // Initialize with a default user for demo purposes
         this.currentUser = new User();
-        //this.currentUser.coinCount = 500; // test coins
     }
 
     @Override
