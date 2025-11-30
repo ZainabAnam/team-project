@@ -13,14 +13,14 @@ public class ManualClickerInteractor implements ManualClickerInputBoundary {
     @Override
     public void execute(ManualClickerInputData inputData) {
         if (!dAO.userExists(inputData.getUserID())) {
-//            userPresenter.prepareFailView("Click error.");
+            userPresenter.prepareFailView("Click error.");
         }
         else {
                 final User user = dAO.getUser(inputData.getUserID());
                  user.addCoins(user.getClickBonus());
 
                  final ManualClickerOutputData outputData = new ManualClickerOutputData(user.getCoinCount());
-                // userPresenter.prepareSuccessView(outputData);
+                 userPresenter.prepareSuccessView(outputData);
             }
         }
     }
