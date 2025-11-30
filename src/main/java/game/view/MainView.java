@@ -1,31 +1,53 @@
 package game.view;
 
+import game.Constants;
 import game.entity.Slot;
+import game.interface_adapter.main_page.MainController;
+import game.interface_adapter.main_page.MainState;
+import game.interface_adapter.main_page.MainViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 
 /**
  * The View for the game's main screen.
  */
-public class MainView extends JPanel{
+public class MainView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "Pet Clicker";
+    private final MainViewModel mainViewModel;
 
     // Images
     private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();;
     private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
     private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
 
-    public MainView() {
+    private final JButton clicker;
+    private JLabel coinCountNumber = new JLabel(String.valueOf(Constants.INITIAL_COINS),  SwingConstants.CENTER);
+    private JPanel coinCountPanel = getCoinCountPanel();
+
+    private MainController mainController;
+
+    public MainView(MainViewModel mainViewModel) {
+
+        this.mainViewModel = mainViewModel;
+        this.mainViewModel.addPropertyChangeListener(this);
 
         setPreferredSize(new Dimension(720, 540));
         setLayout(null);
 
         // Setting up/adding the main clicker.
-        JButton clicker = getClicker();
+        this.clicker = getClicker();
         clicker.setBounds(260, 50, 200, 200); // x, y, width, height
         add(clicker);
+
+        // Setting up and adding the coin count panel
+        clicker.setBounds(260, 50, 90, 50);
+        add(coinCountPanel);
 
         // Instantiating Slots.
         Slot slot1 = new Slot(true);  // unlocked at start
@@ -62,6 +84,18 @@ public class MainView extends JPanel{
         menuButtons.setBounds(55, 480, 610, 50);
         add(menuButtons);
 
+        clicker.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource() == clicker) {
+                            final MainState state =  mainViewModel.getState();
+
+                            mainController.execute();
+                        }
+                    }
+                }
+        );
+
 
     }
 
@@ -77,12 +111,60 @@ public class MainView extends JPanel{
         return clicker;
     }
 
+    private JPanel getCoinCountPanel() {
+        final JPanel coinCountPanel = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(90, 50);
+            }
+        };
+
+        coinCountPanel.setVisible(true);
+
+        final JLabel coinCountLabel = new JLabel("Coin Count");
+        coinCountLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        coinCountPanel.add(coinCountLabel);
+        coinCountNumber.setFont(new Font("Arial", Font.BOLD, 20));
+        coinCountPanel.add(coinCountNumber);
+
+        return coinCountPanel;
+    }
+
     // Customizing other menu buttons
     private JButton getMenuButton(JButton menuButton) {
         menuButton.setSize(150, 50);
         menuButton.setBackground(Color.orange);
         menuButton.setBorderPainted(false);
         return menuButton;
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
+    private void updateCoinCount() {
+        final MainState state = mainViewModel.getState();
+        coinCountNumber.setText(String.valueOf(state.getNewCoinCount()));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println(evt.getActionCommand());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (!evt.getPropertyName().equals("state")) {
+            return;
+        }
+        else {
+            final MainState state = (MainState) evt.getNewValue();
+            updateCoinCount();
+        }
     }
 
     @Override
