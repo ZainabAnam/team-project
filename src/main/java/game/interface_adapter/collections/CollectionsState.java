@@ -1,53 +1,100 @@
 package game.interface_adapter.collections;
 
-import game.entity.Pet;
-import game.entity.PetFood;
-import game.entity.PetToy;
-
+import javax.swing.*;
 import java.util.List;
 
-/**
- * State object for the Collections view.
- * Holds the data that the view needs to display.
- */
 public class CollectionsState {
 
-    private List<Pet> pets;
-    private List<PetFood> petFoods;
-    private List<PetToy> petToys;
+    // Pets displayed in the Collections view (NOT entity objects)
+    private List<PetCardState> pets;
+    private int selectedPetIndex = -1;
 
-    // Optional: for errors from the use case
+    // Item counts (already view-friendly data)
+    private int cannedFoodCount;
+    private int kibbleCount;
+    private int homeCookedCount;
+
+    private int chewToyCount;
+    private int tossToyCount;
+    private int plushToyCount;
+
     private String errorMessage;
 
-    public List<Pet> getPets() {
+    // ----- Getters / Setters -----
+    public List<PetCardState> getPets() {
         return pets;
     }
 
-    public void setPets(List<Pet> pets) {
+    public void setPets(List<PetCardState> pets) {
         this.pets = pets;
     }
 
-    public List<PetFood> getPetFoods() {
-        return petFoods;
+    public int getCannedFoodCount() { return cannedFoodCount; }
+    public void setCannedFoodCount(int v) { this.cannedFoodCount = v; }
+
+    public int getKibbleCount() { return kibbleCount; }
+    public void setKibbleCount(int v) { this.kibbleCount = v; }
+
+    public int getHomeCookedCount() { return homeCookedCount; }
+    public void setHomeCookedCount(int v) { this.homeCookedCount = v; }
+
+    public int getChewToyCount() { return chewToyCount; }
+    public void setChewToyCount(int v) { this.chewToyCount = v; }
+
+    public int getTossToyCount() { return tossToyCount; }
+    public void setTossToyCount(int v) { this.tossToyCount = v; }
+
+    public int getPlushToyCount() { return plushToyCount; }
+    public void setPlushToyCount(int v) { this.plushToyCount = v; }
+
+    public int getSelectedPetIndex() { return selectedPetIndex; }
+    public void setSelectedPetIndex(int i) { this.selectedPetIndex = i; }
+
+    public PetCardState getSelectedPet() {
+        if (pets == null || selectedPetIndex < 0 || selectedPetIndex >= pets.size()) {
+            return null;
+        }
+        return pets.get(selectedPetIndex);
     }
 
-    public void setPetFoods(List<PetFood> petFoods) {
-        this.petFoods = petFoods;
-    }
 
-    public List<PetToy> getPetToys() {
-        return petToys;
-    }
+    public String getErrorMessage() { return errorMessage; }
+    public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
-    public void setPetToys(List<PetToy> petToys) {
-        this.petToys = petToys;
-    }
+    // Inner DTO for each pet card
+    public static class PetCardState {
+        private String name;
+        private ImageIcon petVisual;
+        private String breed;
+        private int level;
+        private int energy;
+        private int affectionXp;
+        private int sellingPrice;
+        private String fact;
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+        // getters/setters
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+        public ImageIcon getPetVisual() { return petVisual; }
+        public void setPetVisual(ImageIcon petVisual) { this.petVisual = petVisual; }
+
+        public String getBreed() { return breed; }
+        public void setBreed(String breed) { this.breed = breed; }
+
+        public int getLevel() { return level; }
+        public void setLevel(int level) { this.level = level; }
+
+        public int getEnergy() { return energy; }
+        public void setEnergy(int energy) { this.energy = energy; }
+
+        public int getAffectionXp() { return affectionXp; }
+        public void setAffectionXp(int affectionXp) { this.affectionXp = affectionXp; }
+
+        public int getSellingPrice() { return sellingPrice; }
+        public void setSellingPrice(int sellingPrice) { this.sellingPrice = sellingPrice; }
+
+        public String getFact() { return fact; }
+        public void setFact(String fact) { this.fact = fact; }
     }
 }
