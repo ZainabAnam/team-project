@@ -33,7 +33,7 @@ public class SellPetInteractor implements SellPetInputBoundary {
         Pet pet = user.getPetInventory().get(petIndex);
 
         // check if sellable
-        if (!user.canSellPet(pet)) {
+        if (pet.isDeployed()) {
             outputBoundary.prepareFailView("Cannot sell pet: pet is currently deployed");
             return;
         }

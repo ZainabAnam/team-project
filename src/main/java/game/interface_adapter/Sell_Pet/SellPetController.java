@@ -14,4 +14,9 @@ public class SellPetController {
         SellPetInputData inputData = new SellPetInputData(petIndex);
         sellPetUseCaseInteractor.execute(inputData);
     }
+
+    public void execute(int petIndex, String username) {
+        SellPetInputData inputData = new SellPetInputData(petIndex, username);
+        sellPetUseCaseInteractor.execute(inputData);
+    }
 }
