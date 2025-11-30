@@ -26,7 +26,7 @@ public final class Constants {
     //User initial constants
     public static final int INITIAL_COINS = 100;
     public static final int INITIAL_CLICKBONUS = 1;
-    public static final int INITIAL_SLOTS=2;
+    public static final int INITIAL_SLOTS= 1;
     public static final int INITIAL_CLICKBONUS_TIME=1;//count the times of upgrades
     public static final int CLICKBONUS_INCREASE_BASE=2;//the base for calulate for the number increase of upgrades
 
