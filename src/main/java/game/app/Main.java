@@ -8,6 +8,8 @@ public class Main {
         JFrame application = appBuilder
                 .addShopView()
                 .addShopUseCases()
+                .addRenamePetView()
+                .addSellPetView()
                 .build();
 
         application.pack();
