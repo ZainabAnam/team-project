@@ -14,9 +14,9 @@ public class User {
         private int clickBonusTime;//helper for counting the times of upgrades
         private int unlockedSlots;
 
-        private List<Pet> petInventory= new ArrayList<>();//list of pets
-        private HashMap<String,Integer> itemsAmountList = new HashMap<>();//list of item names and their amounts
-        private HashMap<String,Item> itemsList= new HashMap<>();//list of item names and their objects（easy to find the item by name）
+        private List<Pet> petInventory;
+        private HashMap<String,Integer> itemsAmountList;//list of item names and their amounts
+        private HashMap<String,Item> itemsList;//list of item names and their objects（easy to find the item by name）
 
         public User() {
             this.coinCount = Constants.INITIAL_COINS;
@@ -162,6 +162,20 @@ public class User {
         public int getCoinCount(){
             return this.coinCount;
         }
+
+    //for loading and saving
+    public void loadCoinCount(int coins){
+        this.coinCount = coins;
+    }
+    public void loadUnlockedSlots(int slots){
+        unlockedSlots+=slots;
+    }
+    public void loadClickBonus(int clickBonus){
+        this.clickBonus=clickBonus;
+    }
+    public void loadClickBonusTime(int clickBonusTime){
+        this.clickBonusTime=clickBonusTime;
+    }
 
 
 }

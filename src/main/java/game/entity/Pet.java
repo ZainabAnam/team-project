@@ -81,4 +81,20 @@ public class Pet {
     public boolean getIsDeployed() {
         return isDeployed;
     }
+
+    public String getPetBreed() {
+        return petBreed;
+    }
+    public int getClickingSpeed() {
+        return clickingSpeed;
+    }
+    public int getAffectionXP() {
+        return affectionXP;
+    }
+    public int getAffectionLevel() {
+        return affectionLevel;
+    }
+    public int getSellingPrice() {
+        return sellingPrice;
+    }
 }
