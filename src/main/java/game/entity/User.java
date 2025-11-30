@@ -208,18 +208,5 @@ public class User {
             return this.coinCount;
         }
 
-    public boolean canSellPet(Pet pet) {
-        return pet != null &&
-                petInventory.contains(pet) &&
-                !pet.isDeployed();
-    }
-    public boolean canSellPet(int petIndex) {
-        if (petIndex < 0 || petIndex >= petInventory.size()) {
-            return false;
-        }
-        Pet pet = petInventory.get(petIndex);
-        return !pet.isDeployed();
-    }
 
-
-    }
+}
