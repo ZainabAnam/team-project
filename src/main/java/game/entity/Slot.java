@@ -8,16 +8,18 @@ import java.awt.*;
 */
 public class Slot extends JButton {
 
+    private final int slotID;
     private boolean unlocked;
     private Pet pet = null;
-    private final ImageIcon unlockedImage = new ImageIcon(getClass().getResource("/images/Slot.png"));
-    private final ImageIcon lockedImage = new ImageIcon(getClass().getResource("/images/SlotLocked.png"));
-    private final ImageIcon unlockedClickedImage = new ImageIcon(getClass().getResource("/images/SlotClicked.png"));
-    private final ImageIcon lockedClickedImage = new ImageIcon(getClass().getResource("/images/SlotLockedClicked.png"));
+    private final ImageIcon unlockedImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/Slot.png"));
+    private final ImageIcon lockedImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/SlotLocked.png"));
+    private final ImageIcon unlockedClickedImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/SlotClicked.png"));
+    private final ImageIcon lockedClickedImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/SlotLockedClicked.png"));
     private boolean petTired = false;
 
-    public Slot(boolean unlocked) {
+    public Slot(boolean unlocked, int id) {
         this.unlocked = unlocked;
+        this.slotID = id;
 
         if (unlocked) {
             setIcon(unlockedImage);
@@ -43,9 +45,19 @@ public class Slot extends JButton {
         setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
     }
 
+    // The slot's id
+    public int getID() {
+        return slotID;
+    }
+
     // Check if the slot is unlocked.
     public boolean isUnlocked() {
         return unlocked;
+    }
+
+    // Check if the slot has a pet in it: False if no pet, True if there is a pet.
+    public boolean hasPet() {
+        return pet != null;
     }
 
     // Check if the pet is tired.

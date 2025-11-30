@@ -13,4 +13,5 @@ import java.beans.PropertyChangeListener;
  * The View for the Collections page.
  */
 public class CollectionsView {
+
 }

@@ -4,14 +4,17 @@ import game.entity.*;
 /*
 *  The input data when clicking a slot.
 * */
-public class SlotAddPetInputData {
+public class SelectPetInputData {
     private final Slot slot;
+    private final User user;
 
-    public SlotAddPetInputData(Slot slot) {
+    public SelectPetInputData(Slot slot,  User user) {
         this.slot = slot;
+        this.user = user;
     }
 
     public Slot getSlot() {
         return slot;
     }
+    public User getUser() { return user; }
 }

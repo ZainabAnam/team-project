@@ -1,7 +1,5 @@
 package game.use_case.SlotAddPet.ConfirmPet;
 
-import game.use_case.SlotAddPet.SelectPet.SlotAddPetOutputData;
-
 public class ConfirmPetInteractor implements ConfirmPetInputBoundary {
     private final ConfirmPetOutputBoundary userPresenter;
 
