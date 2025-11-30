@@ -5,6 +5,8 @@ import game.entity.Slot;
 import game.interface_adapter.main_page.MainController;
 import game.interface_adapter.main_page.MainState;
 import game.interface_adapter.main_page.MainViewModel;
+import game.interface_adapter.ViewManagerModel;
+import game.interface_adapter.collections.CollectionsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,18 +15,21 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-
 /**
  * The View for the game's main screen.
  */
 public class MainView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "Pet Clicker";
+    private final String viewName = "main";
     private final MainViewModel mainViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     // Images
-    private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();;
-    private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
-    private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
+    private final Image backgroundImage =
+            new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();
+    private final ImageIcon clickerImage =
+            new ImageIcon(getClass().getResource("/images/Clicker.png"));
+    private final ImageIcon clickerClickedImage =
+            new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
 
     private final JButton clicker;
     private JLabel coinCountNumber = new JLabel(String.valueOf(Constants.INITIAL_COINS),  SwingConstants.CENTER);
@@ -32,10 +37,11 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
 
     private MainController mainController;
 
-    public MainView(MainViewModel mainViewModel) {
+    public MainView(MainViewModel mainViewModel, ViewManagerModel viewManagerModel) {
 
         this.mainViewModel = mainViewModel;
         this.mainViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         setPreferredSize(new Dimension(720, 540));
         setLayout(null);
@@ -50,7 +56,7 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
         add(coinCountPanel);
 
         // Instantiating Slots.
-        Slot slot1 = new Slot(true);  // unlocked at start
+        Slot slot1 = new Slot(true);
         Slot slot2 = new Slot(false);
         Slot slot3 = new Slot(false);
         Slot slot4 = new Slot(false);
@@ -67,12 +73,15 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
         add(slotsPanel);
 
         // Menu Buttons
-        JButton shop = new JButton("Shop");
-        shop = getMenuButton(shop);
-        JButton collections = new JButton("Collections");
-        collections = getMenuButton(collections);
-        JButton save =  new JButton("Save");
-        save = getMenuButton(save);
+        JButton shop = getMenuButton(new JButton("Shop"));
+        JButton collections = getMenuButton(new JButton("Collection"));
+        JButton save = getMenuButton(new JButton("Save"));
+
+        // When user clicks "Collection", tell ViewManagerModel to switch to collections view
+        collections.addActionListener(e -> {
+            viewManagerModel.setState(CollectionsViewModel.VIEW_NAME);
+            viewManagerModel.firePropertyChange();
+        });
 
         final JPanel menuButtons = new JPanel();
         menuButtons.setOpaque(false);
@@ -83,6 +92,7 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
 
         menuButtons.setBounds(55, 480, 610, 50);
         add(menuButtons);
+    }
 
         clicker.addActionListener(
                 new ActionListener() {
@@ -97,12 +107,12 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
         );
 
 
+    public String getViewName() {
+        return viewName;
     }
 
-    // Making a clicker JButton with custom graphic.
     private JButton getClicker() {
-        final JButton clicker;
-        clicker = new JButton();
+        final JButton clicker = new JButton();
         clicker.setIcon(clickerImage);
         clicker.setBorderPainted(false);
         clicker.setContentAreaFilled(false);

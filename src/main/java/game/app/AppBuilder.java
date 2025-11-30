@@ -9,6 +9,18 @@ import game.interface_adapter.shop.ShopViewModel;
 import game.interface_adapter.shop.ShopPresenter;
 import game.use_case.MainScreenManualClicker.ManualClickerInputBoundary;
 import game.use_case.MainScreenManualClicker.ManualClickerInteractor;
+import game.entity.Pet;
+import game.entity.User;
+import game.interface_adapter.ViewManagerModel;
+import game.interface_adapter.collections.CollectionsController;
+import game.interface_adapter.collections.CollectionsPresenter;
+import game.interface_adapter.collections.CollectionsViewModel;
+import game.interface_adapter.shop.ShopViewModel;
+import game.interface_adapter.shop.ShopPresenter;
+import game.use_case.Collections.CollectionsDataAccessInterface;
+import game.use_case.Collections.CollectionsInputBoundary;
+import game.use_case.Collections.CollectionsInteractor;
+import game.view.CollectionsView;
 import game.view.MainView;
 import game.view.ShopView;
 import game.view.ViewManager;
@@ -21,8 +33,13 @@ import game.data_access.ShopDataAccessObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import static game.Constants.*;
 
 public class AppBuilder {
+    private MainView mainView;
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     final ViewManagerModel viewManagerModel = new ViewManagerModel();
@@ -40,13 +57,19 @@ public class AppBuilder {
     private ShopController shopController;
     private ShopDataAccessObject shopDataAccessObject;
 
+    private CollectionsView collectionsView;
+    private CollectionsViewModel collectionsViewModel;
+    private CollectionsPresenter collectionsPresenter;
+    private CollectionsController collectionsController;
+    private CollectionsDataAccessInterface collectionsDataAccessObject;
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
     public AppBuilder addMainView() {
         mainViewModel = new MainViewModel();
-        mainView = new MainView(mainViewModel);
+        mainView = new MainView(mainViewModel, viewManagerModel);
         cardPanel.add(mainView, mainView.getViewName());
         return this;
     }
@@ -94,6 +117,70 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addCollectionsView() {
+        // 1. ViewModel and Presenter
+        collectionsViewModel = new CollectionsViewModel();
+        collectionsPresenter = new CollectionsPresenter(collectionsViewModel);
+
+        // 2. In-memory implementation of CollectionsDataAccessInterface
+        collectionsDataAccessObject = new CollectionsDataAccessInterface() {
+            private User testUser = createTestUser();
+
+            @Override
+            public User getCurrentUser() {
+                return testUser;
+            }
+
+            @Override
+            public void saveUsr(User user) {
+                this.testUser = user;
+            }
+        };
+
+        // 3. Interactor + Controller
+        CollectionsInputBoundary interactor =
+                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject);
+        collectionsController = new CollectionsController(interactor);
+
+        // 4. Swing view
+        collectionsView = new CollectionsView(collectionsViewModel, collectionsController);
+        collectionsView.setCollectionsController(collectionsController);
+
+        // 5. Register view with CardLayout
+        JScrollPane scrollPane = new JScrollPane(collectionsView);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setOpaque(false);
+
+        cardPanel.add(scrollPane, CollectionsViewModel.VIEW_NAME);
+
+        collectionsView.load();
+
+        return this;
+    }
+
+    private User createTestUser() {
+        User u = new User();
+
+        // Add pets
+        Pet p1 = new Pet("Goldie", "Golden Retriever", null);
+        Pet p2 = new Pet("Max", "German Shepherd", null);
+        u.addToPetInventory(p1);
+        u.addToPetInventory(p2);
+
+        // Items
+        u.addToItemList(ITEM_CANNED_FOOD);
+        u.addToItemList(ITEM_KIBBLE);
+        u.addToItemList(ITEM_HOME_COOKED);
+        u.addToItemList(ITEM_CHEW_TOY);
+        u.addToItemList(ITEM_TOSS_TOY);
+        u.addToItemList(ITEM_PLUSH_TOY);
+
+        return u;
+    }
+
     public JFrame build() {
         final JFrame application = new JFrame("Pet Clicker Game");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -101,8 +188,13 @@ public class AppBuilder {
         application.add(cardPanel);
 
         // Start with shop view as test
-        viewManagerModel.setState(shopView.getViewName());
+        //viewManagerModel.setState(shopView.getViewName());
+        //viewManagerModel.firePropertyChange();
+
+        // Collection view test
+        viewManagerModel.setState(CollectionsViewModel.VIEW_NAME);
         viewManagerModel.firePropertyChange();
+
 
         return application;
     }
