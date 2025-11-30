@@ -29,7 +29,7 @@ public class Pet {
 
 
 
-    public Pet(String petType, String petBreed, ImageIcon petVisual) {
+    public Pet(String petType, String petBreed, String petVisual) {
         this.petType = petType;
         this.petBreed = petBreed;
         this.petVisual = petVisual;

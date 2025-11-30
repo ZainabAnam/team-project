@@ -1,5 +1,7 @@
 package game.interface_adapter.SlotAddPet.ConfirmPet;
 
+import game.entity.Pet;
+import game.entity.Slot;
 import game.use_case.SlotAddPet.ConfirmPet.ConfirmPetInputBoundary;
 import game.use_case.SlotAddPet.ConfirmPet.ConfirmPetInputData;
 
@@ -15,8 +17,12 @@ public class ConfirmPetController {
     }
 
     /**
-    * Executes the Confirm Pet Use Case.
-    * @param pet the pet selected
+     * Executes the Confirm Pet Use Case.
+     * @param slot the slot to add to
+     * @param pet the pet selected
     * */
-    public static void execute(confirmPetUseCaseInteractor);
+    public void execute(Slot slot, Pet pet) {
+        ConfirmPetInputData confirmPetInputData = new ConfirmPetInputData(slot, pet);
+        confirmPetUseCaseInteractor.execute(confirmPetInputData);
+    }
 }

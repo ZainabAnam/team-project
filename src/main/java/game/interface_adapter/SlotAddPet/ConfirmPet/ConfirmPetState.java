@@ -1,5 +1,6 @@
 package game.interface_adapter.SlotAddPet.ConfirmPet;
 
+import game.entity.Pet;
 import game.interface_adapter.SlotAddPet.ConfirmPet.ConfirmPetViewModel;
 
 import java.util.ArrayList;
@@ -11,17 +12,34 @@ import java.util.List;
  * selecting one for a slot.
  */
 public class ConfirmPetState {
-    private List<String> petNames;
-    private HashMap<String, ConfirmPetViewModel> petInfoMap;
-    private String selectedPetName;
 
-    public List<String> getPetNames() { return petNames; }
-    public void setPetNames(List<String> petNames) { this.petNames = petNames; }
+    private List<Pet> petList = new ArrayList<>();
+    private String selectedPetName = null;
+    private String errorMessage = "";
 
-    public HashMap<String, ConfirmPetViewModel> getPetInfoMap() { return petInfoMap; }
-    public void setPetInfoMap(HashMap<String, ConfirmPetViewModel> petInfoMap) { this.petInfoMap = petInfoMap; }
+    public List<Pet> getPetList() {
+        return petList;
+    }
 
-    public String getSelectedPetName() { return selectedPetName; }
-    public void setSelectedPetName(String selectedPetName) { this.selectedPetName = selectedPetName; }
+    public void setPetList(List<Pet> petList) {
+        this.petList = petList;
+    }
+
+    public String getSelectedPetName() {
+        return selectedPetName;
+    }
+
+    public void setSelectedPetName(String name) {
+        this.selectedPetName = name;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String msg) {
+        this.errorMessage = msg;
+    }
+
 }
 

@@ -12,13 +12,6 @@ public interface ConfirmPetOutputBoundary {
 
     /*
      * Prepares the fail view for the Adding Pet to Slot Use Case.
-     * Case: Pet is tired (has 0 energy)
-     * @param outputData is the output data
-     */
-    void preparePetTiredView(String errorMessage);
-
-    /*
-     * Prepares the fail view for the Adding Pet to Slot Use Case.
      * Case: Pet is already in another slot.
      * @param outputData is the output data
      */

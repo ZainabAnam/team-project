@@ -11,8 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * The View for Selecting a Pet to add to a slot.
@@ -21,77 +21,125 @@ import java.util.Map;
 public class ConfirmPetView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "Pet Select View";
+    private final Slot slot;
     private final ConfirmPetViewModel confirmPetViewModel;
 
     private final JComboBox<Pet> petComboBox = new JComboBox<>();
+    private final JLabel petName = new JLabel("-");
+    private final JLabel petBreed = new JLabel("-");
+    private final JLabel petEnergyLevel = new JLabel("-");
+    private final JLabel petAffection = new JLabel("-");
+    private final JLabel petClick = new JLabel("-");
     private final JLabel petErrorField = new JLabel();
 
     private Map<String, ConfirmPetViewModel> petInfoMap;
 
     private ConfirmPetController confirmPetController = null;
 
-    public ConfirmPetView(ConfirmPetViewModel confirmPetViewModel) {
+    public ConfirmPetView(ConfirmPetViewModel confirmPetViewModel, Slot slot) {
         this.confirmPetViewModel = confirmPetViewModel;
+        this.slot = slot;
         this.confirmPetViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Select Pet to Deploy:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Pet Stat Labels
-        final JPanel petInfo = new JPanel();
-        JLabel petName =  new JLabel("Name:");
-        petInfo.add(petName);
-        JLabel petBreed = new JLabel("Breed:");
-        petInfo.add(petBreed);
-        JLabel petEnergyLevel = new JLabel("Energy Level:");
-        petInfo.add(petEnergyLevel);
-        JLabel petAffection = new JLabel("Affection:");
-        petInfo.add(petAffection);
-        JLabel petClick = new JLabel("Clicking Stat:");
-        petInfo.add(petClick);
+        JPanel petInfo = new JPanel(new GridLayout(5, 2));
+        JLabel name =  new JLabel("Name:");
+        petInfo.add(name);
+        JLabel breed = new JLabel("Breed:");
+        petInfo.add(breed);
+        JLabel energy = new JLabel("Energy Level:");
+        petInfo.add(energy);
+        JLabel affection = new JLabel("Affection:");
+        petInfo.add(affection);
+        JLabel click = new JLabel("Clicking Stat:");
+        petInfo.add(click);
         petInfo.setAlignmentY(10);
 
-        // Screen Labels
-        final JPanel textLabels = new JPanel();
-        JLabel comboBoxLabel = new JLabel("Your Pets:");
-        textLabels.add(comboBoxLabel);
+        JPanel petStat = new JPanel(new GridLayout(5, 2));
+
+
+        // Combo box
+        JPanel comboPanel = new JPanel();
+        comboPanel.add(new JLabel("Your Pets:"));
+        comboPanel.add(petComboBox);
+
+        petComboBox.addActionListener(e -> updateDisplayedPetInfo());
 
         // The Confirm/Cancel buttons
-        final JPanel buttons = new JPanel();
-        final JButton confirm = new JButton("Confirm");
+        JPanel buttons = new JPanel();
+        JButton confirm = new JButton("Confirm");
+        JButton cancel = new JButton("Cancel");
         buttons.add(confirm);
-        final JButton cancel = new JButton("Cancel");
         buttons.add(cancel);
 
         add(petInfo);
-        add(textLabels);
+        add(comboPanel);
         add(buttons);
+
 
         confirm.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(confirm)) {
-                            final ConfirmPetState currentState = confirmPetViewModel.getState();
-
-                            ConfirmPetController.execute(
-                                    //currentState.getPet();
-                            );
+                        Pet selectedPet = (Pet) petComboBox.getSelectedItem();
+                        if (selectedPet != null && confirmPetController != null) {
+                            ConfirmPetController.execute(slot, selectedPet);
                         }
-
                     }
                 }
-        );
+            );
 
-       }
+        // Cancel Action
+        cancel.addActionListener(evt -> {
+            // Up to you — for now simply hide window or fire cancel event
+            System.out.println("User cancelled pet selection.");
+        });
+        add(petErrorField);
+        add(buttons);
+    }
+    private void updateComboBox(List<Pet> pets) {
+        petComboBox.removeAllItems();
+        for (Pet p : pets) {
+            petComboBox.addItem(p);
+        }
+    }
 
+    //Update display when a pet is selected
+    private void updateDisplayedPetInfo() {
+        Pet p = (Pet) petComboBox.getSelectedItem();
+        if (p == null) {
+            petName.setText("-");
+            petBreed.setText("-");
+            petEnergyLevel.setText("-");
+            petAffection.setText("-");
+            petClick.setText("-");
+            return;
+        }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+        petName.setText(p.getName());
+        petBreed.setText(p.getPetBreed());
+        petEnergyLevel.setText(String.valueOf(p.getEnergyLevel()));
+        petAffection.setText(String.valueOf(p.getAffectionLevel()));
+        petClick.setText(String.valueOf(p.getClickingSpeed()));
+    }
 
+    public void setConfirmPetController(ConfirmPetController controller) {
+        this.confirmPetController = controller;
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void actionPerformed(ActionEvent e) {}
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        ConfirmPetState state = confirmPetViewModel.getState();
+
+        updateComboBox(state.getPetList());
+        petErrorField.setText(state.getErrorMessage());
+
+        // Update displayed info when list changes
+        updateDisplayedPetInfo();
     }
 }

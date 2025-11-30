@@ -11,11 +11,7 @@ public class ConfirmPetInteractor implements ConfirmPetInputBoundary {
     public void execute(ConfirmPetInputData confirmPetInputData) {
 
         // Pet Tired
-        if (confirmPetInputData.getPet().getEnergyLevel() == 0) {
-            userPresenter.preparePetTiredView("This Pet is tired. Deploy anyway?");
-        }
-        // Pet Already Deployed
-        else if (confirmPetInputData.getPet().getIsDeployed()) {
+        if (confirmPetInputData.getPet().getIsDeployed()) {
             userPresenter.preparePetAlreadyDeployed("This Pet is already deployed in another slot.");
         }
         // Success
