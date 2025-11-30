@@ -28,12 +28,13 @@ public class CollectionsPresenter implements CollectionsOutputBoundary {
         for (CollectionsOutputData.PetInfo pet : outputData.getPets()) {
             CollectionsState.PetCardState card = new CollectionsState.PetCardState();
             card.setName(pet.getName());
+            card.setPetVisual(pet.getPetVisual());
             card.setBreed(pet.getBreed());
             card.setLevel(pet.getLevel());
             card.setEnergy(pet.getEnergy());
             card.setAffectionXp(pet.getAffectionXp());
             card.setSellingPrice(pet.getSellingPrice());
-            card.setFact(pet.getFact());   // if you want to use it
+            card.setFact(pet.getFact());
 
             petCards.add(card);
         }

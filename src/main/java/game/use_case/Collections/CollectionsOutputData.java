@@ -8,12 +8,13 @@ public class CollectionsOutputData {
     // ---------- DTO for one pet ----------
     public static class PetInfo {
         private final String name;
+        private final ImageIcon petVisual;
         private final String breed;
         private final int level;
         private final int energy;
         private final int affectionXp;
         private final int sellingPrice;
-        private final String fact;   // you can pass null for now
+        private final String fact;
 
         public PetInfo(String name,
                        ImageIcon petVisual,
@@ -24,6 +25,7 @@ public class CollectionsOutputData {
                        int sellingPrice,
                        String fact) {
             this.name = name;
+            this.petVisual = petVisual;
             this.breed = breed;
             this.level = level;
             this.energy = energy;
@@ -33,6 +35,7 @@ public class CollectionsOutputData {
         }
 
         public String getName() { return name; }
+        public ImageIcon getPetVisual() { return petVisual; }
         public String getBreed() { return breed; }
         public int getLevel() { return level; }
         public int getEnergy() { return energy; }
@@ -68,11 +71,11 @@ public class CollectionsOutputData {
         this.plushToyCount = plushToyCount;
     }
 
-    public List<PetInfo> getPets()           { return pets; }
-    public int getCannedFoodCount()          { return cannedFoodCount; }
-    public int getKibbleCount()              { return kibbleCount; }
-    public int getHomeCookedCount()          { return homeCookedCount; }
-    public int getChewToyCount()             { return chewToyCount; }
-    public int getTossToyCount()             { return tossToyCount; }
-    public int getPlushToyCount()            { return plushToyCount; }
+    public List<PetInfo> getPets() { return pets; }
+    public int getCannedFoodCount() { return cannedFoodCount; }
+    public int getKibbleCount() { return kibbleCount; }
+    public int getHomeCookedCount() { return homeCookedCount; }
+    public int getChewToyCount() { return chewToyCount; }
+    public int getTossToyCount() { return tossToyCount; }
+    public int getPlushToyCount() { return plushToyCount; }
 }

@@ -1,12 +1,15 @@
 package game.view;
 
+import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.collections.CollectionsController;
 import game.interface_adapter.collections.CollectionsViewModel;
 import game.interface_adapter.collections.CollectionsState;
+import game.view.PetCardDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.BorderFactory;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,9 +22,17 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
     private final CollectionsViewModel viewModel;
     private CollectionsController controller;
 
+    private final ViewManagerModel viewManagerModel;
+    private final PetCardView petCardView;
+
+    private final JTabbedPane tabbedPane = new JTabbedPane();
+    private final JPanel collectionPanel = new JPanel(new BorderLayout());
+    private final JPanel petDetailPanel = new JPanel(new BorderLayout());
+
     private Image backgroundImage;
 
-    private final JPanel petsRowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 60, 10));
+    private final JPanel petsRowPanel = new JPanel(new GridLayout(0, 3, 60, 20));
+
 
     private final java.util.List<ItemCard> petCards = new java.util.ArrayList<>();
 
@@ -56,14 +67,15 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
             "Bengal"
     };
 
-    public CollectionsView(CollectionsViewModel viewModel,
-                           CollectionsController controller) {
+    public CollectionsView(CollectionsViewModel viewModel, CollectionsController controller,
+                           ViewManagerModel viewManagerModel, PetCardView petCardView) {
         this.viewModel = viewModel;
         this.controller = controller;
+        this.viewManagerModel = viewManagerModel;
+        this.petCardView = petCardView;
 
         this.viewModel.addPropertyChangeListener(this);
 
-        setPreferredSize(new Dimension(1080, 1400));
         setLayout(null);
 
         setLayout(new BorderLayout());
@@ -79,7 +91,6 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
 
         // ----- Pets section -----
         petsRowPanel.setOpaque(false);
-        petsRowPanel.setMinimumSize(new Dimension(0, 300));
         sections.add(makeSectionWithRow("Pets", petsRowPanel));
         sections.add(Box.createVerticalStrut(40));
 
@@ -109,13 +120,13 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
                 toyChewCard, toyTossCard, toyPlushCard));
         sections.add(Box.createVerticalStrut(40));
 
-        try {
-            backgroundImage = new ImageIcon(
-                    getClass().getResource("/images/MainBG.png")
-            ).getImage();
-        } catch (Exception e) {
-            System.out.println("Background image not found");
-        }
+//        try {
+//            backgroundImage = new ImageIcon(
+//                    getClass().getResource("/images/MainBG.png")
+//            ).getImage();
+//        } catch (Exception e) {
+//            System.out.println("Background image not found");
+//        }
 
         // Optional: top title / nav bar
         JLabel title = new JLabel("Collection");
@@ -135,10 +146,8 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        }
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, getWidth(), getHeight());
     }
 
     @Override
@@ -170,7 +179,17 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
                         "Lvl " + p.getLevel()
                 );
                 card.setProgress(p.getEnergy());
-                // card.setImageIcon(...); // TODO: Add image icon
+                if (p.getPetVisual() != null) {
+                    card.setImageIcon(p.getPetVisual());
+                }
+
+                CollectionsState.PetCardState petForListener = p;
+                card.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent e) {
+                        PetCardDialog.showForPet(CollectionsView.this, petForListener);
+                    }
+                });
 
                 petCards.add(card);
                 petsRowPanel.add(card);
@@ -223,7 +242,7 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
 
         JPanel row = new JPanel(new GridLayout(1, 3, 40, 0));
         row.setOpaque(false);
-        row.setPreferredSize(new Dimension(220, 200));
+        row.setPreferredSize(new Dimension(220, 280));
 
         row.add(card1);
         row.add(card2);
@@ -242,15 +261,23 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
         private final JLabel subtitleLabel;
         private final JLabel quantityLabel;
         private final JLabel levelLabel;
-        private final JProgressBar progressBar;
+        private final EnergyBar energyBar;
         private final boolean isPet;
 
         ItemCard(String name, String subtitle, String quantity) {
 
             setLayout(new BorderLayout());
-            setOpaque(false);
-            setPreferredSize(new Dimension(220, 280));   // consistent card size
+
+            setOpaque(true);
+            setBackground(Color.WHITE);
+
+            setPreferredSize(new Dimension(220, 280));
             setBorder(new EmptyBorder(10, 10, 10, 10));
+
+            setBorder(BorderFactory.createCompoundBorder(
+                    new LineBorder(new Color(200, 200, 200), 2, true),
+                    new EmptyBorder(16, 16, 16, 16)
+            ));
 
             circle = new CirclePlaceholder();
             JPanel circleWrapper = new JPanel(new GridBagLayout());
@@ -271,11 +298,17 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
             add(topRow, BorderLayout.CENTER);
 
             // is this card a pet?
-            isPet = Arrays.asList(petList).contains(name);
+            isPet = Arrays.asList(petList).contains(subtitle);
 
-            // bottom text
-            nameLabel = new JLabel(name);
-            subtitleLabel = new JLabel(subtitle);
+
+
+            String primary = (name == null || name.isBlank()) ? subtitle : name;
+            String secondary = (name == null || name.isBlank()) ? "" : subtitle;
+
+            nameLabel = new JLabel(primary);
+            subtitleLabel = new JLabel(secondary);
+
+
             levelLabel = new JLabel();
             levelLabel.setFont(levelLabel.getFont().deriveFont(Font.PLAIN, 12f));
 
@@ -284,8 +317,7 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
                 subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 levelLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-                // pets don’t use the quantity badge
-                quantityLabel.setVisible(false);
+                quantityLabel.setVisible(true);
             } else {
                 nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
                 subtitleLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -297,9 +329,8 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
             nameLabel.setForeground(new Color(40, 40, 40));
             subtitleLabel.setForeground(new Color(70, 70, 70));
 
-            progressBar = new JProgressBar(0, 100);
-            progressBar.setPreferredSize(new Dimension(80, 6));
-            progressBar.setValue(0);
+            energyBar = new EnergyBar();
+            energyBar.setPreferredSize(new Dimension(80, 6));
 
             JPanel bottom = new JPanel();
             bottom.setOpaque(false);
@@ -307,20 +338,23 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
             bottom.add(Box.createVerticalStrut(6));
             bottom.add(nameLabel);
             bottom.add(subtitleLabel);
-            bottom.add(levelLabel);
             bottom.add(Box.createVerticalStrut(6));
 
             JPanel barWrapper = new JPanel();
             barWrapper.setOpaque(false);
 
             if (isPet) {
-                progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
+                energyBar.setAlignmentX(Component.CENTER_ALIGNMENT);
                 barWrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
-                barWrapper.add(progressBar);
+                barWrapper.add(energyBar);
             } else {
                 barWrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
-                // no bar for non-pets
             }
+
+            JPanel header = new JPanel(new BorderLayout());
+            header.setOpaque(false);
+            header.add(levelLabel, BorderLayout.CENTER);
+            add(header, BorderLayout.NORTH);
 
             bottom.add(barWrapper);
             add(bottom, BorderLayout.SOUTH);
@@ -338,16 +372,50 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
 
         void setProgress(int percent) {
             if (isPet) {
-                progressBar.setValue(percent);
+                energyBar.setValue(percent);
             }
         }
 
         void setImageIcon(Icon icon) {
-            circle.setIcon(icon);
+            if (icon instanceof ImageIcon) {
+                Image img = ((ImageIcon) icon).getImage();
+                Image scaled = img.getScaledInstance(110, 110, Image.SCALE_SMOOTH);
+                circle.setIcon(new ImageIcon(scaled));
+            } else {
+                circle.setIcon(icon);
+            }
         }
     }
 
-    // Simple circle placeholder (will show image later)
+    // Simple energy bar: light green fill based on percentage
+    private static class EnergyBar extends JComponent {
+        private int value = 0; // 0–100
+
+        void setValue(int v) {
+            value = Math.max(0, Math.min(100, v));
+            repaint();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+
+            int w = getWidth();
+            int h = getHeight();
+            // background (optional very light gray)
+            g2.setColor(new Color(230, 230, 230));
+            g2.fillRect(0, 0, w, h);
+
+            // filled part
+            int filled = (int) (w * (value / 100.0));
+            g2.setColor(new Color(144, 238, 144)); // light green
+            g2.fillRect(0, 0, filled, h);
+
+            g2.dispose();
+        }
+    }
+
     private static class CirclePlaceholder extends JLabel {
 
         CirclePlaceholder() {
@@ -364,8 +432,6 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
             int x = (getWidth() - diameter) / 2;
             int y = (getHeight() - diameter) / 2;
 
-            g2.setColor(Color.WHITE);
-            g2.fillOval(x, y, diameter, diameter);
             g2.setColor(Color.GRAY);
             g2.setStroke(new BasicStroke(2f));
             g2.drawOval(x, y, diameter, diameter);

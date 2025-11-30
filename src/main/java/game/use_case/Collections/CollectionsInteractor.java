@@ -39,7 +39,7 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
                                 pet.getEnergyLevel(),
                                 pet.getAffectionXP(),
                                 pet.getSellingPrice(),
-                                null // Add Pet Fact here later.
+                                null // TODO: Add Pet Fact
                         );
                 petInfos.add(info);
             }
@@ -66,7 +66,7 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
 
             presenter.presentSuccess(output);
         } catch (Exception e) {
-            presenter.presentFailure("Failed to load collections.");
+            presenter.presentFailure("Failed to load collection.");
         }
     }
 }

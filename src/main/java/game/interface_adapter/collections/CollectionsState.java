@@ -1,11 +1,13 @@
 package game.interface_adapter.collections;
 
+import javax.swing.*;
 import java.util.List;
 
 public class CollectionsState {
 
     // Pets displayed in the Collections view (NOT entity objects)
     private List<PetCardState> pets;
+    private int selectedPetIndex = -1;
 
     // Item counts (already view-friendly data)
     private int cannedFoodCount;
@@ -45,22 +47,37 @@ public class CollectionsState {
     public int getPlushToyCount() { return plushToyCount; }
     public void setPlushToyCount(int v) { this.plushToyCount = v; }
 
+    public int getSelectedPetIndex() { return selectedPetIndex; }
+    public void setSelectedPetIndex(int i) { this.selectedPetIndex = i; }
+
+    public PetCardState getSelectedPet() {
+        if (pets == null || selectedPetIndex < 0 || selectedPetIndex >= pets.size()) {
+            return null;
+        }
+        return pets.get(selectedPetIndex);
+    }
+
+
     public String getErrorMessage() { return errorMessage; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
     // Inner DTO for each pet card
     public static class PetCardState {
-        private String name;        // "Buddy"
-        private String breed;       // "Golden Retriever"
-        private int level;          // 1,2,3...
-        private int energy;         // 0–100
-        private int affectionXp;    // xp points
-        private int sellingPrice;   // coins
-        private String fact;        // from API
+        private String name;
+        private ImageIcon petVisual;
+        private String breed;
+        private int level;
+        private int energy;
+        private int affectionXp;
+        private int sellingPrice;
+        private String fact;
 
         // getters/setters
         public String getName() { return name; }
         public void setName(String name) { this.name = name; }
+
+        public ImageIcon getPetVisual() { return petVisual; }
+        public void setPetVisual(ImageIcon petVisual) { this.petVisual = petVisual; }
 
         public String getBreed() { return breed; }
         public void setBreed(String breed) { this.breed = breed; }
