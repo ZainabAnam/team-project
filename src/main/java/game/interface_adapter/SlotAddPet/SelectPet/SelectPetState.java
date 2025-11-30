@@ -8,20 +8,22 @@ import game.entity.Slot;
 public class SelectPetState {
 
     // Identifies which slot was clicked
-    private Slot slot;
-
-    // Whether the slot is unlocked (used by the view)
-    private boolean unlocked;
-
-    // Whether the selected slot already has a pet
-    private boolean hasPet;
-
-    // Could be the pet name to show in the UI
-    private String petName;
-
-    // Error or status message the presenter wants to show
+    private boolean slotUnlocked;
     private String message;
 
-    public
+    // Setters
+    public void setSlotUnlocked(boolean slotUnlocked) {
+        this.slotUnlocked = slotUnlocked;
+    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
+    // Getters
+    public boolean isSlotUnlocked() {
+        return slotUnlocked;
+    }
+    public String Message() {
+        return message;
+    }
 }

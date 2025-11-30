@@ -7,8 +7,14 @@ import game.interface_adapter.ViewModel;
  */
 public class SelectPetViewModel extends ViewModel<SelectPetState> {
 
+    private final SelectPetState state = new SelectPetState();
+
     public SelectPetViewModel() {
         super("Select Pet");
         setState(new SelectPetState());
+    }
+
+    public SelectPetState getState() {
+        return state;
     }
 }
