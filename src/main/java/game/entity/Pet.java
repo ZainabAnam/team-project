@@ -37,10 +37,33 @@ public class Pet {
         return this.deployStatus == true;
     }
 
-    // add an empty image just for now
     public ImageIcon getPetVisual() {
-        return new ImageIcon();
+        if (petIcon != null) {
+            return petIcon;
+        }
+
+        try {
+            // construct the path to image file
+            String imagePath = "/images/Pet Images/" +
+                    petType + " Images/" +
+                    petBreed + " Icon.png";
+
+            // load the image from the file path
+            java.net.URL imageUrl = getClass().getResource(imagePath);
+
+            if (imageUrl != null) {
+                petIcon = new ImageIcon(imageUrl);
+            } else {
+                System.err.println("Image not found: " + imagePath);
+
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading image for " + petBreed + ": " + e.getMessage());
+        }
+        return petIcon;
+
     }
+
 
     private static class BreedData {
         final int baseEnergy;
@@ -187,6 +210,9 @@ public class Pet {
     public int getMaxEnergy() {
         BreedData data = BREED_DATA.getOrDefault(petBreed.toLowerCase(), new BreedData(5, 3, 5));
         return data.baseEnergy * 20;
+    }
+    public void setIsDeployed(boolean b) {
+        this.deployStatus = b;
     }
 
     public void setName(String name) {

@@ -10,8 +10,8 @@ public class SellPetController {
         this.sellPetUseCaseInteractor = sellPetUseCaseInteractor;
     }
 
-    public void execute(int petIndex, String username) {
-        SellPetInputData inputData = new SellPetInputData(petIndex, username);
+    public void execute(int petIndex) {
+        SellPetInputData inputData = new SellPetInputData(petIndex);
         sellPetUseCaseInteractor.execute(inputData);
     }
 }

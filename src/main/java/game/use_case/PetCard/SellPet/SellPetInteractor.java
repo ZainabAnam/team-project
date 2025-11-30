@@ -15,7 +15,7 @@ public class SellPetInteractor implements SellPetInputBoundary {
 
     @Override
     public void execute(SellPetInputData inputData) {
-        User user = userDataAccess.getUser(inputData.getUsername());
+        User user = userDataAccess.getCurrentUser();
 
         if (user == null) {
             outputBoundary.prepareFailView("User not found");

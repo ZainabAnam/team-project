@@ -10,13 +10,15 @@ public class SellPetDataAccessObject implements SellPetDataAccessInterface {
     }
 
     @Override
-    public User getUser(String username) {
+    public User getCurrentUser() {  // 改为 getCurrentUser
         return currentUser;
     }
 
     @Override
     public void saveUser(User user) {
         this.currentUser = user;
+        // code save to local file
+        // saveToJsonFile(user);
     }
 }
 
