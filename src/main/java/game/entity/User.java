@@ -96,9 +96,11 @@ public class User {
         public List<Pet> getPetInventory() {
             return new ArrayList<>(this.petInventory);
         }
+
         public HashMap<String, Integer> getItemsAmountList() {
             return new HashMap<>(this.itemsAmountList);
         }
+
         public HashMap<String, Item> getItemsList() {
             return new HashMap<>(this.itemsList);
         }
@@ -115,12 +117,15 @@ public class User {
             this.clickBonus=Constants.CLICKBONUS_INCREASE_BASE*this.clickBonusTime;
             this.clickBonusTime+=1;
         }
+
         public int getClickBonus() {
             return this.clickBonus;
         }
+
         public int getClickBonusTime(){
             return this.clickBonusTime;
         }
+
 
         //pre: the unlockPetSlot should be less than 5
         public int getCurrentUpgradePrice(){
@@ -139,13 +144,57 @@ public class User {
 
         //helper method for unlockPetSlot
         public int getCurrentUnlockSlotPrice(){
+            // Price increases with each unlock: 100, 200, 300 for slots 3, 4, 5
             return (this.unlockedSlots - Constants.INITIAL_SLOTS + 1) * Constants.UNLOCK_SLOT_BASE_PRICE;
         }
+
         public int getUnlockedSlots() {
             return this.unlockedSlots;
         }
 
-        public void setCoins(int coins){this.coinCount=coins;}
+        public boolean sellPet(Pet pet) {
+            if (pet == null || !petInventory.contains(pet)) {
+                return false; // No pet in your Inventory
+            }
+
+            if (pet.isDeployed()) {
+                return false; //Cannot sell a Deployed pet
+            }
+
+            // Pet removed and user earned coins
+            petInventory.remove(pet);
+            this.coinCount += pet.getSellingPrice();
+            return true;
+        }
+        //Sell your pet based on the index
+        public int sellPetByIndex(int petIndex) {
+            if (petIndex < 0 || petIndex >= petInventory.size()) {
+                return -1; // Invalid index
+            }
+
+            Pet pet = petInventory.get(petIndex);
+                if (pet.isDeployed()) {
+                    return -1; // Pet is deployed
+                }
+
+                int sellingPrice = pet.getSellingPrice();
+                petInventory.remove(petIndex);
+                this.coinCount += sellingPrice;
+                return sellingPrice;
+    }
+        // Sell your pet based on their name
+        public int sellPetByName(String petName) {
+            for (int i = 0; i < petInventory.size(); i++) {
+                Pet pet = petInventory.get(i);
+                if (pet.getName().equals(petName) && !pet.isDeployed()) {
+                    int sellingPrice = pet.getSellingPrice();
+                    petInventory.remove(i);
+                    this.coinCount += sellingPrice;
+                    return sellingPrice;
+                }
+            }
+            return -1; // Pet not found or it's deployed
+        }
 
         public void addCoins(int coins) {
             this.coinCount += coins;
@@ -159,5 +208,18 @@ public class User {
             return this.coinCount;
         }
 
+    public boolean canSellPet(Pet pet) {
+        return pet != null &&
+                petInventory.contains(pet) &&
+                !pet.isDeployed();
+    }
+    public boolean canSellPet(int petIndex) {
+        if (petIndex < 0 || petIndex >= petInventory.size()) {
+            return false;
+        }
+        Pet pet = petInventory.get(petIndex);
+        return !pet.isDeployed();
+    }
 
-}
+
+    }
