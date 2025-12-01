@@ -73,7 +73,7 @@ public class AppBuilder {
     final ViewManagerModel viewManagerModel = new ViewManagerModel();
     ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private MainView mainView;
+//    private MainView mainView;
     private MainViewModel mainViewModel;
     private MainPresenter mainPresenter;
     private MainController mainController;

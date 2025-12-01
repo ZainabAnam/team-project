@@ -30,7 +30,9 @@ public class Main {
                 .addShopUseCases()
                 .addRenamePetView()
                 .addSellPetView()
-                .build();
+                .addCollectionsView();
+
+                JFrame app = builder.build();
 
         app.setSize(1000, 800);
         app.setLocationRelativeTo(null);

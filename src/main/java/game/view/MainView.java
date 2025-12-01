@@ -92,7 +92,6 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
 
         menuButtons.setBounds(55, 480, 610, 50);
         add(menuButtons);
-    }
 
         clicker.addActionListener(
                 new ActionListener() {
@@ -105,11 +104,12 @@ public class MainView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
-
-
-    public String getViewName() {
-        return viewName;
     }
+
+
+//    public String getViewName() {
+//        return viewName;
+//    }
 
     private JButton getClicker() {
         final JButton clicker = new JButton();
