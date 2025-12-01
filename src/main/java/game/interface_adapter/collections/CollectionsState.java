@@ -20,7 +20,6 @@ public class CollectionsState {
 
     private String errorMessage;
 
-    // ----- Getters / Setters -----
     public List<PetCardState> getPets() {
         return pets;
     }
@@ -61,7 +60,6 @@ public class CollectionsState {
     public String getErrorMessage() { return errorMessage; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
-    // Inner DTO for each pet card
     public static class PetCardState {
         private String name;
         private ImageIcon petVisual;
@@ -74,7 +72,6 @@ public class CollectionsState {
         private String type;
         private int clickingSpeed;
 
-        // getters/setters
         public String getName() { return name; }
         public void setName(String name) { this.name = name; }
 

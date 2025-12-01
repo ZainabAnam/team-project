@@ -26,8 +26,6 @@ public class PetCardDialog extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        setPreferredSize(new Dimension(380, 520));
-
         buildUI();
         fillFromPet(pet);
         pack();
@@ -128,7 +126,7 @@ public class PetCardDialog extends JDialog {
         root.add(Box.createVerticalStrut(16));
 
         // Row 6: “Did you know?” line, then fact below – both left aligned
-        JPanel factRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel factRow = new JPanel(new BorderLayout());
         factRow.setOpaque(false);
 
         JPanel factColumn = new JPanel();
@@ -148,9 +146,9 @@ public class PetCardDialog extends JDialog {
         factColumn.add(didYouKnowLabel);
         factColumn.add(factLabel);
 
-        factRow.add(factColumn);
+        factColumn.setAlignmentX(Component.LEFT_ALIGNMENT);
+        factRow.add(factColumn, BorderLayout.CENTER);
 
-        // make the row itself left-aligned within root
         factRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         root.add(factRow);
@@ -170,7 +168,7 @@ public class PetCardDialog extends JDialog {
             factLabel.setText("No fact available.");
         } else {
             factLabel.setText(
-                    "<html><div style='text-align: left; width: 260px;'>"
+                    "<html><div style='text-align: left; width: 320px;'>"
                             + fact
                             + "</div></html>"
             );

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class CollectionsOutputData {
 
-    // ---------- DTO for one pet ----------
     public static class PetInfo {
         private final String name;
         private final ImageIcon petVisual;
@@ -53,7 +52,6 @@ public class CollectionsOutputData {
         public String getType() { return type; }
     }
 
-    // ---------- Fields for the whole screen ----------
     private final List<PetInfo> pets;
 
     private final int cannedFoodCount;
