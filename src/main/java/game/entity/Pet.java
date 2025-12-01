@@ -164,4 +164,8 @@ public class Pet {
     public int getClickingSpeed() {
         return this.clickingSpeed;
     }
+
+//    public void increaseAffectionLevel() {
+//        this.affectionLevel++;
+//    }
 }

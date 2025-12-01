@@ -28,11 +28,13 @@ public class Main {
                 .addMainUseCases()
                 .addShopView()
                 .addShopUseCases()
+                .addCollectionsView()
+                .addPetCardUseCases()
                 .addRenamePetView()
                 .addSellPetView()
                 .addCollectionsView();
 
-                JFrame app = builder.build();
+        JFrame app = builder.build();
 
         app.setSize(1000, 800);
         app.setLocationRelativeTo(null);
