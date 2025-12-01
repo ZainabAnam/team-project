@@ -61,6 +61,10 @@ public class Pet {
         this.affectionXP += amount;
     }
 
+    public void  increaseAffectionLevel() {
+        this.affectionLevel++;
+    }
+
     public void increaseEnergyLevel(int amount) {
         this.energyLevel += amount;
     }

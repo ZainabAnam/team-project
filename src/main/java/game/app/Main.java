@@ -25,6 +25,7 @@ public class Main {
 
         AppBuilder builder = new AppBuilder()
                 .addMainView()
+                .addMainUseCases()
                 .addShopView()
                 .addShopUseCases()
                 .addRenamePetView()
