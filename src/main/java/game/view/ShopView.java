@@ -470,6 +470,7 @@ public class ShopView extends JPanel implements ActionListener, PropertyChangeLi
                     // Close dialog and navigate to pet naming 
                     // TODO: navigate to pet naming
                     lootDialog.dispose();
+
                 }
             }
         });

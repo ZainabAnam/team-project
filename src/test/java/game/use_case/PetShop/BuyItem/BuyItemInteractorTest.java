@@ -29,10 +29,10 @@ public class BuyItemInteractorTest {
         assertTrue(outputBoundary.lastOutputData.isSuccess());
 
         //make sure the user is changing correctly
-        assertEquals(100-Constants.PET_FOOD_BASIC_PRICE, dataAccess.getUser().getCoinCount()); 
+        assertEquals(100-Constants.PET_FOOD_BASIC_PRICE, dataAccess.getUser().getCoinCount());
         assertEquals(1, dataAccess.getUser().getItemsAmountList().get("Kibble"));
     }
-    
+
     /**
      * Test item purchase with insufficient coins.
      */
@@ -41,12 +41,12 @@ public class BuyItemInteractorTest {
         dataAccess.getUser().setCoins(5);
 
         interactor.execute(new BuyItemInputData("Kibble"));
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.INSUFFICIENT_COINS, outputBoundary.lastOutputData.getMessage());
         assertEquals("Kibble", outputBoundary.lastOutputData.getItemName());
         assertFalse(outputBoundary.lastOutputData.isSuccess());
-        
+
         //make sure the user is changing correctly
         assertEquals(5, dataAccess.getUser().getCoinCount());
         assertEquals(0, dataAccess.getUser().getItemsAmountList().get("Kibble"));
@@ -62,7 +62,7 @@ public class BuyItemInteractorTest {
         assertEquals(5, dataAccess.getUser().getCoinCount());
         assertEquals(0, dataAccess.getUser().getItemsAmountList().get("Plush Toy"));
     }
-    
+
     /**
      * Test buying different item types.
      */
