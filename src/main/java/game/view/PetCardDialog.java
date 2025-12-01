@@ -1,7 +1,6 @@
 package game.view;
 
 import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
-import game.interface_adapter.PetCard.PetCardController;
 import game.interface_adapter.PetCard.PetCardState;
 import game.interface_adapter.PetCard.PetCardViewModel;
 import game.interface_adapter.ViewManagerModel;
