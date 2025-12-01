@@ -30,7 +30,7 @@ public class IncreaseAffectionInteractor implements IncreaseAffectionInputBounda
                     pet.increaseAffectionXP(inputData.getAffectionIncrease());
                     if ((pet.getAffectionXP() % 10 == 0) || (pet.getAffectionXP() != Constants.INITIAL_AFFECTION_XP) ||
                             (pet.getAffectionLevel() != Constants.MAX_AFFECTION_LEVEL)) {
-                        pet.increaseAffectionLevel();
+                        // pet.increaseAffectionLevel();
                         pet.upgradeClickSpeed();
                     }
                     final IncreaseAffectionOutputData outputData = new IncreaseAffectionOutputData(pet.getAffectionXP(),

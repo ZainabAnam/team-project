@@ -71,6 +71,8 @@ public class CollectionsState {
         private int affectionXp;
         private int sellingPrice;
         private String fact;
+        private String type;
+        private int clickingSpeed;
 
         // getters/setters
         public String getName() { return name; }
@@ -96,5 +98,11 @@ public class CollectionsState {
 
         public String getFact() { return fact; }
         public void setFact(String fact) { this.fact = fact; }
+
+        public int getClickingSpeed() { return this.clickingSpeed; }
+        public void setClickingSpeed(int clickingSpeed) { this.clickingSpeed = clickingSpeed; }
+
+        public String getType() { return this.type; }
+        public void setType(String type) { this.type = type; }
     }
 }

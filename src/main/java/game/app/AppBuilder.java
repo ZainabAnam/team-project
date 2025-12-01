@@ -1,5 +1,8 @@
 package game.app;
 
+import game.data_access.CatApiPetFactDataAccessObject;
+import game.data_access.CompositePetFactDataAccessObject;
+import game.data_access.DogApiPetFactDataAccessObject;
 import game.entity.Pet;
 import game.entity.User;
 import game.interface_adapter.ViewManagerModel;
@@ -11,6 +14,7 @@ import game.interface_adapter.shop.ShopPresenter;
 import game.use_case.Collections.CollectionsDataAccessInterface;
 import game.use_case.Collections.CollectionsInputBoundary;
 import game.use_case.Collections.CollectionsInteractor;
+import game.use_case.GetPetFact.PetFactDataAccessInterface;
 import game.view.CollectionsView;
 import game.view.MainView;
 import game.view.PetCardView;
@@ -48,6 +52,7 @@ public class AppBuilder {
     private CollectionsPresenter collectionsPresenter;
     private CollectionsController collectionsController;
     private CollectionsDataAccessInterface collectionsDataAccessObject;
+    private PetFactDataAccessInterface petFactGateway;
 
     private PetCardView petCardView;
 
@@ -115,9 +120,14 @@ public class AppBuilder {
             }
         };
 
+        petFactGateway = new CompositePetFactDataAccessObject(
+                new DogApiPetFactDataAccessObject(),
+                new CatApiPetFactDataAccessObject()
+        );
+
         // 3. Interactor + Controller
         CollectionsInputBoundary interactor =
-                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject);
+                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject, petFactGateway);
         collectionsController = new CollectionsController(interactor);
 
         petCardView = new PetCardView(collectionsViewModel);
@@ -166,12 +176,17 @@ public class AppBuilder {
         User u = new User();
 
         // Add pets
-        Pet p1 = new Pet("Common", "Golden Retriever", goldenIcon);
-        Pet p2 = new Pet("Elite", "German Shepherd", shephredIcon);
-        Pet p3 = new Pet("Common", "Poodle", poodleIcon);
-        Pet p4 = new Pet("Common", "Boxer", boxerIcon);
-        Pet p5 = new Pet("Elite", "Sphynx", sphynxIcon);
-        Pet p6 = new Pet("Common", "American Shorthair", americanShorthairIcon);
+        Pet p1 = new Pet("Dog", "Golden Retriever", "Common", 100, 5, 10, goldenIcon);
+        Pet p2 = new Pet("Dog", "German Shepherd", "Elite", 100, 5, 10, shephredIcon);
+        Pet p3 = new Pet("Dog", "Poodle", "Common", 100, 5, 10, poodleIcon);
+        Pet p4 = new Pet("Dog", "Boxer", "Common", 100, 5, 10, boxerIcon);
+        Pet p5 = new Pet("Cat", "Sphynx", "Elite", 100, 5, 10, sphynxIcon);
+        Pet p6 = new Pet("Cat", "American Shorthair", "Common", 100, 5, 10, americanShorthairIcon);
+
+        
+        for (int i = 0; i < 10 ; i++) {
+            p1.depleteEnergy();
+        }
 
         p1.setName("Max");
         p2.setName("Rex");
@@ -179,10 +194,6 @@ public class AppBuilder {
         p4.setName("Kieser");
         p5.setName("Belle");
         p6.setName("Sprinkles");
-        
-        for (int i = 0; i < 10 ; i++) {
-            p1.depleteEnergy();
-        }
 
         u.addToPetInventory(p1);
         u.addToPetInventory(p2);
