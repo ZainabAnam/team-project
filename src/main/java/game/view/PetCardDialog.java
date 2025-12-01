@@ -40,13 +40,13 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         // roughly “card sized”
         setPreferredSize(new Dimension(380, 520));
 
-        buildUI();
+        buildUI(pet);
         fillFromPet(pet);
         pack();
         setLocationRelativeTo(owner);
     }
 
-    private void buildUI() {
+    private void buildUI(CollectionsState.PetCardState pet) {
         JPanel root = new JPanel(new BorderLayout());
         root.setBorder(new EmptyBorder(16, 16, 16, 16));
         root.setBackground(Color.WHITE);
@@ -106,6 +106,33 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         JButton feedButton = new JButton("Feed");
         buttons.add(feedButton);
 
+        JPopupMenu foodPopup = new JPopupMenu();
+        JMenuItem kibbleItem = new JMenuItem("Kibble");
+        foodPopup.add(kibbleItem);
+        JMenuItem cannedFoodItem = new JMenuItem("Canned Food");
+        foodPopup.add(cannedFoodItem);
+        JMenuItem homeCookedItem = new JMenuItem("Home-Cooked");
+        foodPopup.add(homeCookedItem);
+
+        feedButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(feedButton)) {
+                            foodPopup.show(feedButton, 0, feedButton.getHeight());
+                        }
+                    }
+                });
+        ActionListener feedListener = evt -> {
+            String food = evt.getActionCommand();
+            increaseEnergyController.execute(pet, food);
+        };
+
+        kibbleItem.addActionListener(feedListener);
+        cannedFoodItem.addActionListener(feedListener);
+        homeCookedItem.addActionListener(feedListener);
+
+
+
         JButton playButton = new JButton("Play");
         buttons.add(playButton);
 
@@ -114,6 +141,15 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         bottom.add(buttons);
 
         root.add(bottom, BorderLayout.SOUTH);
+
+        JPopupMenu toyPopup = new JPopupMenu();
+        JMenuItem chewToyItem = new JMenuItem("Chew Toy");
+        toyPopup.add(chewToyItem);
+        JMenuItem tossToyItem = new JMenuItem("Toss Toy");
+        toyPopup.add(tossToyItem);
+        JMenuItem plushToyItem = new JMenuItem("Plush Toy");
+        toyPopup.add(plushToyItem);
+
     }
 
     private void fillFromPet(CollectionsState.PetCardState pet) {
