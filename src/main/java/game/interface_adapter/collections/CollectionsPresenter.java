@@ -35,6 +35,8 @@ public class CollectionsPresenter implements CollectionsOutputBoundary {
             card.setAffectionXp(pet.getAffectionXp());
             card.setSellingPrice(pet.getSellingPrice());
             card.setFact(pet.getFact());
+            card.setClickingSpeed(pet.getClickingSpeed());
+            card.setType(pet.getType());
 
             petCards.add(card);
         }
