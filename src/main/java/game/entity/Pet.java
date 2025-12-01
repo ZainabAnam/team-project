@@ -20,13 +20,13 @@ public class Pet {
 
     final String petType;
     final String petBreed;
-    
+
     final String tier;
     final int baseEnergy;
     final int baseClick;
     final int baseRecovery;
-//  final String visualURL;
-    final ImageIcon petIcon;
+    //  final String visualURL;
+    ImageIcon petIcon;
     int affectionXP;
     int affectionLevel;
     int energyLevel;
@@ -114,7 +114,27 @@ public class Pet {
     public int getEnergyLevel() {return this.energyLevel;}
 
     public ImageIcon getPetVisual() {
-        return this.petIcon;
+        if (petIcon != null) {
+            return petIcon;
+        }
+
+        try {
+            String imagePath = "/images/Pet Images/" +
+                    petType + " Images/" +
+                    petBreed + " Icon.png";
+
+            java.net.URL imageUrl = getClass().getResource(imagePath);
+
+            if (imageUrl != null) {
+                petIcon = new ImageIcon(imageUrl);
+            } else {
+                System.err.println("Image not found: " + imagePath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading image for " + petBreed + ": " + e.getMessage());
+        }
+
+        return petIcon;
     }
 
     public boolean isDeployed() {return this.isDeployed;}

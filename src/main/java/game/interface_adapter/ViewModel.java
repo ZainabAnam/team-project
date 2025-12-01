@@ -4,12 +4,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * The ViewModel class for the game.
- *
  * @param <T> The type of state object contained in the model.
  */
 public class ViewModel<T> {
-
     private final String viewName;
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
@@ -56,4 +53,5 @@ public class ViewModel<T> {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.support.addPropertyChangeListener(listener);
     }
+
 }
