@@ -25,18 +25,18 @@ public class UnlockSlotInteractorTest {
 
         int storeCurrentPrice = dataAccess.getUser().getCurrentUnlockSlotPrice();
         interactor.execute(new UnlockSlotInputData());
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.UNLOCK_SUCCESS, outputBoundary.lastOutputData.getMessage());
         assertTrue(outputBoundary.lastOutputData.isSuccess());
         assertEquals(initialSlots, outputBoundary.lastOutputData.getBeforeSlots());
         assertEquals(initialSlots + 1, outputBoundary.lastOutputData.getAfterSlots());
-        
+
         //make sure the user is changing correctly
-        assertEquals(150-storeCurrentPrice, dataAccess.getUser().getCoinCount()); 
+        assertEquals(150-storeCurrentPrice, dataAccess.getUser().getCoinCount());
         assertEquals(initialSlots + 1, dataAccess.getUser().getUnlockedSlots());
     }
-    
+
     /**
      * Test slot unlock with insufficient coins.
      */
@@ -44,20 +44,20 @@ public class UnlockSlotInteractorTest {
     public void testUnlockSlotInsufficientCoins() {
         dataAccess.getUser().setCoins(50);
         int initialSlots = dataAccess.getUser().getUnlockedSlots();
-        
+
         interactor.execute(new UnlockSlotInputData());
-        
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.INSUFFICIENT_COINS, outputBoundary.lastOutputData.getMessage());
         assertFalse(outputBoundary.lastOutputData.isSuccess());
         assertEquals(initialSlots, outputBoundary.lastOutputData.getBeforeSlots());
         assertEquals(initialSlots, outputBoundary.lastOutputData.getAfterSlots());
-        
+
         //make sure the user is changing correctly
         assertEquals(50, dataAccess.getUser().getCoinCount());
         assertEquals(initialSlots, dataAccess.getUser().getUnlockedSlots());
     }
-    
+
     /**
      * Test slot unlock at max slots.
      */

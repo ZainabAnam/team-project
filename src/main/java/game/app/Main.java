@@ -25,11 +25,12 @@ public class Main {
 
         AppBuilder builder = new AppBuilder()
                 .addMainView()
+                .addMainUseCases()
                 .addShopView()
                 .addShopUseCases()
-                .addCollectionsView();
-
-        JFrame app = builder.build();
+                .addRenamePetView()
+                .addSellPetView()
+                .build();
 
         app.setSize(1000, 800);
         app.setLocationRelativeTo(null);
