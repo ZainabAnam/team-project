@@ -20,22 +20,28 @@ import java.beans.PropertyChangeListener;
 public class PetCardDialog extends JDialog implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "pet card";
+    private final PetCardViewModel petCardViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     private final JLabel nameLabel = new JLabel();
     private final JLabel breedLabel = new JLabel();
     private final JLabel levelLabel = new JLabel();
     private final JLabel energyLabel = new JLabel();
     private final JLabel imageLabel = new JLabel();
+    private final JLabel affectionLabel = new JLabel();
 
     private final EnergyBar energyBar = new EnergyBar();
 
     private IncreaseAffectionController increaseAffectionController;
     private IncreaseEnergyController increaseEnergyController;
 
-    public PetCardDialog(Window owner, CollectionsState.PetCardState pet) {
+    public PetCardDialog(Window owner, CollectionsState.PetCardState pet, PetCardViewModel petCardViewModel, ViewManagerModel viewManagerModel) {
         super(owner, "Pet Details", ModalityType.APPLICATION_MODAL);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
+        this.petCardViewModel = petCardViewModel;
+        this.petCardViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         // roughly “card sized”
         setPreferredSize(new Dimension(380, 520));
@@ -122,7 +128,8 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
                         }
                     }
                 });
-        ActionListener feedListener = evt -> {
+        ActionListener feedListener;
+        feedListener = evt -> {
             String food = evt.getActionCommand();
             increaseEnergyController.execute(pet, food);
         };
@@ -136,12 +143,6 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         JButton playButton = new JButton("Play");
         buttons.add(playButton);
 
-        buttons.add(new JButton("Sell"));
-
-        bottom.add(buttons);
-
-        root.add(bottom, BorderLayout.SOUTH);
-
         JPopupMenu toyPopup = new JPopupMenu();
         JMenuItem chewToyItem = new JMenuItem("Chew Toy");
         toyPopup.add(chewToyItem);
@@ -149,6 +150,28 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         toyPopup.add(tossToyItem);
         JMenuItem plushToyItem = new JMenuItem("Plush Toy");
         toyPopup.add(plushToyItem);
+
+        playButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(playButton)) {
+                            toyPopup.show(playButton, 0, playButton.getHeight());
+                        }
+                    }
+                });
+
+        ActionListener playListener;
+        playListener = evt -> {
+            String toy = evt.getActionCommand();
+            increaseAffectionController.execute(pet, toy);
+        };
+
+
+        buttons.add(new JButton("Sell"));
+
+        bottom.add(buttons);
+
+        root.add(bottom, BorderLayout.SOUTH);
 
     }
 
@@ -184,8 +207,12 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
 
     public static void showForPet(Component parent, CollectionsState.PetCardState pet) {
         Window owner = SwingUtilities.getWindowAncestor(parent);
-        PetCardDialog dialog = new PetCardDialog(owner, pet);
+        PetCardDialog dialog = new PetCardDialog(owner, pet, new PetCardViewModel(), new ViewManagerModel());
         dialog.setVisible(true);
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 
     public void setAffectionController(IncreaseAffectionController increaseAffectionController) {
@@ -195,6 +222,36 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
     public void setEnergyController(IncreaseEnergyController increaseEnergyController) {
         this.increaseEnergyController = increaseEnergyController;
     }
+
+    private void updateEnergy() {
+        final PetCardState state = petCardViewModel.getState();
+        energyLabel.setText("Energy: " + state.getNewEnergyLevel() + "%");
+        energyBar.setValue(state.getNewEnergyLevel());
+    }
+
+    private void updateAffectionXPAndLevel() {
+        final PetCardState state = petCardViewModel.getState();
+        affectionLabel.setText("Affection XP: " + state.getNewAffectionXP() + "/30");
+        levelLabel.setText("Lvl " + state.getNewPetLevel());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println(evt.getActionCommand());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (!evt.getPropertyName().equals("state")) {
+            return;
+        }
+        else {
+            final PetCardState state = (PetCardState) evt.getNewValue();
+            updateEnergy();
+            updateAffectionXPAndLevel();
+        }
+    }
+
 
     private static class EnergyBar extends JComponent {
         private int value = 0;

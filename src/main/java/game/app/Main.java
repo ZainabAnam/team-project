@@ -27,7 +27,8 @@ public class Main {
                 .addMainView()
                 .addShopView()
                 .addShopUseCases()
-                .addCollectionsView();
+                .addCollectionsView()
+                .addPetCardUseCases();
 
         JFrame app = builder.build();
 

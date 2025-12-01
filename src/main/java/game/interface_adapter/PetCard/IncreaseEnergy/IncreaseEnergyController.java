@@ -28,6 +28,6 @@ public class IncreaseEnergyController {
         }
 
         final IncreaseEnergyInputData inputData = new IncreaseEnergyInputData(petName, energyIncrease);
-        this.interactor.execute(inputData);
+        interactor.execute(inputData);
     }
 }

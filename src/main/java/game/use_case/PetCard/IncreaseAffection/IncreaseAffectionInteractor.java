@@ -18,27 +18,25 @@ public class IncreaseAffectionInteractor implements IncreaseAffectionInputBounda
 
     @Override
     public void execute(IncreaseAffectionInputData inputData) {
-        if (!dAO.userExists(inputData.getUserID())) {
-            userPresenter.prepareFailView("Affection error.");
-        }
-        else {
-            final User user = dAO.getUser(inputData.getUserID());
-            final List<Pet> petInventory = user.getPetInventory();
-            final String petName = inputData.getPetName();
-            for (Pet pet : petInventory) {
+
+        try {
+            String petName = inputData.getPetName();
+            User user = dAO.getUser();
+            List<Pet> petList = user.getPetInventory();
+            for (Pet pet : petList) {
                 if (petName.equals(pet.getName())) {
                     pet.increaseAffectionXP(inputData.getAffectionIncrease());
-                    if ((pet.getAffectionXP() % 10 == 0) || (pet.getAffectionXP() != Constants.INITIAL_AFFECTION_XP) ||
+                    if ((pet.getAffectionXP() % 10 == 0) && (pet.getAffectionXP() != Constants.INITIAL_AFFECTION_XP) &&
                             (pet.getAffectionLevel() != Constants.MAX_AFFECTION_LEVEL)) {
                         pet.increaseAffectionLevel();
                         pet.upgradeClickSpeed();
                     }
-                    final IncreaseAffectionOutputData outputData = new IncreaseAffectionOutputData(pet.getAffectionXP(),
-                            pet.getAffectionLevel());
+                    final IncreaseAffectionOutputData outputData = new IncreaseAffectionOutputData(pet.getAffectionXP(), pet.getAffectionLevel());
                     userPresenter.prepareSuccessView(outputData);
                 }
             }
-            userPresenter.prepareFailView("Affection error.");
+        } catch (Exception e) {
+            userPresenter.prepareFailView("Pet not found");
         }
     }
 }

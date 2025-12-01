@@ -1,7 +1,13 @@
 package game.app;
 
+import game.data_access.PetCardDataAccessObject;
 import game.entity.Pet;
 import game.entity.User;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionController;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionPresenter;
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyPresenter;
+import game.interface_adapter.PetCard.PetCardViewModel;
 import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.collections.CollectionsController;
 import game.interface_adapter.collections.CollectionsPresenter;
@@ -11,10 +17,11 @@ import game.interface_adapter.shop.ShopPresenter;
 import game.use_case.Collections.CollectionsDataAccessInterface;
 import game.use_case.Collections.CollectionsInputBoundary;
 import game.use_case.Collections.CollectionsInteractor;
-import game.view.CollectionsView;
-import game.view.MainView;
-import game.view.ShopView;
-import game.view.ViewManager;
+import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInputBoundary;
+import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInteractor;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInputBoundary;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInteractor;
+import game.view.*;
 import game.use_case.PetShop.ShopController;
 import game.use_case.PetShop.BuyItem.*;
 import game.use_case.PetShop.BuyLootBox.*;
@@ -47,6 +54,15 @@ public class AppBuilder {
     private CollectionsPresenter collectionsPresenter;
     private CollectionsController collectionsController;
     private CollectionsDataAccessInterface collectionsDataAccessObject;
+
+    private PetCardDialog petCardView;
+    private PetCardViewModel petCardViewModel;
+    private IncreaseEnergyPresenter  increaseEnergyPresenter;
+    private IncreaseEnergyController  increaseEnergyController;
+    private IncreaseAffectionPresenter increaseAffectionPresenter;
+    private IncreaseAffectionController increaseAffectionController;
+    private PetCardDataAccessObject  petCardDataAccessObject;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -132,6 +148,23 @@ public class AppBuilder {
         cardPanel.add(scrollPane, CollectionsViewModel.VIEW_NAME);
 
         collectionsView.load();
+
+        return this;
+    }
+
+    public AppBuilder addPetCardUseCases() {
+        petCardDataAccessObject = new PetCardDataAccessObject();
+        increaseEnergyPresenter = new IncreaseEnergyPresenter(viewManagerModel, petCardViewModel,  petCardDataAccessObject);
+        increaseAffectionPresenter = new IncreaseAffectionPresenter(viewManagerModel, petCardViewModel,  petCardDataAccessObject);
+
+        IncreaseEnergyInputBoundary increaseEnergyInteractor = new IncreaseEnergyInteractor(petCardDataAccessObject, increaseEnergyPresenter);
+        IncreaseAffectionInputBoundary increaseAffectionInteractor = new IncreaseAffectionInteractor(petCardDataAccessObject, increaseAffectionPresenter);
+
+        increaseEnergyController = new IncreaseEnergyController(increaseEnergyInteractor);
+        increaseAffectionController = new IncreaseAffectionController(increaseAffectionInteractor);
+
+        petCardView.setEnergyController(increaseEnergyController);
+        petCardView.setAffectionController(increaseAffectionController);
 
         return this;
     }

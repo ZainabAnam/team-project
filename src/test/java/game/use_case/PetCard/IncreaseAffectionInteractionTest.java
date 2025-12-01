@@ -28,7 +28,7 @@ public class IncreaseAffectionInteractionTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-        increaseAffectionInteractor.execute(new IncreaseAffectionInputData("test", "Max", 1));
+        increaseAffectionInteractor.execute(new IncreaseAffectionInputData(pet.getName(), 1));
         assertEquals(1, pet.getAffectionXP());
     }
 
@@ -40,7 +40,7 @@ public class IncreaseAffectionInteractionTest {
                 imageIcon);
         pet.setName("Max");
         // toy wasn't/couldn't be used to increase affection
-        increaseAffectionInteractor.execute(new IncreaseAffectionInputData("test", "Max", 0));
+        increaseAffectionInteractor.execute(new IncreaseAffectionInputData(pet.getName(), 0));
         assertEquals(0, pet.getAffectionXP());
     }
 
@@ -48,13 +48,8 @@ public class IncreaseAffectionInteractionTest {
         private User user = new User();
 
         @Override
-        public User getUser(String userID) {
+        public User getUser() {
             return user;
-        }
-
-        @Override
-        public Boolean userExists(String userID) {
-            return user != null;
         }
     }
 
