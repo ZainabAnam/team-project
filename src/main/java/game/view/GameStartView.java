@@ -3,6 +3,7 @@ package game.view;
 import game.interface_adapter.GameStart.GameStartController;
 import game.interface_adapter.GameStart.GameStartState;
 import game.interface_adapter.GameStart.GameStartViewModel;
+import game.interface_adapter.main_page.MainViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,17 +16,17 @@ import java.beans.PropertyChangeListener;
  * The view for the game start screen.
  */
 public class GameStartView extends JFrame implements ActionListener, PropertyChangeListener {
-
     private final String viewName = "start screen";
+
     private final GameStartViewModel loadViewModel;
+    private GameStartController gameStartController;
     private final JButton newGameButton;
     private final JButton loadButton;
-    private GameStartController loadController = null;
 
-    public GameStartView(GameStartViewModel loadViewModel) {
-
+    public GameStartView(GameStartViewModel loadViewModel, GameStartController gameStartController) {
         this.loadViewModel = loadViewModel;
         this.loadViewModel.addPropertyChangeListener(this);
+        this.gameStartController = gameStartController;
 
         setTitle("Pet Clicker");
         setSize(360, 270);
@@ -33,10 +34,10 @@ public class GameStartView extends JFrame implements ActionListener, PropertyCha
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel main = new JPanel();
+        final JPanel main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("Pet Clicker");
+        final JLabel title = new JLabel("Pet Clicker");
         title.setFont(new Font("Arial", Font.BOLD, 28));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -60,8 +61,7 @@ public class GameStartView extends JFrame implements ActionListener, PropertyCha
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource().equals(newGameButton)) {
-                        final GameStartState currentState = loadViewModel.getState();
-                        loadController.newGameExecute();
+                        gameStartController.newGameExecute();
                     }
                 }
             }
@@ -71,8 +71,7 @@ public class GameStartView extends JFrame implements ActionListener, PropertyCha
             new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource().equals(loadButton)) {
-                        final GameStartState currentState = loadViewModel.getState();
-                        loadController.loadGameExecute();
+                        gameStartController.loadGameExecute();
                     }
                 }
             }
@@ -88,11 +87,16 @@ public class GameStartView extends JFrame implements ActionListener, PropertyCha
     public void propertyChange(PropertyChangeEvent evt) {
         final GameStartState state = loadViewModel.getState();
         if (state.isLoadSuccessful()) {
-            MainView mainView = new MainView();
+            MainViewModel mainViewModel = new MainViewModel();
+            MainView mainView = new MainView(mainViewModel);
             mainView.setVisible(true);
             this.setVisible(false);
         }
+        if (state.getErrorMessage() != null) {
+            JOptionPane.showMessageDialog(this, state.getErrorMessage(),
+                    "Load Error", JOptionPane.ERROR_MESSAGE);
+            }
     }
 
-    public void setLoadController(GameStartController controller) { this.loadController = controller; }
+    public void setGameStartController (GameStartController gameStartController) { this.gameStartController = gameStartController; }
 }

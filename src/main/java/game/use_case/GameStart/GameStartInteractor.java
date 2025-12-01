@@ -22,7 +22,7 @@ public class GameStartInteractor implements GameStartInputBoundary {
         try {
             User user;
 
-            if (inputData.getFilename().equals("userLoadData")) {
+            if (inputData.getFileName().equals("data/userLoadData.json")) {
                 user = userDataAccessObject.loadUser();
             } else {
                 // Load from saved file (save.json)

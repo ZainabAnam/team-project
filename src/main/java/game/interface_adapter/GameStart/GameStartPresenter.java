@@ -8,24 +8,24 @@ import game.use_case.GameStart.GameStartOutputData;
  */
 public class GameStartPresenter implements GameStartOutputBoundary {
 
-    private final GameStartViewModel loadViewModel;
+    private final GameStartViewModel gameStartViewModel;
 
-    public GameStartPresenter(GameStartViewModel loadViewModel) {
-        this.loadViewModel = loadViewModel;
+    public GameStartPresenter(GameStartViewModel gameStartViewModel) {
+        this.gameStartViewModel = gameStartViewModel;
     }
 
     @Override
     public void prepareSuccessView(GameStartOutputData outputData) {
-        GameStartState state = loadViewModel.getState();
+        GameStartState state = gameStartViewModel.getState();
         state.setLoadedUser(outputData.getUser());
         state.setLoadSuccessful(true);
-        loadViewModel.firePropertyChange();
+        gameStartViewModel.firePropertyChange();
     }
 
     @Override
     public void prepareFailView(String errorMessage) {
-        GameStartState state = loadViewModel.getState();
+        GameStartState state = gameStartViewModel.getState();
         state.setErrorMessage(errorMessage);
-        loadViewModel.firePropertyChange();
+        gameStartViewModel.firePropertyChange();
     }
 }

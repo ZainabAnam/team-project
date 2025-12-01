@@ -8,7 +8,7 @@ public class GameStartInputData {
         this.filename = filename;
     }
 
-    public String getFilename() {
+    public String getFileName() {
         return filename;
     }
 }

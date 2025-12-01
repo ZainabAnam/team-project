@@ -19,15 +19,14 @@ public class GameStartState {
     public void setLoadedUser(User loadedUser) {
         this.loadedUser = loadedUser;
     }
-
     public void setLoadSuccessful(boolean loadSuccessful) {
         this.loadSuccessful = loadSuccessful;
+    }
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
 }

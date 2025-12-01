@@ -5,18 +5,18 @@ import game.use_case.GameStart.GameStartInputData;
 
 public class GameStartController {
 
-    private final GameStartInputBoundary loadInteractor;
+    private final GameStartInputBoundary interactor;
 
-    public GameStartController(GameStartInputBoundary loadInteractor) {
-        this.loadInteractor = loadInteractor;
-    }
-
-    public void loadGameExecute() {
-        loadInteractor.execute(new GameStartInputData("data/userLoadData.json"));
+    public GameStartController(GameStartInputBoundary interactor) {
+        this.interactor = interactor;
     }
 
     public void newGameExecute() {
-        loadInteractor.execute(new GameStartInputData("data/newGameData.json"));
+        interactor.execute(new GameStartInputData("data/newGameData.json"));
+    }
+
+    public void loadGameExecute() {
+        interactor.execute(new GameStartInputData("data/userLoadData.json"));
     }
 
 }
