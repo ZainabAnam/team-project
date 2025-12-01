@@ -1,12 +1,10 @@
 package game.data_access;
-import game.entity.Item;
 import game.entity.User;
 import game.entity.Pet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,24 +12,41 @@ import java.util.List;
 /**
  * DAO for user data implemented using the files to persist data.
  */
-public class JSONUserDataAccessObject {
+public class JSONUserDataAccessObject implements UserDataAccessObjectInterface {
 
-    private final File saveDataFile;
-    private final String defaultResourceName;
+    private final File userLoadData = new File("data/userLoadData.json");
+    private final File newGameData = new File("data/newGameData.json");
 
-    public JSONUserDataAccessObject(String savePath, String defaultResourceName) {
-        this.saveDataFile = new File(savePath);
-        this.defaultResourceName = defaultResourceName;
+    // New User
+    @Override
+    public User newUser() {
+        try {
+            String jsonText = Files.readString(newGameData.toPath());
+            return UserFromFile(new JSONObject(jsonText));
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading default file", e);
+        }
+    }
+
+    // Load User
+    @Override
+    public User loadUser() {
+        try {
+            String jsonText = Files.readString(userLoadData.toPath());
+            return UserFromFile(new JSONObject(jsonText));
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading save file", e);
+        }
     }
 
     // Save User
+    @Override
     public void saveUser(User user) {
-        JSONObject saveData = userToJson(user);
+        JSONObject saveData = UserToFile(user);
 
-        // Ensure folder exists
-        saveDataFile.getParentFile().mkdirs();
-
-        try (FileWriter writer = new FileWriter(saveDataFile)) {
+        try (FileWriter writer = new FileWriter(userLoadData)) {
             writer.write(saveData.toString(9));
         } catch (IOException e) {
             throw new RuntimeException("Error writing save file", e);
@@ -39,7 +54,7 @@ public class JSONUserDataAccessObject {
     }
 
     // Read the data from the JSON file and turn it to in-game entities.
-    private User userFromJson(JSONObject obj) {
+    private User UserFromFile(JSONObject obj) {
         int coinCount = obj.getInt("coins");
         int clickBonus = obj.getInt("click bonus");
         int clickBonusTime = obj.getInt("click bonus time");
@@ -60,21 +75,24 @@ public class JSONUserDataAccessObject {
 
             Pet pet = new Pet(
                     p.getString("name"),
-                    p.getInt("energyLevel"),
-                    p.getInt("affection")
+                    p.getString("type"),
+                    p.getString("breed"),
+                    p.getString("tier"),
+                    p.getInt("base energy"),
+                    p.getInt("base click"),
+                    p.getInt("base recovery"),
+                    p.getString("image path")
             );
 
-            pet.setDeployed(p.getBoolean("isDeployed"));
-            pets.add(pet);
+            user.addToPetInventory(pet);
         }
-
-        user.setPets(pets);
+        // add items too
         return user;
     }
 
 
     // Turn the current user's data into a JSONObject to store in the file
-    private JSONObject userToJson(User user) {
+    private JSONObject UserToFile(User user) {
         JSONObject userData = new JSONObject();
 
         userData.put("coins", user.getCoinCount());
@@ -101,12 +119,16 @@ public class JSONUserDataAccessObject {
         for (Pet pet : user.getPetInventory()) {
             JSONObject p = new JSONObject();
             p.put("name", pet.getName());
+            p.put("type", pet.getPetType());
             p.put("breed", pet.getPetBreed());
-         // p.put("visual", pet.getIconFilePath());
+            p.put("tier", pet.getTier());
+            p.put("base energy", pet.getBaseEnergy());
+            p.put("base click", pet.getBaseClick());
+            p.put("base recovery", pet.getBaseRecovery());
+            p.put("visual", pet.getPetVisualPath());
             p.put("energy Level", pet.getEnergyLevel());
             p.put("affection XP", pet.getAffectionXP());
             p.put("affection XP", pet.getAffectionXP());
-            p.put("selling price", pet.getSellingPrice());
             petsArray.put(p);
         }
         return petsArray;

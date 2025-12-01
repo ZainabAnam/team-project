@@ -163,6 +163,14 @@ public class User {
             return this.coinCount;
         }
 
+        public Pet getPetByName(String petName) {
+            for (Pet pet: petInventory) {
+                if (petName.equals(pet.getName())) {
+                    return pet;
+                }
+            }
+            return null;
+        }
     //for loading and saving
     public void loadCoinCount(int coins){
         this.coinCount = coins;

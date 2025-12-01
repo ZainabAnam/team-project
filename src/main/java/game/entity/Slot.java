@@ -89,7 +89,7 @@ public class Slot extends JButton {
     // Update the button's appearance depending on whether a pet is slotted in.
     private void updateAppearance() {
         if (this.pet != null) {
-            ImageIcon petPic = this.pet.getPetVisual();
+            ImageIcon petPic = new ImageIcon(pet.getPetVisualPath());
             setIcon(petPic);
         } else {
             setIcon(unlockedImage);

@@ -85,7 +85,7 @@ public class ConfirmPetView extends JPanel implements ActionListener, PropertyCh
                     public void actionPerformed(ActionEvent evt) {
                         Pet selectedPet = (Pet) petComboBox.getSelectedItem();
                         if (selectedPet != null && confirmPetController != null) {
-                            ConfirmPetController.execute(slot, selectedPet);
+                            //ConfirmPetController.execute(slot, selectedPet);
                         }
                     }
                 }

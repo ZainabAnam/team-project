@@ -18,11 +18,11 @@ public class ConfirmPetController {
 
     /**
      * Executes the Confirm Pet Use Case.
-     * @param slot the slot to add to
-     * @param pet the pet selected
+     * @param slotID the slot to add to
+     * @param petName the pet selected
     * */
-    public void execute(Slot slot, Pet pet) {
-        ConfirmPetInputData confirmPetInputData = new ConfirmPetInputData(slot, pet);
+    public void execute(int slotID, String petName) {
+        ConfirmPetInputData confirmPetInputData = new ConfirmPetInputData(slotID, petName);
         confirmPetUseCaseInteractor.execute(confirmPetInputData);
     }
 }

@@ -13,9 +13,9 @@ public class MainView extends JPanel{
     private final String viewName = "Pet Clicker";
 
     // Images
-    private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainBG.png")).getImage();;
-    private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/Clicker.png"));
-    private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/ClickerClicked.png"));
+    private final Image backgroundImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/MainBG.png")).getImage();;
+    private final ImageIcon clickerImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/Clicker.png"));
+    private final ImageIcon clickerClickedImage = new ImageIcon(getClass().getResource("/images/MainPageIcons/ClickerClicked.png"));
 
     public MainView() {
 
@@ -28,10 +28,10 @@ public class MainView extends JPanel{
         add(clicker);
 
         // Instantiating Slots.
-        Slot slot1 = new Slot(true);  // unlocked at start
-        Slot slot2 = new Slot(false);
-        Slot slot3 = new Slot(false);
-        Slot slot4 = new Slot(false);
+        Slot slot1 = new Slot(true, 1);  // unlocked at start
+        Slot slot2 = new Slot(false, 2);
+        Slot slot3 = new Slot(false, 3);
+        Slot slot4 = new Slot(false, 4);
 
         final JPanel slotsPanel = new JPanel();
         slotsPanel.setOpaque(false);

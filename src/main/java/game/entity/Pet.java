@@ -14,10 +14,14 @@ public class Pet {
      * clickingSpeed >= 0
      * sellingPrice >= 0
      */
-
+    private String name;
     final String petType;
     final String petBreed;
-    final ImageIcon petVisual;
+    final String petVisualPath;
+    final String tier;
+    int baseEnergy;
+    int baseClick;
+    int baseRecovery;
     int affectionXP;
     int affectionLevel;
     int energyLevel;
@@ -25,14 +29,18 @@ public class Pet {
     int sellingPrice;
     boolean isDeployed;
 
-    private String name;
 
 
-
-    public Pet(String petType, String petBreed, String petVisual) {
+    public Pet(String name, String petType, String petBreed, String tier, int baseEnergy, int baseClick,
+               int baseRec, String petVisualPath) {
+        this.name = name;
         this.petType = petType;
         this.petBreed = petBreed;
-        this.petVisual = petVisual;
+        this.tier = tier;
+        this.baseEnergy = baseEnergy;
+        this.baseClick = baseClick;
+        this.baseRecovery = baseRecovery;
+        this.petVisualPath = petVisualPath;
         // call to visual database to get appropriate url
         this.affectionXP = Constants.INITIAL_AFFECTION_XP;
         this.affectionLevel = Constants.INITIAL_AFFECTION_LEVEL;
@@ -70,8 +78,8 @@ public class Pet {
         return this.name;
     }
 
-    public ImageIcon getPetVisual() {
-        return this.petVisual;
+    public String getPetVisualPath() {
+        return this.petVisualPath;
     }
 
     public int getEnergyLevel() {
@@ -94,7 +102,21 @@ public class Pet {
     public int getAffectionLevel() {
         return affectionLevel;
     }
-    public int getSellingPrice() {
-        return sellingPrice;
+    public String getTier(){
+        return tier;
     }
+    public String getPetType() {
+        return petType;
+    }
+    public int getBaseEnergy() {
+        return baseEnergy;
+    }
+    public int getBaseClick() {
+        return baseClick;
+    }
+    public int getBaseRecovery() {
+        return baseRecovery;
+    }
+
+
 }
