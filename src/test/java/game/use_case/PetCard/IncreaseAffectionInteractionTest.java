@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+import static game.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -28,8 +29,10 @@ public class IncreaseAffectionInteractionTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-        increaseAffectionInteractor.execute(new IncreaseAffectionInputData(pet.getName(), 1));
-        assertEquals(1, pet.getAffectionXP());
+        user.addToPetInventory(pet);
+        user.addToItemList(ITEM_CHEW_TOY);
+        increaseAffectionInteractor.execute(new IncreaseAffectionInputData(pet.getName(), ITEM_CHEW_TOY));
+        assertEquals(INITIAL_AFFECTION_XP + PET_TOY_BASIC_AFFECTION_INCREASE, pet.getAffectionXP());
     }
 
     @Test
@@ -39,9 +42,10 @@ public class IncreaseAffectionInteractionTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-        // toy wasn't/couldn't be used to increase affection
-        increaseAffectionInteractor.execute(new IncreaseAffectionInputData(pet.getName(), 0));
-        assertEquals(0, pet.getAffectionXP());
+        user.addToPetInventory(pet);
+        // toy item does not exist
+        increaseAffectionInteractor.execute(new IncreaseAffectionInputData(pet.getName(), ITEM_CHEW_TOY));
+        assertEquals(INITIAL_AFFECTION_XP, pet.getAffectionXP());
     }
 
     private static class TestDataAccess implements IncreaseAffectionUserDataAccessInterface {

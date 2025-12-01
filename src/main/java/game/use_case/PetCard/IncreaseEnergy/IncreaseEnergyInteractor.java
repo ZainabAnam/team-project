@@ -17,14 +17,19 @@ public class IncreaseEnergyInteractor implements IncreaseEnergyInputBoundary {
     @Override
     public void execute (IncreaseEnergyInputData inputData) {
         try {
-            String petName = inputData.getPet();
+            String petName = inputData.getPetName();
             User user = dAO.getUser();
             List<Pet> petList = user.getPetInventory();
+
             for (Pet pet : petList) {
-                if (petName.equals(pet.getName())){
-                    pet.increaseEnergyLevel(inputData.getEnergyIncrease());
-                    final IncreaseEnergyOutputData outputData = new IncreaseEnergyOutputData(pet.getEnergyLevel());
+                if (petName.equals(pet.getName()) && user.itemCheck(inputData.getFood())) {
+                    user.usePetItem(pet, inputData.getFood());
+                    IncreaseEnergyOutputData outputData = new IncreaseEnergyOutputData(pet.getEnergyLevel());
                     userPresenter.prepareSuccessView(outputData);
+                }
+                else if (!user.itemCheck(inputData.getFood())) {
+                    IncreaseEnergyOutputData outputData = new IncreaseEnergyOutputData(pet.getEnergyLevel());
+                    userPresenter.prepareFailView("You don't have this food.");
                 }
             }
         } catch (Exception e) {

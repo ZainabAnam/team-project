@@ -35,6 +35,7 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
     private final JLabel energyLabel = new JLabel();
     private final JLabel imageLabel = new JLabel();
     private final JLabel affectionLabel = new JLabel();
+    private final JLabel clickingSpeedLabel = new JLabel();
 
     private final EnergyBar energyBar = new EnergyBar();
 
@@ -172,6 +173,10 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
             increaseAffectionController.execute(pet, toy);
         };
 
+        chewToyItem.addActionListener(playListener);
+        tossToyItem.addActionListener(playListener);
+        plushToyItem.addActionListener(playListener);
+
 
         buttons.add(new JButton("Sell"));
 
@@ -229,9 +234,13 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         this.increaseEnergyController = increaseEnergyController;
     }
 
-    private void updateEnergy() {
+    private void updateEnergyLevel() {
         final PetCardState state = petCardViewModel.getState();
         energyLabel.setText("Energy: " + state.getNewEnergyLevel() + "%");
+    }
+
+    private void updateEnergyBar() {
+        final PetCardState state = petCardViewModel.getState();
         energyBar.setValue(state.getNewEnergyLevel());
     }
 
@@ -248,7 +257,7 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
 
     private void updateClickingSpeed() {
         final PetCardState state = petCardViewModel.getState();
-
+        clickingSpeedLabel.setText("CPM: " + state.getNewClickingSpeed() + " coins/min");
     }
 
     @Override
@@ -263,8 +272,11 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         }
         else {
             final PetCardState state = (PetCardState) evt.getNewValue();
-            updateEnergy();
-            updateAffectionXPAndLevel();
+            updateEnergyLevel();
+            updateEnergyBar();
+            updateAffectionXP();
+            updateAffectionLevel();
+            updateClickingSpeed();
         }
     }
 

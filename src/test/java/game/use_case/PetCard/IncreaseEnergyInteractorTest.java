@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+import static game.Constants.ITEM_KIBBLE;
+import static game.Constants.PET_ENERGY_BASIC_INCREASE;
 import static org.junit.jupiter.api.Assertions.*;
+
+import game.Constants;
 
 /**
  * Test class for IncreaseEnergyInteractor
@@ -28,8 +32,9 @@ public class IncreaseEnergyInteractorTest {
                 imageIcon);
         pet.setName("Max");
         user.addToPetInventory(pet);
-        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), 1));
-        assertEquals(pet.getBaseEnergy() + 1, pet.getEnergyLevel());
+        user.addToItemList(ITEM_KIBBLE);
+        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), ITEM_KIBBLE));
+        assertEquals(pet.getBaseEnergy() + PET_ENERGY_BASIC_INCREASE, pet.getEnergyLevel());
     }
 
     @Test
@@ -40,8 +45,8 @@ public class IncreaseEnergyInteractorTest {
                 imageIcon);
         pet.setName("Max");
         user.addToPetInventory(pet);
-        // food wasn't/couldn't be used to increase energy
-        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), 0));
+        // food item does not exist
+        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), ITEM_KIBBLE));
         assertEquals(pet.getBaseEnergy(), pet.getEnergyLevel());
     }
 

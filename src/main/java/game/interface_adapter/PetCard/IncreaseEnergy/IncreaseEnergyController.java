@@ -14,20 +14,20 @@ public class IncreaseEnergyController {
     }
 
     public void execute(CollectionsState.PetCardState pet, String food) {
-        String petName = pet.getName();
-        int energyIncrease;
-        if (food.equals("Kibble")) {
-            energyIncrease = Constants.PET_ENERGY_BASIC_INCREASE;
-        }
-        else if (food.equals("Canned Food")) {
-            energyIncrease = Constants.PET_ENERGY_MEDIUM_INCREASE;
-        }
-        // food is Home-Cooked
-        else {
-            energyIncrease = Constants.PET_ENERGY_PREMIUM_INCREASE;
-        }
+//        String petName = pet.getName();
+//        int energyIncrease;
+//        if (food.equals("Kibble")) {
+//            energyIncrease = Constants.PET_ENERGY_BASIC_INCREASE;
+//        }
+//        else if (food.equals("Canned Food")) {
+//            energyIncrease = Constants.PET_ENERGY_MEDIUM_INCREASE;
+//        }
+//        // food is Home-Cooked
+//        else {
+//            energyIncrease = Constants.PET_ENERGY_PREMIUM_INCREASE;
+//        }
 
-        final IncreaseEnergyInputData inputData = new IncreaseEnergyInputData(petName, energyIncrease);
+        final IncreaseEnergyInputData inputData = new IncreaseEnergyInputData(pet.getName(), food);
         interactor.execute(inputData);
     }
 }

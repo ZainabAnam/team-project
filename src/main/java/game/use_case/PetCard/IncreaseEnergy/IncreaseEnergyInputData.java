@@ -5,18 +5,18 @@ import game.interface_adapter.collections.CollectionsState;
 
 public class IncreaseEnergyInputData {
     private final String petName;
-    private final int energyIncrease;
+    private final String food;
 
-    public IncreaseEnergyInputData(String petName, int energyIncrease) {
+    public IncreaseEnergyInputData(String petName, String food) {
         this.petName = petName;
-        this.energyIncrease = energyIncrease;
+        this.food = food;
     }
 
-    public String getPet() {
+    public String getPetName() {
         return petName;
     }
 
-    public int getEnergyIncrease() {
-        return energyIncrease;
+    public String getFood() {
+        return food;
     }
 }
