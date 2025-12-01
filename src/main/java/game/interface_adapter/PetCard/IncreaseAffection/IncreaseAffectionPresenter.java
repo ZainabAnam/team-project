@@ -25,6 +25,7 @@ public class IncreaseAffectionPresenter implements IncreaseAffectionOutputBounda
         state.setUser(increaseAffectionUserDataAccess.getUser());
         state.setNewAffectionXP(outputData.getNewAffectionXP());
         state.setNewPetLevel(outputData.getNewPetLevel());
+        state.setNewClickingSpeed(outputData.getNewClickSpeed());
         this.petCardViewModel.setState(state);
         petCardViewModel.firePropertyChange();
 

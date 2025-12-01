@@ -8,6 +8,7 @@ public class PetCardState {
     private int newEnergyLevel;
     private int newAffectionXP;
     private int newPetLevel;
+    private int newClickingSpeed;
 
     public PetCardState(PetCardState state) {
         this.user = state.user;
@@ -15,6 +16,7 @@ public class PetCardState {
         this.newEnergyLevel = state.newEnergyLevel;
         this.newAffectionXP = state.newAffectionXP;
         this.newPetLevel = state.newPetLevel;
+        this.newClickingSpeed = state.newClickingSpeed;
     }
 
     public PetCardState() {
@@ -41,6 +43,10 @@ public class PetCardState {
         return newPetLevel;
     }
 
+    public int getNewClickingSpeed() {
+        return newClickingSpeed;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -59,5 +65,9 @@ public class PetCardState {
 
     public void setNewPetLevel(int newPetLevel) {
         this.newPetLevel = newPetLevel;
+    }
+
+    public void setNewClickingSpeed(int newClickingSpeed) {
+        this.newClickingSpeed = newClickingSpeed;
     }
 }

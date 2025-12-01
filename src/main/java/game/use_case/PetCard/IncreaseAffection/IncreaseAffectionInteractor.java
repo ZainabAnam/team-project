@@ -23,16 +23,21 @@ public class IncreaseAffectionInteractor implements IncreaseAffectionInputBounda
             String petName = inputData.getPetName();
             User user = dAO.getUser();
             List<Pet> petList = user.getPetInventory();
+
             for (Pet pet : petList) {
-                if (petName.equals(pet.getName())) {
-                    pet.increaseAffectionXP(inputData.getAffectionIncrease());
+                if (petName.equals(pet.getName()) && user.itemCheck(inputData.getToy())) {
+                    user.usePetItem(pet, inputData.getToy());
                     if ((pet.getAffectionXP() % 10 == 0) && (pet.getAffectionXP() != Constants.INITIAL_AFFECTION_XP) &&
                             (pet.getAffectionLevel() != Constants.MAX_AFFECTION_LEVEL)) {
                         pet.increaseAffectionLevel();
                         pet.upgradeClickSpeed();
                     }
-                    final IncreaseAffectionOutputData outputData = new IncreaseAffectionOutputData(pet.getAffectionXP(), pet.getAffectionLevel());
+                    IncreaseAffectionOutputData outputData = new IncreaseAffectionOutputData(pet.getAffectionXP(), pet.getAffectionLevel(), pet.getClickingSpeed());
                     userPresenter.prepareSuccessView(outputData);
+                }
+                else if (!user.itemCheck(inputData.getToy())) {
+                    IncreaseAffectionOutputData outputData = new IncreaseAffectionOutputData(pet.getAffectionXP(), pet.getAffectionLevel(), pet.getClickingSpeed());
+                    userPresenter.prepareFailView("You don't have this toy.");
                 }
             }
         } catch (Exception e) {

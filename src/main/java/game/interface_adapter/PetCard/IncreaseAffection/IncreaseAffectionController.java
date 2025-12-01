@@ -14,20 +14,20 @@ public class IncreaseAffectionController {
     }
 
     public void execute(CollectionsState.PetCardState pet, String toy) {
-        String petName = pet.getName();
-        int affectionIncrease;
-        if (toy.equals("Chew Toy")) {
-            affectionIncrease = Constants.PET_TOY_BASIC_AFFECTION_INCREASE;
-        }
-        else if (toy.equals("Toss Toy")) {
-            affectionIncrease = Constants.PET_TOY_MEDIUM_AFFECTION_INCREASE;
-        }
-        // toy is plush toy
-        else {
-            affectionIncrease = Constants.PET_TOY_PREMIUM_AFFECTION_INCREASE;
-        }
+//        String petName = pet.getName();
+//        int affectionIncrease;
+//        if (toy.equals("Chew Toy")) {
+//            affectionIncrease = Constants.PET_TOY_BASIC_AFFECTION_INCREASE;
+//        }
+//        else if (toy.equals("Toss Toy")) {
+//            affectionIncrease = Constants.PET_TOY_MEDIUM_AFFECTION_INCREASE;
+//        }
+//        // toy is plush toy
+//        else {
+//            affectionIncrease = Constants.PET_TOY_PREMIUM_AFFECTION_INCREASE;
+//        }
 
-        final IncreaseAffectionInputData inputData = new IncreaseAffectionInputData(petName, affectionIncrease);
+        final IncreaseAffectionInputData inputData = new IncreaseAffectionInputData(pet.getName(), toy);
         interactor.execute(inputData);
     }
 }

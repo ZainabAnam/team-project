@@ -16,6 +16,13 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import static game.Constants.ITEM_KIBBLE;
+import static game.Constants.ITEM_CANNED_FOOD;
+import static game.Constants.ITEM_HOME_COOKED;
+import static game.Constants.ITEM_CHEW_TOY;
+import static game.Constants.ITEM_TOSS_TOY;
+import static game.Constants.ITEM_PLUSH_TOY;
+
 public class PetCardDialog extends JDialog implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "pet card";
@@ -112,11 +119,11 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         buttons.add(feedButton);
 
         JPopupMenu foodPopup = new JPopupMenu();
-        JMenuItem kibbleItem = new JMenuItem("Kibble");
+        JMenuItem kibbleItem = new JMenuItem(ITEM_KIBBLE);
         foodPopup.add(kibbleItem);
-        JMenuItem cannedFoodItem = new JMenuItem("Canned Food");
+        JMenuItem cannedFoodItem = new JMenuItem(ITEM_CANNED_FOOD);
         foodPopup.add(cannedFoodItem);
-        JMenuItem homeCookedItem = new JMenuItem("Home-Cooked");
+        JMenuItem homeCookedItem = new JMenuItem(ITEM_HOME_COOKED);
         foodPopup.add(homeCookedItem);
 
         feedButton.addActionListener(
@@ -143,11 +150,11 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         buttons.add(playButton);
 
         JPopupMenu toyPopup = new JPopupMenu();
-        JMenuItem chewToyItem = new JMenuItem("Chew Toy");
+        JMenuItem chewToyItem = new JMenuItem(ITEM_CHEW_TOY);
         toyPopup.add(chewToyItem);
-        JMenuItem tossToyItem = new JMenuItem("Toss Toy");
+        JMenuItem tossToyItem = new JMenuItem(ITEM_TOSS_TOY);
         toyPopup.add(tossToyItem);
-        JMenuItem plushToyItem = new JMenuItem("Plush Toy");
+        JMenuItem plushToyItem = new JMenuItem(ITEM_PLUSH_TOY);
         toyPopup.add(plushToyItem);
 
         playButton.addActionListener(
@@ -228,10 +235,20 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         energyBar.setValue(state.getNewEnergyLevel());
     }
 
-    private void updateAffectionXPAndLevel() {
+    private void updateAffectionXP() {
         final PetCardState state = petCardViewModel.getState();
         affectionLabel.setText("Affection XP: " + state.getNewAffectionXP() + "/30");
+
+    }
+
+    private void updateAffectionLevel() {
+        final PetCardState state = petCardViewModel.getState();
         levelLabel.setText("Lvl " + state.getNewPetLevel());
+    }
+
+    private void updateClickingSpeed() {
+        final PetCardState state = petCardViewModel.getState();
+
     }
 
     @Override

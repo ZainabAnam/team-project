@@ -2,18 +2,18 @@ package game.use_case.PetCard.IncreaseAffection;
 
 public class IncreaseAffectionInputData {
     private final String petName;
-    private final int affectionIncrease;
+    private final String toy;
 
-    public IncreaseAffectionInputData(String petName, int affectionIncrease) {
+    public IncreaseAffectionInputData(String petName, String toy) {
         this.petName = petName;
-        this.affectionIncrease = affectionIncrease;
+        this.toy = toy;
     }
 
     public String getPetName() {
         return this.petName;
     }
 
-    public int getAffectionIncrease() {
-        return this.affectionIncrease;
+    public String getToy() {
+        return this.toy;
     }
 }
