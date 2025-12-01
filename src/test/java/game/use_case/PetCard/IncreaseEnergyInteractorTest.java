@@ -27,7 +27,8 @@ public class IncreaseEnergyInteractorTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-        increaseEnergyInteractor.execute(new IncreaseEnergyInputData("test", "Max", 1));
+        user.addToPetInventory(pet);
+        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), 1));
         assertEquals(pet.getBaseEnergy() + 1, pet.getEnergyLevel());
     }
 
@@ -38,8 +39,9 @@ public class IncreaseEnergyInteractorTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
+        user.addToPetInventory(pet);
         // food wasn't/couldn't be used to increase energy
-        increaseEnergyInteractor.execute(new IncreaseEnergyInputData("test", "Max", 0));
+        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), 0));
         assertEquals(pet.getBaseEnergy(), pet.getEnergyLevel());
     }
 
@@ -47,14 +49,10 @@ public class IncreaseEnergyInteractorTest {
         private User user = new User();
 
         @Override
-        public User getUser(String userID) {
+        public User getUser() {
             return user;
         }
 
-        @Override
-        public Boolean userExists(String userID) {
-            return user != null;
-        }
     }
 
     private static class TestOutputBoundary implements IncreaseEnergyOutputBoundary {

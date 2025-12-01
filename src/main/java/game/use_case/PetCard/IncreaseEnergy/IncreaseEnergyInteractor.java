@@ -17,7 +17,7 @@ public class IncreaseEnergyInteractor implements IncreaseEnergyInputBoundary {
     @Override
     public void execute (IncreaseEnergyInputData inputData) {
         try {
-            String petName = inputData.getPet().getName();
+            String petName = inputData.getPet();
             User user = dAO.getUser();
             List<Pet> petList = user.getPetInventory();
             for (Pet pet : petList) {

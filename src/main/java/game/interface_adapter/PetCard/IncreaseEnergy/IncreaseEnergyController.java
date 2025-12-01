@@ -14,6 +14,7 @@ public class IncreaseEnergyController {
     }
 
     public void execute(CollectionsState.PetCardState pet, String food) {
+        String petName = pet.getName();
         int energyIncrease;
         if (food.equals("Kibble")) {
             energyIncrease = Constants.PET_ENERGY_BASIC_INCREASE;
@@ -26,7 +27,7 @@ public class IncreaseEnergyController {
             energyIncrease = Constants.PET_ENERGY_PREMIUM_INCREASE;
         }
 
-        final IncreaseEnergyInputData inputData = new IncreaseEnergyInputData(pet, energyIncrease);
+        final IncreaseEnergyInputData inputData = new IncreaseEnergyInputData(petName, energyIncrease);
         this.interactor.execute(inputData);
     }
 }

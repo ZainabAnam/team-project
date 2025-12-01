@@ -4,16 +4,16 @@ import game.entity.Pet;
 import game.interface_adapter.collections.CollectionsState;
 
 public class IncreaseEnergyInputData {
-    private final CollectionsState.PetCardState pet;
+    private final String petName;
     private final int energyIncrease;
 
-    public IncreaseEnergyInputData(CollectionsState.PetCardState pet, int energyIncrease) {
-        this.pet = pet;
+    public IncreaseEnergyInputData(String petName, int energyIncrease) {
+        this.petName = petName;
         this.energyIncrease = energyIncrease;
     }
 
-    public CollectionsState.PetCardState getPet() {
-        return pet;
+    public String getPet() {
+        return petName;
     }
 
     public int getEnergyIncrease() {
