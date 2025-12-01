@@ -1,5 +1,6 @@
 package game.view;
 
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
 import game.interface_adapter.PetCard.PetCardController;
 import game.interface_adapter.PetCard.PetCardState;
 import game.interface_adapter.PetCard.PetCardViewModel;
@@ -27,6 +28,9 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
     private final JLabel imageLabel = new JLabel();
 
     private final EnergyBar energyBar = new EnergyBar();
+
+    private IncreaseAffectionController increaseAffectionController;
+    private IncreaseEnergyController increaseEnergyController;
 
     public PetCardDialog(Window owner, CollectionsState.PetCardState pet) {
         super(owner, "Pet Details", ModalityType.APPLICATION_MODAL);
@@ -146,6 +150,14 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         Window owner = SwingUtilities.getWindowAncestor(parent);
         PetCardDialog dialog = new PetCardDialog(owner, pet);
         dialog.setVisible(true);
+    }
+
+    public void setAffectionController(IncreaseAffectionController increaseAffectionController) {
+        this.increaseAffectionController = increaseAffectionController;
+    }
+
+    public void setEnergyController(IncreaseEnergyController increaseEnergyController) {
+        this.increaseEnergyController = increaseEnergyController;
     }
 
     private static class EnergyBar extends JComponent {
