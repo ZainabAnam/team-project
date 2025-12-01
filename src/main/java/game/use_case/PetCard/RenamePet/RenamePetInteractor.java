@@ -17,6 +17,7 @@ public class RenamePetInteractor implements RenamePetInputBoundary {
     public void execute(RenamePetInputData inputData) {
         User user = userDataAccess.getUser(inputData.getUsername());
 
+        // user validation
         if (user == null) {
             outputBoundary.prepareFailView("User not found");
             return;
@@ -50,7 +51,7 @@ public class RenamePetInteractor implements RenamePetInputBoundary {
         pet.setName(newName);
         userDataAccess.saveUser(user);
 
-        // successful rename
+        // Return success result
         RenamePetOutputData outputData = new RenamePetOutputData(
                 oldName,
                 newName,
