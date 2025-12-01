@@ -19,6 +19,7 @@ import java.util.List;
 
 public class CollectionsView extends JPanel implements PropertyChangeListener {
 
+
     private final CollectionsViewModel viewModel;
     private CollectionsController controller;
 
@@ -128,14 +129,36 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
 //            System.out.println("Background image not found");
 //        }
 
-        // Optional: top title / nav bar
-        JLabel title = new JLabel("Collection");
-        title.setFont(title.getFont().deriveFont(Font.BOLD, 26f));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setBorder(new EmptyBorder(0, 0, 20, 0));
-        add(title, BorderLayout.NORTH);
+        JPanel topArea = new JPanel();
+        topArea.setLayout(new BoxLayout(topArea, BoxLayout.Y_AXIS));
+        topArea.setOpaque(false);
 
-        // TODO: Add Shop and Main button at SOUTH, wired to ViewManagerModel
+        JPanel backRow = new JPanel(new BorderLayout());
+        backRow.setOpaque(false);
+        backRow.setBorder(new EmptyBorder(10, 10, 0, 10));
+
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            viewManagerModel.setState("main");
+            viewManagerModel.firePropertyChange();
+        });
+        backRow.add(backButton, BorderLayout.WEST);
+
+        topArea.add(backRow);
+
+        JLabel pageTitle = new JLabel("Collection");
+        pageTitle.setFont(pageTitle.getFont().deriveFont(Font.BOLD, 32f));
+        pageTitle.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel titleRow = new JPanel(new BorderLayout());
+        titleRow.setOpaque(false);
+        titleRow.setBorder(new EmptyBorder(0, 0, 20, 0));
+        titleRow.add(pageTitle, BorderLayout.CENTER);
+
+        topArea.add(titleRow);
+
+        add(topArea, BorderLayout.NORTH);
+
     }
 
     // AppBuilder calls this after construction
