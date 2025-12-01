@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+import static game.Constants.ITEM_KIBBLE;
+import static game.Constants.PET_ENERGY_BASIC_INCREASE;
 import static org.junit.jupiter.api.Assertions.*;
+
+import game.Constants;
 
 /**
  * Test class for IncreaseEnergyInteractor
@@ -27,8 +31,10 @@ public class IncreaseEnergyInteractorTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-        increaseEnergyInteractor.execute(new IncreaseEnergyInputData("test", "Max", 1));
-        assertEquals(pet.getBaseEnergy() + 1, pet.getEnergyLevel());
+        user.addToPetInventory(pet);
+        user.addToItemList(ITEM_KIBBLE);
+        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), ITEM_KIBBLE));
+        assertEquals(pet.getBaseEnergy() + PET_ENERGY_BASIC_INCREASE, pet.getEnergyLevel());
     }
 
     @Test
@@ -38,8 +44,9 @@ public class IncreaseEnergyInteractorTest {
         Pet pet = new Pet("Cat", "Maine Coon", "Elite", 7, 6, 6,
                 imageIcon);
         pet.setName("Max");
-        // food wasn't/couldn't be used to increase energy
-        increaseEnergyInteractor.execute(new IncreaseEnergyInputData("test", "Max", 0));
+        user.addToPetInventory(pet);
+        // food item does not exist
+        increaseEnergyInteractor.execute(new IncreaseEnergyInputData(pet.getName(), ITEM_KIBBLE));
         assertEquals(pet.getBaseEnergy(), pet.getEnergyLevel());
     }
 
@@ -47,14 +54,10 @@ public class IncreaseEnergyInteractorTest {
         private User user = new User();
 
         @Override
-        public User getUser(String userID) {
+        public User getUser() {
             return user;
         }
 
-        @Override
-        public Boolean userExists(String userID) {
-            return user != null;
-        }
     }
 
     private static class TestOutputBoundary implements IncreaseEnergyOutputBoundary {
