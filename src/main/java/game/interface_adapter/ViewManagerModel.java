@@ -10,4 +10,7 @@ public class ViewManagerModel extends ViewModel<String> {
         super("view manager");
         this.setState("");
     }
+    public void setInitialView(String viewName) {
+        this.setState(viewName);
+    }
 }
