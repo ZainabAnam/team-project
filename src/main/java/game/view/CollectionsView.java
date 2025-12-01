@@ -99,9 +99,9 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
         foodKibbleCard = new ItemCard("Kibble", "+30 energy", "x0");
         foodHomeCookedCard = new ItemCard("Home-Cooked", "+50 energy", "x0");
 
-        foodCannedCard.setImageIcon(new ImageIcon(getClass().getResource("/game/img/shop/CannedFood.PNG")));
-        foodKibbleCard.setImageIcon(new ImageIcon(getClass().getResource("/game/img/shop/kibble.PNG")));
-        foodHomeCookedCard.setImageIcon(new ImageIcon(getClass().getResource("/game/img/shop/HomeCooked.PNG")));
+        foodCannedCard.setImageIcon(new ImageIcon("src/main/java/game/img/shop/CannedFood.PNG"));
+        foodKibbleCard.setImageIcon(new ImageIcon("src/main/java/game/img/shop/kibble.PNG"));
+        foodHomeCookedCard.setImageIcon(new ImageIcon("src/main/java/game/img/shop/HomeCooked.PNG"));
 
         sections.add(makeSection("Pet Food",
                 foodCannedCard, foodKibbleCard, foodHomeCookedCard));
@@ -112,9 +112,9 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
         toyTossCard  = new ItemCard("Toss Toy", "+2 XP", "x0");
         toyPlushCard = new ItemCard("Plush Toy", "+3 XP", "x0");
 
-        toyChewCard.setImageIcon(new ImageIcon(getClass().getResource("/game/img/shop/chewToy.PNG")));
-        toyTossCard.setImageIcon(new ImageIcon(getClass().getResource("/game/img/shop/tossToy.PNG")));
-        toyPlushCard.setImageIcon(new ImageIcon(getClass().getResource("/game/img/shop/plushToy.PNG")));
+        toyChewCard.setImageIcon(new ImageIcon("src/main/java/game/img/shop/chewToy.PNG"));
+        toyTossCard.setImageIcon(new ImageIcon("src/main/java/game/img/shop/tossToy.PNG"));
+        toyPlushCard.setImageIcon(new ImageIcon("src/main/java/game/img/shop/plushToy.PNG"));
 
         sections.add(makeSection("Pet Toys",
                 toyChewCard, toyTossCard, toyPlushCard));
@@ -299,8 +299,6 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
 
             // is this card a pet?
             isPet = Arrays.asList(petList).contains(subtitle);
-
-
 
             String primary = (name == null || name.isBlank()) ? subtitle : name;
             String secondary = (name == null || name.isBlank()) ? "" : subtitle;

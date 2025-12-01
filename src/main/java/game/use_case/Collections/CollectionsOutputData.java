@@ -5,7 +5,6 @@ import java.util.List;
 
 public class CollectionsOutputData {
 
-    // ---------- DTO for one pet ----------
     public static class PetInfo {
         private final String name;
         private final ImageIcon petVisual;
@@ -15,6 +14,8 @@ public class CollectionsOutputData {
         private final int affectionXp;
         private final int sellingPrice;
         private final String fact;
+        private final int clickingSpeed;
+        private final String type;
 
         public PetInfo(String name,
                        ImageIcon petVisual,
@@ -23,6 +24,8 @@ public class CollectionsOutputData {
                        int energy,
                        int affectionXp,
                        int sellingPrice,
+                       int clickingSpeed,
+                       String type,
                        String fact) {
             this.name = name;
             this.petVisual = petVisual;
@@ -32,6 +35,9 @@ public class CollectionsOutputData {
             this.affectionXp = affectionXp;
             this.sellingPrice = sellingPrice;
             this.fact = fact;
+            this.clickingSpeed = clickingSpeed;
+            this.type = type;
+
         }
 
         public String getName() { return name; }
@@ -42,9 +48,10 @@ public class CollectionsOutputData {
         public int getAffectionXp() { return affectionXp; }
         public int getSellingPrice() { return sellingPrice; }
         public String getFact() { return fact; }
+        public int getClickingSpeed() { return clickingSpeed; }
+        public String getType() { return type; }
     }
 
-    // ---------- Fields for the whole screen ----------
     private final List<PetInfo> pets;
 
     private final int cannedFoodCount;

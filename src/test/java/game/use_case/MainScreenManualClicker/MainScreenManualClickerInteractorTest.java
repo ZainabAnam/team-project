@@ -16,26 +16,17 @@ public class MainScreenManualClickerInteractorTest {
 
     @Test
     public void testClickSuccess() {
-        User user = dataAccess.getUser("test");
+        User user = dataAccess.getUser();
         // save user to database
-        manualClickerInteractor.execute(new ManualClickerInputData("test"));
+        manualClickerInteractor.execute(new ManualClickerInputData());
 
         assertEquals(Constants.INITIAL_COINS + user.getClickBonus(), user.getCoinCount());
 
     }
 
     @Test
-    public void testClickFail() {
-        User user = dataAccess.getUser("test");
-        manualClickerInteractor.execute(new ManualClickerInputData("test"));
-        // user is not saved to database, so they are not found by the data access object
-
-        assertEquals(Constants.INITIAL_COINS, user.getCoinCount());
-    }
-
-    @Test
     public void testClickerReflection() {
-        User user = dataAccess.getUser("test");
+        User user = dataAccess.getUser();
         user.addCoins(Constants.INITIAL_CLICKBONUS);
         assertEquals(Constants.INITIAL_COINS + user.getClickBonus(), user.getCoinCount());
     }
@@ -44,14 +35,14 @@ public class MainScreenManualClickerInteractorTest {
         private User user = new User();
 
         @Override
-        public User getUser(String userID) {
+        public User getUser() {
             return user;
         }
 
-        @Override
-        public Boolean userExists(String userID) {
-            return user != null;
-        }
+//        @Override
+//        public Boolean userExists(String userID) {
+//            return user != null;
+//        }
     }
 
     private static class TestOutputBoundary implements ManualClickerOutputBoundary {

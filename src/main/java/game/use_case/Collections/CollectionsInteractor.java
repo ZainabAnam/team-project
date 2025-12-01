@@ -3,6 +3,9 @@ package game.use_case.Collections;
 import game.entity.Item;
 import game.entity.User;
 import game.entity.Pet;
+import game.use_case.GetPetFact.GetPetFactOutputData;
+import game.use_case.GetPetFact.PetFactDataAccessInterface;
+import game.use_case.GetPetFact.PetFactDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +18,14 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
 
     private final CollectionsOutputBoundary presenter;
     private final CollectionsDataAccessInterface userGateway;
+    private final PetFactDataAccessInterface petFactGateway;
 
     public CollectionsInteractor(CollectionsOutputBoundary presenter,
-                                 CollectionsDataAccessInterface userGateway) {
+                                 CollectionsDataAccessInterface userGateway,
+                                 PetFactDataAccessInterface petFactGateway) {
         this.presenter = presenter;
         this.userGateway = userGateway;
+        this.petFactGateway = petFactGateway;
     }
 
     @Override
@@ -27,10 +33,19 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
         try {
             User user = userGateway.getCurrentUser();
 
-            List<Pet> pets = user.getPetInventory();  // whatever your method is
+            List<Pet> pets = user.getPetInventory();
             List<CollectionsOutputData.PetInfo> petInfos = new ArrayList<>();
 
             for (Pet pet : pets) {
+                String species = pet.getPetType();
+                String breed = pet.getBreed();
+
+                GetPetFactOutputData factOut = petFactGateway.
+                        fetchFact(species, breed).
+                        orElse(new GetPetFactOutputData("", "", false));
+
+                String factText = factOut.isSuccess() ? factOut.getFactText(): "";
+
                 CollectionsOutputData.PetInfo info =
                         new CollectionsOutputData.PetInfo(
                                 pet.getName(),
@@ -40,7 +55,9 @@ public class CollectionsInteractor implements CollectionsInputBoundary {
                                 pet.getEnergyLevel(),
                                 pet.getAffectionXP(),
                                 pet.getSellingPrice(),
-                                null // TODO: Add Pet Fact
+                                pet.getClickingSpeed(),
+                                pet.getPetType(),
+                                factText
                         );
                 petInfos.add(info);
             }

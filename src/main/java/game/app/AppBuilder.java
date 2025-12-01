@@ -14,6 +14,7 @@ import game.interface_adapter.collections.CollectionsPresenter;
 import game.interface_adapter.collections.CollectionsViewModel;
 import game.interface_adapter.shop.ShopViewModel;
 import game.interface_adapter.shop.ShopPresenter;
+
 import game.use_case.Collections.CollectionsDataAccessInterface;
 import game.use_case.Collections.CollectionsInputBoundary;
 import game.use_case.Collections.CollectionsInteractor;
@@ -27,7 +28,13 @@ import game.use_case.PetShop.BuyItem.*;
 import game.use_case.PetShop.BuyLootBox.*;
 import game.use_case.PetShop.UpgradeClicker.*;
 import game.use_case.PetShop.UnlockSlot.*;
+
+import game.use_case.PetCard.RenamePet.*;
+import game.use_case.PetCard.SellPet.*;
+
 import game.data_access.ShopDataAccessObject;
+import game.data_access.RenamePetDataAccessObject;
+import game.data_access.SellPetDataAccessObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +50,12 @@ public class AppBuilder {
     final ViewManagerModel viewManagerModel = new ViewManagerModel();
     ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
+    private MainView mainView;
+    private MainViewModel mainViewModel;
+    private MainPresenter mainPresenter;
+    private MainController mainController;
+    private MainDataAccessObject mainDataAccessObject;
+
     private ShopView shopView;
     private ShopViewModel shopViewModel;
     private ShopPresenter shopPresenter;
@@ -54,6 +67,18 @@ public class AppBuilder {
     private CollectionsPresenter collectionsPresenter;
     private CollectionsController collectionsController;
     private CollectionsDataAccessInterface collectionsDataAccessObject;
+    private PetFactDataAccessInterface petFactGateway;
+
+    private PetCardView petCardView;
+    // Rename Pet components
+    private PetRenameView petRenameView;
+    private RenamePetViewModel renamePetViewModel;
+    private RenamePetController renamePetController;
+
+    // Sell Pet components
+    private SellPetView sellPetView;
+    private SellPetViewModel sellPetViewModel;
+    private SellPetController sellPetController;
 
     private PetCardDialog petCardView;
     private PetCardViewModel petCardViewModel;
@@ -69,8 +94,18 @@ public class AppBuilder {
     }
 
     public AppBuilder addMainView() {
-        mainView = new MainView(viewManagerModel);
+        mainViewModel = new MainViewModel();
+        mainView = new MainView(mainViewModel, viewManagerModel);
         cardPanel.add(mainView, mainView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addMainUseCases() {
+        mainDataAccessObject = new MainDataAccessObject();
+        mainPresenter = new MainPresenter(viewManagerModel, mainViewModel, mainDataAccessObject);
+        ManualClickerInputBoundary manualClickerInteractor = new ManualClickerInteractor(mainDataAccessObject, mainPresenter);
+        mainController = new MainController(manualClickerInteractor);
+        mainView.setMainController(mainController);
         return this;
     }
 
@@ -84,27 +119,93 @@ public class AppBuilder {
     public AppBuilder addShopUseCases() {
         // Create data access object
         shopDataAccessObject = new ShopDataAccessObject();
-        
+
         // Create presenter
         shopPresenter = new ShopPresenter(viewManagerModel, shopViewModel, shopDataAccessObject);
-        
+
         // Create interactors
         BuyItemInputBoundary buyItemInteractor = new BuyItemInteractor(shopPresenter, shopDataAccessObject);
         BuyLootBoxInputBoundary buyLootBoxInteractor = new BuyLootBoxInteractor(shopPresenter, shopDataAccessObject);
         UpgradeClickerInputBoundary upgradeClickerInteractor = new UpgradeClickerInteractor(shopPresenter, shopDataAccessObject);
         UnlockSlotInputBoundary unlockSlotInteractor = new UnlockSlotInteractor(shopPresenter, shopDataAccessObject);
-        
+
         // Create controller
         shopController = new ShopController(
-            buyItemInteractor,
-            buyLootBoxInteractor,
-            upgradeClickerInteractor,
-            unlockSlotInteractor
+                buyItemInteractor,
+                buyLootBoxInteractor,
+                upgradeClickerInteractor,
+                unlockSlotInteractor
         );
-        
+
         // Set controller in view
         shopView.setShopController(shopController);
-        
+
+        return this;
+    }
+
+    public AppBuilder addRenamePetView() {
+        // Create ViewModel
+        renamePetViewModel = new RenamePetViewModel();
+
+        // Create data access (using the same user from shop)
+        RenamePetDataAccessInterface renamePetDataAccess = new RenamePetDataAccessObject(
+                shopDataAccessObject.getCurrentUser()
+        );
+
+        // Create Presenter, Interactor, Controller
+        RenamePetPresenter renamePetPresenter = new RenamePetPresenter(
+                viewManagerModel,
+                renamePetViewModel
+        );
+
+        RenamePetInteractor renamePetInteractor = new RenamePetInteractor(
+                renamePetDataAccess,
+                renamePetPresenter
+        );
+
+        renamePetController = new RenamePetController(renamePetInteractor);
+
+        // Create view
+        petRenameView = new PetRenameView(renamePetController, renamePetViewModel);
+
+        // Register view
+        cardPanel.add(petRenameView, petRenameView.getViewName());
+
+        return this;
+    }
+
+    public AppBuilder addSellPetView() {
+        // Create ViewModel
+        sellPetViewModel = new SellPetViewModel();
+
+        // Create data access (using the same user from shop)
+        SellPetDataAccessInterface sellPetDataAccess = new SellPetDataAccessObject(
+                shopDataAccessObject.getCurrentUser()
+        );
+
+        // Create Presenter, Interactor, Controller
+        SellPetPresenter sellPetPresenter = new SellPetPresenter(
+                viewManagerModel,
+                sellPetViewModel
+        );
+
+        SellPetInteractor sellPetInteractor = new SellPetInteractor(
+                sellPetDataAccess,
+                sellPetPresenter
+        );
+
+        sellPetController = new SellPetController(sellPetInteractor);
+
+        // Create view (with ViewManagerModel for navigation)
+        sellPetView = new SellPetView(
+                sellPetController,
+                sellPetViewModel,
+                viewManagerModel  // Pass ViewManagerModel for navigation
+        );
+
+        // Register view
+        cardPanel.add(sellPetView, sellPetView.getViewName());
+
         return this;
     }
 
@@ -128,13 +229,22 @@ public class AppBuilder {
             }
         };
 
+        petFactGateway = new CompositePetFactDataAccessObject(
+                new DogApiPetFactDataAccessObject(),
+                new CatApiPetFactDataAccessObject()
+        );
+
         // 3. Interactor + Controller
         CollectionsInputBoundary interactor =
-                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject);
+                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject, petFactGateway);
         collectionsController = new CollectionsController(interactor);
 
+        petCardView = new PetCardView(collectionsViewModel);
+        cardPanel.add(petCardView, PetCardView.VIEW_NAME);
+
         // 4. Swing view
-        collectionsView = new CollectionsView(collectionsViewModel, collectionsController);
+        collectionsView = new CollectionsView(collectionsViewModel, collectionsController, viewManagerModel,
+                petCardView);
         collectionsView.setCollectionsController(collectionsController);
 
         // 5. Register view with CardLayout
@@ -168,15 +278,54 @@ public class AppBuilder {
 
         return this;
     }
+    ImageIcon goldenIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/Golden Retriever Icon.png")
+    );
+    ImageIcon shephredIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/German Shepherd Icon.png")
+    );
+    ImageIcon poodleIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/Poodle Icon.png")
+    );
+    ImageIcon boxerIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/Boxer Icon.png")
+    );
+    ImageIcon sphynxIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Cat Images/Sphynx Icon.png")
+    );
+    ImageIcon americanShorthairIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Cat Images/American Shorthair Icon.png")
+    );
 
     private User createTestUser() {
         User u = new User();
 
         // Add pets
-        Pet p1 = new Pet("Goldie", "Golden Retriever", null);
-        Pet p2 = new Pet("Max", "German Shepherd", null);
+        Pet p1 = new Pet("Dog", "Golden Retriever", "Common", 100, 5, 10, goldenIcon);
+        Pet p2 = new Pet("Dog", "German Shepherd", "Elite", 100, 5, 10, shephredIcon);
+        Pet p3 = new Pet("Dog", "Poodle", "Common", 100, 5, 10, poodleIcon);
+        Pet p4 = new Pet("Dog", "Boxer", "Common", 100, 5, 10, boxerIcon);
+        Pet p5 = new Pet("Cat", "Sphynx", "Elite", 100, 5, 10, sphynxIcon);
+        Pet p6 = new Pet("Cat", "American Shorthair", "Common", 100, 5, 10, americanShorthairIcon);
+
+        
+        for (int i = 0; i < 10 ; i++) {
+            p1.depleteEnergy();
+        }
+
+        p1.setName("Max");
+        p2.setName("Rex");
+        p3.setName("Doodle");
+        p4.setName("Kieser");
+        p5.setName("Belle");
+        p6.setName("Sprinkles");
+
         u.addToPetInventory(p1);
         u.addToPetInventory(p2);
+        u.addToPetInventory(p3);
+        u.addToPetInventory(p4);
+        u.addToPetInventory(p5);
+        u.addToPetInventory(p6);
 
         // Items
         u.addToItemList(ITEM_CANNED_FOOD);
@@ -206,6 +355,4 @@ public class AppBuilder {
 
         return application;
     }
-
-
 }
