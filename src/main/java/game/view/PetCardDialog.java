@@ -1,6 +1,11 @@
 package game.view;
 
+import game.interface_adapter.PetCard.PetCardController;
+import game.interface_adapter.PetCard.PetCardState;
+import game.interface_adapter.PetCard.PetCardViewModel;
+import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.collections.CollectionsState;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +16,9 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class PetCardDialog extends JDialog {
+public class PetCardDialog extends JDialog implements ActionListener, PropertyChangeListener {
+
+    private final String viewName = "pet card";
 
     private final JLabel nameLabel = new JLabel();
     private final JLabel breedLabel = new JLabel();
@@ -92,8 +99,12 @@ public class PetCardDialog extends JDialog {
         JPanel buttons = new JPanel(new GridLayout(1, 3, 10, 0));
         buttons.setOpaque(false);
 
-        buttons.add(new JButton("Feed"));
-        buttons.add(new JButton("Play"));
+        JButton feedButton = new JButton("Feed");
+        buttons.add(feedButton);
+
+        JButton playButton = new JButton("Play");
+        buttons.add(playButton);
+
         buttons.add(new JButton("Sell"));
 
         bottom.add(buttons);
