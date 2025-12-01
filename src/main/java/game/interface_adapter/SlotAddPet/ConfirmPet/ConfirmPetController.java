@@ -1,7 +1,5 @@
 package game.interface_adapter.SlotAddPet.ConfirmPet;
 
-import game.entity.Pet;
-import game.entity.Slot;
 import game.use_case.SlotAddPet.ConfirmPet.ConfirmPetInputBoundary;
 import game.use_case.SlotAddPet.ConfirmPet.ConfirmPetInputData;
 

@@ -1,13 +1,10 @@
 package game.interface_adapter.SlotAddPet.SelectPet;
 
-import game.entity.Slot;
-
 /**
  * The state for the Select Slot View model.
  */
 public class SelectPetState {
 
-    // Identifies which slot was clicked
     private boolean slotUnlocked;
     private String message;
 

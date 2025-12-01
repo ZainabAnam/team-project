@@ -4,7 +4,7 @@ import game.use_case.GameStart.GameStartOutputBoundary;
 import game.use_case.GameStart.GameStartOutputData;
 
 /**
- * Presenter for the load use case.
+ * Presenter for the start game use case.
  */
 public class GameStartPresenter implements GameStartOutputBoundary {
 

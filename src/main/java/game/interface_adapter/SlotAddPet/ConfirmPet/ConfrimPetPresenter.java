@@ -12,12 +12,12 @@ public class ConfrimPetPresenter implements ConfirmPetOutputBoundary {
 
     @Override
     public void preparePetSlotView(ConfirmPetOutputData outputData) {
-        viewModel.setSelectedPet(outputData.getPetName());
-        viewModel.setError("");
+//        viewModel.setSelectedPet(outputData.getPetName());
+//        viewModel.setError("");
     }
 
     @Override
     public void preparePetAlreadyDeployed(String errorMessage) {
-        viewModel.setError(errorMessage);
+//        viewModel.setError(errorMessage);
     }
 }

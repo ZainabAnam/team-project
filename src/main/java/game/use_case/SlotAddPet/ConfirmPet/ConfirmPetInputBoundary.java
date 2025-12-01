@@ -1,7 +1,5 @@
 package game.use_case.SlotAddPet.ConfirmPet;
 
-import game.use_case.SlotAddPet.ConfirmPet.ConfirmPetInputData;
-
 /*
  * The usecase for confirming a pet and deploying it in the slot.
  * */

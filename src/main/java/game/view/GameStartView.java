@@ -18,14 +18,14 @@ import java.beans.PropertyChangeListener;
 public class GameStartView extends JFrame implements ActionListener, PropertyChangeListener {
     private final String viewName = "start screen";
 
-    private final GameStartViewModel loadViewModel;
+    private final GameStartViewModel gameStartViewModel;
     private GameStartController gameStartController;
     private final JButton newGameButton;
     private final JButton loadButton;
 
-    public GameStartView(GameStartViewModel loadViewModel, GameStartController gameStartController) {
-        this.loadViewModel = loadViewModel;
-        this.loadViewModel.addPropertyChangeListener(this);
+    public GameStartView(GameStartViewModel gameStartViewModel, GameStartController gameStartController) {
+        this.gameStartViewModel = gameStartViewModel;
+        this.gameStartViewModel.addPropertyChangeListener(this);
         this.gameStartController = gameStartController;
 
         setTitle("Pet Clicker");
@@ -85,11 +85,11 @@ public class GameStartView extends JFrame implements ActionListener, PropertyCha
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final GameStartState state = loadViewModel.getState();
+        final GameStartState state = gameStartViewModel.getState();
         if (state.isLoadSuccessful()) {
             MainViewModel mainViewModel = new MainViewModel();
-            MainView mainView = new MainView(mainViewModel);
-            mainView.setVisible(true);
+            //MainView mainView = new MainView(mainViewModel);
+            //mainView.setVisible(true);
             this.setVisible(false);
         }
         if (state.getErrorMessage() != null) {

@@ -4,8 +4,6 @@ import game.entity.Slot;
 import game.interface_adapter.SlotAddPet.ConfirmPet.*;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +19,6 @@ import java.util.List;
 public class ConfirmPetView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "Pet Select View";
-    private final Slot slot;
-    private final ConfirmPetViewModel confirmPetViewModel;
 
     private final JComboBox<Pet> petComboBox = new JComboBox<>();
     private final JLabel petName = new JLabel("-");
@@ -37,9 +33,7 @@ public class ConfirmPetView extends JPanel implements ActionListener, PropertyCh
     private ConfirmPetController confirmPetController = null;
 
     public ConfirmPetView(ConfirmPetViewModel confirmPetViewModel, Slot slot) {
-        this.confirmPetViewModel = confirmPetViewModel;
-        this.slot = slot;
-        this.confirmPetViewModel.addPropertyChangeListener(this);
+
 
         final JLabel title = new JLabel("Select Pet to Deploy:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -134,7 +128,6 @@ public class ConfirmPetView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        ConfirmPetState state = confirmPetViewModel.getState();
 
         updateComboBox(state.getPetList());
         petErrorField.setText(state.getErrorMessage());

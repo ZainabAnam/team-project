@@ -3,7 +3,7 @@ package game.use_case.GameStart;
 import game.entity.User;
 
 /**
- * The output data from the load game use case.
+ * The output data from the start game use case.
  */
 public class GameStartOutputData {
 

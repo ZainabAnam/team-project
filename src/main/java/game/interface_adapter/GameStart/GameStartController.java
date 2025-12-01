@@ -3,6 +3,9 @@ package game.interface_adapter.GameStart;
 import game.use_case.GameStart.GameStartInputBoundary;
 import game.use_case.GameStart.GameStartInputData;
 
+/**
+ * Controller for the Game Start use case
+ */
 public class GameStartController {
 
     private final GameStartInputBoundary interactor;

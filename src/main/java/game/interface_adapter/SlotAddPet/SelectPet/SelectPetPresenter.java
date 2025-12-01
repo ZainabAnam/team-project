@@ -1,16 +1,10 @@
 package game.interface_adapter.SlotAddPet.SelectPet;
 
-import game.entity.Pet;
 import game.entity.User;
 import game.interface_adapter.ViewManagerModel;
-import game.interface_adapter.SlotAddPet.ConfirmPet.ConfirmPetState;
 import game.interface_adapter.SlotAddPet.ConfirmPet.ConfirmPetViewModel;
 import game.use_case.SlotAddPet.SelectPet.SelectPetOutputData;
 import game.use_case.SlotAddPet.SelectPet.SelectPetOutputBoundary;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * The Presenter for the select slot use case.
@@ -30,13 +24,9 @@ public class SelectPetPresenter implements SelectPetOutputBoundary {
 
     @Override
     public void preparePetSelectView(SelectPetOutputData response) {
-        final ConfirmPetState  confirmPetState = confirmPetViewModel.getState();
-        this.confirmPetViewModel.firePropertyChange();
-
-        selectPetViewModel.setState(new  SelectPetState());
-
-        this.viewManagerModel.setState(confirmPetViewModel.getViewName());
-        this.viewManagerModel.firePropertyChange();
+        final SelectPetState selectPetState = new SelectPetState();
+        selectPetState.setSlotUnlocked(true);
+        selectPetViewModel.firePropertyChange();
     }
 
     @Override

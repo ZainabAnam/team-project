@@ -1,10 +1,8 @@
 package game.interface_adapter.SlotAddPet.ConfirmPet;
 
 import game.entity.Pet;
-import game.interface_adapter.SlotAddPet.ConfirmPet.ConfirmPetViewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

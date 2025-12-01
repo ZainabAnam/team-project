@@ -1,10 +1,6 @@
 package game.use_case.SlotAddPet.SelectPet;
 
 import game.data_access.UserDataAccessObjectInterface;
-import game.entity.Pet;
-import game.entity.User;
-
-import java.util.List;
 
 /*
 * The Interactor for the Adding Pet to Slot Use Case.
@@ -25,10 +21,8 @@ public class SelectPetInteractor implements SelectPetInputBoundary {
             userPresenter.prepareLockedSlotView("This Slot is locked. Unlock it by purchasing it " +
                     "in the shop.");
         } else {
-            List<Pet> temp = (null);
-
             final SelectPetOutputData slotAddPetOutputData = new SelectPetOutputData(slotAddPetInputData.getSlot(),
-                    temp);
+                    userData.loadUser().getPetInventory());
             userPresenter.preparePetSelectView(slotAddPetOutputData);
         }
     }

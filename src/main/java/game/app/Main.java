@@ -41,7 +41,7 @@ public class Main {
             GameStartPresenter presenter = new GameStartPresenter(load);
             GameStartInteractor interactor = new GameStartInteractor(userDAO, presenter);
             GameStartController controller = new GameStartController(interactor);
-            GameStartView view = new GameStartView(load);
+            GameStartView view = new GameStartView(load, controller);
             view.setVisible(true);
         });
     }

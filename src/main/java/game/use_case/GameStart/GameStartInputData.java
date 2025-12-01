@@ -1,5 +1,8 @@
 package game.use_case.GameStart;
 
+/**
+ * Input data for the Game Start use case
+ */
 public class GameStartInputData {
 
     private final String filename;
