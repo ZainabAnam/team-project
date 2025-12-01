@@ -1,6 +1,7 @@
 package game.interface_adapter.collections;
 
 import game.interface_adapter.ViewModel;
+import game.view.CollectionsView;
 
 /**
  * ViewModel for the Collections tab.

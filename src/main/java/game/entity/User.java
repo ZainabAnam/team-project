@@ -101,6 +101,11 @@ public class User {
             return new HashMap<>(this.itemsAmountList);
         }
 
+        // 2 ways of implementing this.
+        // way 1: what im doing now: use 2 hashmap, one showing the identity of the items,
+        // the other one shows the number of each item
+        // way 2: add another variable called "amount", and add the number of amount to the itemList
+        // for way2, we only need one list to include everything.
         public HashMap<String, Item> getItemsList() {
             return new HashMap<>(this.itemsList);
         }
