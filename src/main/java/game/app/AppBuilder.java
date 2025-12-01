@@ -1,5 +1,6 @@
 package game.app;
 
+import game.entity.LootBox;
 import game.entity.Pet;
 import game.entity.User;
 import game.interface_adapter.ViewManagerModel;
@@ -11,10 +12,7 @@ import game.interface_adapter.shop.ShopPresenter;
 import game.use_case.Collections.CollectionsDataAccessInterface;
 import game.use_case.Collections.CollectionsInputBoundary;
 import game.use_case.Collections.CollectionsInteractor;
-import game.view.CollectionsView;
-import game.view.MainView;
-import game.view.ShopView;
-import game.view.ViewManager;
+import game.view.*;
 import game.use_case.PetShop.ShopController;
 import game.use_case.PetShop.BuyItem.*;
 import game.use_case.PetShop.BuyLootBox.*;
@@ -118,7 +116,7 @@ public class AppBuilder {
         collectionsController = new CollectionsController(interactor);
 
         // 4. Swing view
-        collectionsView = new CollectionsView(collectionsViewModel, collectionsController);
+        collectionsView = new CollectionsView(collectionsViewModel, collectionsController,viewManagerModel,new PetCardView(collectionsViewModel));
         collectionsView.setCollectionsController(collectionsController);
 
         // 5. Register view with CardLayout
@@ -140,8 +138,13 @@ public class AppBuilder {
         User u = new User();
 
         // Add pets
-        Pet p1 = new Pet("Goldie", "Golden Retriever", null);
-        Pet p2 = new Pet("Max", "German Shepherd", null);
+        Pet p1 = new Pet("Dog", "Golden Retriever", "Common",5,4,5,
+                new ImageIcon("src/main/resources/images/Pet Images/Dog Images/Golden Retriever Icon.png"));
+        p1.setName("Goldie");
+        Pet p2 = new Pet("Dog","German Shepherd", "Elite",7,6,6,
+                new ImageIcon("src/main/resources/images/Pet Images/Dog Images/German Shepherd Icon.png"));
+        p2.setName("Max");
+
         u.addToPetInventory(p1);
         u.addToPetInventory(p2);
 
@@ -152,6 +155,8 @@ public class AppBuilder {
         u.addToItemList(ITEM_CHEW_TOY);
         u.addToItemList(ITEM_TOSS_TOY);
         u.addToItemList(ITEM_PLUSH_TOY);
+
+        u.setCoins(10000);
 
         return u;
     }
