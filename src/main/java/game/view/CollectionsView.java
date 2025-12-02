@@ -23,7 +23,7 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
     private CollectionsController controller;
 
     private final ViewManagerModel viewManagerModel;
-    private final PetCardView petCardView;
+    private final PetCardDialog petCardView;
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final JPanel collectionPanel = new JPanel(new BorderLayout());
@@ -68,7 +68,7 @@ public class CollectionsView extends JPanel implements PropertyChangeListener {
     };
 
     public CollectionsView(CollectionsViewModel viewModel, CollectionsController controller,
-                           ViewManagerModel viewManagerModel, PetCardView petCardView) {
+                           ViewManagerModel viewManagerModel, PetCardDialog petCardView) {
         this.viewModel = viewModel;
         this.controller = controller;
         this.viewManagerModel = viewManagerModel;

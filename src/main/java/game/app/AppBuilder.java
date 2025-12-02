@@ -1,28 +1,51 @@
 package game.app;
 
-import game.data_access.PetCardDataAccessObject;
+import game.data_access.*;
 import game.entity.Pet;
 import game.entity.User;
+
 import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionController;
 import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionPresenter;
 import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
 import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyPresenter;
 import game.interface_adapter.PetCard.PetCardViewModel;
+
+import game.interface_adapter.RenamePet.RenamePetController;
+import game.interface_adapter.RenamePet.RenamePetViewModel;
+import game.interface_adapter.RenamePet.RenamePetPresenter;
+
+import game.interface_adapter.Sell_Pet.SellPetController;
+import game.interface_adapter.Sell_Pet.SellPetPresenter;
+import game.interface_adapter.Sell_Pet.SellPetViewModel;
+
 import game.interface_adapter.ViewManagerModel;
+
 import game.interface_adapter.collections.CollectionsController;
 import game.interface_adapter.collections.CollectionsPresenter;
 import game.interface_adapter.collections.CollectionsViewModel;
+
+import game.interface_adapter.main_page.MainController;
+import game.interface_adapter.main_page.MainPresenter;
+import game.interface_adapter.main_page.MainViewModel;
+
 import game.interface_adapter.shop.ShopViewModel;
 import game.interface_adapter.shop.ShopPresenter;
 
 import game.use_case.Collections.CollectionsDataAccessInterface;
 import game.use_case.Collections.CollectionsInputBoundary;
 import game.use_case.Collections.CollectionsInteractor;
+import game.use_case.GetPetFact.PetFactDataAccessInterface;
+
 import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInputBoundary;
 import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInteractor;
 import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInputBoundary;
 import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInteractor;
+
+import game.use_case.MainScreenManualClicker.ManualClickerInteractor;
+import game.use_case.MainScreenManualClicker.ManualClickerInputBoundary;
+
 import game.view.*;
+
 import game.use_case.PetShop.ShopController;
 import game.use_case.PetShop.BuyItem.*;
 import game.use_case.PetShop.BuyLootBox.*;
@@ -31,10 +54,6 @@ import game.use_case.PetShop.UnlockSlot.*;
 
 import game.use_case.PetCard.RenamePet.*;
 import game.use_case.PetCard.SellPet.*;
-
-import game.data_access.ShopDataAccessObject;
-import game.data_access.RenamePetDataAccessObject;
-import game.data_access.SellPetDataAccessObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,7 +88,7 @@ public class AppBuilder {
     private CollectionsDataAccessInterface collectionsDataAccessObject;
     private PetFactDataAccessInterface petFactGateway;
 
-    private PetCardView petCardView;
+//    private PetCardView petCardView;
     // Rename Pet components
     private PetRenameView petRenameView;
     private RenamePetViewModel renamePetViewModel;
@@ -239,7 +258,12 @@ public class AppBuilder {
                 new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject, petFactGateway);
         collectionsController = new CollectionsController(interactor);
 
-        petCardView = new PetCardView(collectionsViewModel);
+        // adding this note here so it will show up in the PR.
+        // if we're not using PetCardView, we would have to switch any PetCardView objects
+        // to be PetCardDialog objects.  I already did some work related to that, but I didn't
+        // want to touch the code below so that this fix could be done by the person in charge
+        // of the collections.
+        petCardView = new PetCardDialog(collectionsViewModel);
         cardPanel.add(petCardView, PetCardView.VIEW_NAME);
 
         // 4. Swing view
