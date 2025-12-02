@@ -1,34 +1,28 @@
 package game.app;
 
-import game.data_access.MainDataAccessObject;
-import game.interface_adapter.ViewManagerModel;
-import game.interface_adapter.main_page.MainController;
-import game.interface_adapter.main_page.MainPresenter;
-import game.interface_adapter.main_page.MainViewModel;
-import game.interface_adapter.shop.ShopViewModel;
-import game.interface_adapter.shop.ShopPresenter;
-import game.use_case.MainScreenManualClicker.ManualClickerInputBoundary;
-import game.use_case.MainScreenManualClicker.ManualClickerInteractor;
+import game.data_access.PetCardDataAccessObject;
 import game.entity.Pet;
 import game.entity.User;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionController;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionPresenter;
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyPresenter;
+import game.interface_adapter.PetCard.PetCardViewModel;
 import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.collections.CollectionsController;
 import game.interface_adapter.collections.CollectionsPresenter;
 import game.interface_adapter.collections.CollectionsViewModel;
 import game.interface_adapter.shop.ShopViewModel;
 import game.interface_adapter.shop.ShopPresenter;
-import game.interface_adapter.RenamePet.RenamePetViewModel;
-import game.interface_adapter.RenamePet.RenamePetPresenter;
-import game.interface_adapter.RenamePet.RenamePetController;
-import game.interface_adapter.Sell_Pet.SellPetViewModel;
-import game.interface_adapter.Sell_Pet.SellPetPresenter;
-import game.interface_adapter.Sell_Pet.SellPetController;
 
-import game.view.ShopView;
-import game.view.PetRenameView;
-import game.view.SellPetView;
-import game.view.ViewManager;
-
+import game.use_case.Collections.CollectionsDataAccessInterface;
+import game.use_case.Collections.CollectionsInputBoundary;
+import game.use_case.Collections.CollectionsInteractor;
+import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInputBoundary;
+import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInteractor;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInputBoundary;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInteractor;
+import game.view.*;
 import game.use_case.PetShop.ShopController;
 import game.use_case.PetShop.BuyItem.*;
 import game.use_case.PetShop.BuyLootBox.*;
@@ -68,6 +62,14 @@ public class AppBuilder {
     private ShopController shopController;
     private ShopDataAccessObject shopDataAccessObject;
 
+    private CollectionsView collectionsView;
+    private CollectionsViewModel collectionsViewModel;
+    private CollectionsPresenter collectionsPresenter;
+    private CollectionsController collectionsController;
+    private CollectionsDataAccessInterface collectionsDataAccessObject;
+    private PetFactDataAccessInterface petFactGateway;
+
+    private PetCardView petCardView;
     // Rename Pet components
     private PetRenameView petRenameView;
     private RenamePetViewModel renamePetViewModel;
@@ -77,6 +79,15 @@ public class AppBuilder {
     private SellPetView sellPetView;
     private SellPetViewModel sellPetViewModel;
     private SellPetController sellPetController;
+
+    private PetCardDialog petCardView;
+    private PetCardViewModel petCardViewModel;
+    private IncreaseEnergyPresenter  increaseEnergyPresenter;
+    private IncreaseEnergyController  increaseEnergyController;
+    private IncreaseAffectionPresenter increaseAffectionPresenter;
+    private IncreaseAffectionController increaseAffectionController;
+    private PetCardDataAccessObject  petCardDataAccessObject;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -218,13 +229,22 @@ public class AppBuilder {
             }
         };
 
+        petFactGateway = new CompositePetFactDataAccessObject(
+                new DogApiPetFactDataAccessObject(),
+                new CatApiPetFactDataAccessObject()
+        );
+
         // 3. Interactor + Controller
         CollectionsInputBoundary interactor =
-                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject);
+                new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject, petFactGateway);
         collectionsController = new CollectionsController(interactor);
 
+        petCardView = new PetCardView(collectionsViewModel);
+        cardPanel.add(petCardView, PetCardView.VIEW_NAME);
+
         // 4. Swing view
-        collectionsView = new CollectionsView(collectionsViewModel, collectionsController,viewManagerModel,new PetCardView(collectionsViewModel));
+        collectionsView = new CollectionsView(collectionsViewModel, collectionsController, viewManagerModel,
+                petCardView);
         collectionsView.setCollectionsController(collectionsController);
 
         // 5. Register view with CardLayout
@@ -242,19 +262,70 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addPetCardUseCases() {
+        petCardDataAccessObject = new PetCardDataAccessObject();
+        increaseEnergyPresenter = new IncreaseEnergyPresenter(viewManagerModel, petCardViewModel,  petCardDataAccessObject);
+        increaseAffectionPresenter = new IncreaseAffectionPresenter(viewManagerModel, petCardViewModel,  petCardDataAccessObject);
+
+        IncreaseEnergyInputBoundary increaseEnergyInteractor = new IncreaseEnergyInteractor(petCardDataAccessObject, increaseEnergyPresenter);
+        IncreaseAffectionInputBoundary increaseAffectionInteractor = new IncreaseAffectionInteractor(petCardDataAccessObject, increaseAffectionPresenter);
+
+        increaseEnergyController = new IncreaseEnergyController(increaseEnergyInteractor);
+        increaseAffectionController = new IncreaseAffectionController(increaseAffectionInteractor);
+
+        petCardView.setEnergyController(increaseEnergyController);
+        petCardView.setAffectionController(increaseAffectionController);
+
+        return this;
+    }
+    ImageIcon goldenIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/Golden Retriever Icon.png")
+    );
+    ImageIcon shephredIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/German Shepherd Icon.png")
+    );
+    ImageIcon poodleIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/Poodle Icon.png")
+    );
+    ImageIcon boxerIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Dog Images/Boxer Icon.png")
+    );
+    ImageIcon sphynxIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Cat Images/Sphynx Icon.png")
+    );
+    ImageIcon americanShorthairIcon = new ImageIcon(
+            getClass().getResource("/images/Pet Images/Cat Images/American Shorthair Icon.png")
+    );
+
     private User createTestUser() {
         User u = new User();
 
         // Add pets
-        Pet p1 = new Pet("Dog", "Golden Retriever", "Common",5,4,5,
-                new ImageIcon("src/main/resources/images/Pet Images/Dog Images/Golden Retriever Icon.png"));
-        p1.setName("Goldie");
-        Pet p2 = new Pet("Dog","German Shepherd", "Elite",7,6,6,
-                new ImageIcon("src/main/resources/images/Pet Images/Dog Images/German Shepherd Icon.png"));
-        p2.setName("Max");
+        Pet p1 = new Pet("Dog", "Golden Retriever", "Common", 100, 5, 10, goldenIcon);
+        Pet p2 = new Pet("Dog", "German Shepherd", "Elite", 100, 5, 10, shephredIcon);
+        Pet p3 = new Pet("Dog", "Poodle", "Common", 100, 5, 10, poodleIcon);
+        Pet p4 = new Pet("Dog", "Boxer", "Common", 100, 5, 10, boxerIcon);
+        Pet p5 = new Pet("Cat", "Sphynx", "Elite", 100, 5, 10, sphynxIcon);
+        Pet p6 = new Pet("Cat", "American Shorthair", "Common", 100, 5, 10, americanShorthairIcon);
+
+        
+        for (int i = 0; i < 10 ; i++) {
+            p1.depleteEnergy();
+        }
+
+        p1.setName("Max");
+        p2.setName("Rex");
+        p3.setName("Doodle");
+        p4.setName("Kieser");
+        p5.setName("Belle");
+        p6.setName("Sprinkles");
 
         u.addToPetInventory(p1);
         u.addToPetInventory(p2);
+        u.addToPetInventory(p3);
+        u.addToPetInventory(p4);
+        u.addToPetInventory(p5);
+        u.addToPetInventory(p6);
 
         // Items
         u.addToItemList(ITEM_CANNED_FOOD);
