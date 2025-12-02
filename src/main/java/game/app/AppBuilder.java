@@ -259,10 +259,15 @@ public class AppBuilder {
         collectionsController = new CollectionsController(interactor);
 
         // adding this note here so it will show up in the PR.
+
+        // basically, I replaced the next line of code to have a PetCardDialog object instead
+        // of a PetCardView object, since I believe dialog is what we're using here.  But,
+        // the two object instantiators take different classes as parameters.
+
         // if we're not using PetCardView, we would have to switch any PetCardView objects
         // to be PetCardDialog objects.  I already did some work related to that, but I didn't
-        // want to touch the code below so that this fix could be done by the person in charge
-        // of the collections.
+        // want to change the instantiation even more so that this fix could be done by the
+        // person in charge of the collections.
         petCardView = new PetCardDialog(collectionsViewModel);
         cardPanel.add(petCardView, PetCardView.VIEW_NAME);
 
