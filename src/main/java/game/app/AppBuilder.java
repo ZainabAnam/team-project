@@ -15,10 +15,10 @@ import game.interface_adapter.Sell_Pet.SellPetViewModel;
 import game.interface_adapter.Sell_Pet.SellPetPresenter;
 import game.interface_adapter.Sell_Pet.SellPetController;
 
-import game.view.ShopView;
-import game.view.PetRenameView;
-import game.view.SellPetView;
-import game.view.ViewManager;
+import game.use_case.Collections.CollectionsDataAccessInterface;
+import game.use_case.Collections.CollectionsInputBoundary;
+import game.use_case.Collections.CollectionsInteractor;
+import game.view.*;
 
 import game.use_case.PetShop.ShopController;
 import game.use_case.PetShop.BuyItem.*;
@@ -176,11 +176,11 @@ public class AppBuilder {
 
     public AppBuilder addCollectionsView() {
         // 1. ViewModel and Presenter
-        collectionsViewModel = new CollectionsViewModel();
-        collectionsPresenter = new CollectionsPresenter(collectionsViewModel);
+        CollectionsViewModel collectionsViewModel = new CollectionsViewModel();
+        CollectionsPresenter collectionsPresenter = new CollectionsPresenter(collectionsViewModel);
 
         // 2. In-memory implementation of CollectionsDataAccessInterface
-        collectionsDataAccessObject = new CollectionsDataAccessInterface() {
+        CollectionsDataAccessInterface collectionsDataAccessObject = new CollectionsDataAccessInterface() {
             private User testUser = createTestUser();
 
             @Override
@@ -197,10 +197,10 @@ public class AppBuilder {
         // 3. Interactor + Controller
         CollectionsInputBoundary interactor =
                 new CollectionsInteractor(collectionsPresenter, collectionsDataAccessObject);
-        collectionsController = new CollectionsController(interactor);
+        CollectionsController collectionsController = new CollectionsController(interactor);
 
         // 4. Swing view
-        collectionsView = new CollectionsView(collectionsViewModel, collectionsController);
+        CollectionsView collectionsView = new CollectionsView(collectionsViewModel, collectionsController, viewManagerModel,null);
         collectionsView.setCollectionsController(collectionsController);
 
         // 5. Register view with CardLayout
@@ -222,8 +222,8 @@ public class AppBuilder {
         User u = new User();
 
         // Add pets
-        Pet p1 = new Pet("Goldie", "Golden Retriever", null);
-        Pet p2 = new Pet("Max", "German Shepherd", null);
+        Pet p1 = new Pet("Dog", "Golden Retriever", "Common",5,4,5,null);
+        Pet p2 = new Pet("Dog", "German Shepherd", "Elite",7,6,6,null);
         u.addToPetInventory(p1);
         u.addToPetInventory(p2);
 
