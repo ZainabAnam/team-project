@@ -335,6 +335,8 @@ public class AppBuilder {
         u.addToItemList(ITEM_TOSS_TOY);
         u.addToItemList(ITEM_PLUSH_TOY);
 
+        u.setCoins(10000);
+
         return u;
     }
 

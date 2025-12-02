@@ -6,11 +6,19 @@ package game.interface_adapter;
  */
 public class ViewManagerModel extends ViewModel<String> {
 
+    /**
+     * Constructs ViewManagerModel.
+     */
     public ViewManagerModel() {
         super("view manager");
         this.setState("");
     }
-    public void setInitialView(String viewName) {
+
+    /**
+     * Sets initial view.
+     * @param viewName view name
+     */
+    public void setInitialView(final String viewName) {
         this.setState(viewName);
     }
 }

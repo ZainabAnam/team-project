@@ -51,6 +51,8 @@ public class BuyItemInteractorTest {
         assertEquals(5, dataAccess.getUser().getCoinCount());
         assertEquals(0, dataAccess.getUser().getItemsAmountList().get("Kibble"));
 
+        interactor.execute(new BuyItemInputData("Plush Toy"));
+
         //make sure outputing the right data
         assertEquals(ShopMessageConstants.INSUFFICIENT_COINS, outputBoundary.lastOutputData.getMessage());
         assertEquals("Plush Toy", outputBoundary.lastOutputData.getItemName());

@@ -15,58 +15,89 @@ import game.use_case.PetShop.UnlockSlot.UnlockSlotOutputData;
  * The Presenter for the Shop Use Cases.
  * Implements OutputBoundary interfaces and updates the ShopViewModel.
  */
-public class ShopPresenter implements BuyItemOutputBoundary, BuyLootBoxOutputBoundary, 
-                                     UpgradeClickerOutputBoundary, UnlockSlotOutputBoundary {
+public class ShopPresenter implements BuyItemOutputBoundary,
+                                     BuyLootBoxOutputBoundary,
+                                     UpgradeClickerOutputBoundary,
+                                     UnlockSlotOutputBoundary {
 
-    private final ViewManagerModel viewManagerModel;//not changing page as it is a pop-up window
+    /**
+     * Not changing page as it is a pop-up window.
+     */
+    private final ViewManagerModel viewManagerModel;
+    /**
+     * Shop view model.
+     */
     private final ShopViewModel shopViewModel;
+    /**
+     * Data access object.
+     */
     private final ShopDataAccessObject dataAccess;
 
-    public ShopPresenter(ViewManagerModel viewManagerModel, ShopViewModel shopViewModel, ShopDataAccessObject dataAccess) {
-        this.viewManagerModel = viewManagerModel;
-        this.shopViewModel = shopViewModel;
-        this.dataAccess = dataAccess;
+    /**
+     * Constructs ShopPresenter.
+     * @param vmModel view manager model
+     * @param svm shop view model
+     * @param dao data access object
+     */
+    public ShopPresenter(final ViewManagerModel vmModel,
+                        final ShopViewModel svm,
+                        final ShopDataAccessObject dao) {
+        this.viewManagerModel = vmModel;
+        this.shopViewModel = svm;
+        this.dataAccess = dao;
     }
 
+    /**
+     * Presents buying success.
+     * @param outputData output data
+     */
     @Override
-    public void presentBuyingSuccess(BuyItemOutputData outputData) {
+    public void presentBuyingSuccess(final BuyItemOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         // Refresh
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(true);
         currentState.setLastMessage(outputData.getMessage());
         currentState.setLastPurchasedItem(outputData.getItemName());
-        
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }
 
+    /**
+     * Presents buying failure.
+     * @param outputData output data
+     */
     @Override
-    public void presentBuyingFailure(BuyItemOutputData outputData) {
+    public void presentBuyingFailure(final BuyItemOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(false);
         currentState.setLastMessage(outputData.getMessage());
         currentState.setLastPurchasedItem("");
-        
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }
 
+    /**
+     * Presents loot box success.
+     * @param outputData output data
+     */
     @Override
-    public void presentLootBoxSuccess(BuyLootBoxOutputData outputData) {
+    public void presentLootBoxSuccess(final BuyLootBoxOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(true);
         currentState.setLastMessage(outputData.getMessage());
         currentState.setLastPurchasedItem("Loot Box");
-        
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
 
@@ -74,79 +105,104 @@ public class ShopPresenter implements BuyItemOutputBoundary, BuyLootBoxOutputBou
         viewManagerModel.firePropertyChange();
     }
 
+    /**
+     * Presents loot box failure.
+     * @param outputData output data
+     */
     @Override
-    public void presentLootBoxFailure(BuyLootBoxOutputData outputData) {
+    public void presentLootBoxFailure(final BuyLootBoxOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         // Refresh
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         // Update state with loot box failure
         currentState.setLastOperationSuccess(false);
         currentState.setLastMessage(outputData.getMessage());
         currentState.setLastPurchasedItem("");
-        
+
         // Update the ViewModel and fire property change
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }
 
+    /**
+     * Presents upgrade success.
+     * @param outputData output data
+     */
     @Override
-    public void presentUpgradeSuccess(UpgradeClickerOutputData outputData) {
+    public void presentUpgradeSuccess(
+            final UpgradeClickerOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(true);
         currentState.setLastMessage(outputData.getMessage());
-        currentState.setLastPurchasedItem("Upgrade Clicker: Level " + 
-            String.valueOf(outputData.getBeforeLevel()) + " -> Level " + 
-            String.valueOf(outputData.getAfterLevel()));
-        
+        currentState.setLastPurchasedItem("Upgrade Clicker: Level "
+                + String.valueOf(outputData.getBeforeLevel())
+                + " -> Level "
+                + String.valueOf(outputData.getAfterLevel()));
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }
 
+    /**
+     * Presents upgrade failure.
+     * @param outputData output data
+     */
     @Override
-    public void presentUpgradeFailure(UpgradeClickerOutputData outputData) {
+    public void presentUpgradeFailure(
+            final UpgradeClickerOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(false);
         currentState.setLastMessage(outputData.getMessage());
         currentState.setLastPurchasedItem("");
-        
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }
 
+    /**
+     * Presents unlock success.
+     * @param outputData output data
+     */
     @Override
-    public void presentUnlockSuccess(UnlockSlotOutputData outputData) {
+    public void presentUnlockSuccess(final UnlockSlotOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(true);
         currentState.setLastMessage(outputData.getMessage());
-        currentState.setLastPurchasedItem("Unlock Slot: " + 
-            String.valueOf(outputData.getBeforeSlots()) + " slots -> " + 
-            String.valueOf(outputData.getAfterSlots()) + " slots");
-        
+        currentState.setLastPurchasedItem("Unlock Slot: "
+                + String.valueOf(outputData.getBeforeSlots())
+                + " slots -> "
+                + String.valueOf(outputData.getAfterSlots())
+                + " slots");
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }
 
+    /**
+     * Presents unlock failure.
+     * @param outputData output data
+     */
     @Override
-    public void presentUnlockFailure(UnlockSlotOutputData outputData) {
+    public void presentUnlockFailure(final UnlockSlotOutputData outputData) {
         ShopState currentState = shopViewModel.getState();
-        
+
         currentState.setCurrentUser(dataAccess.getCurrentUser());
-        
+
         currentState.setLastOperationSuccess(false);
         currentState.setLastMessage(outputData.getMessage());
         currentState.setLastPurchasedItem("");
-        
+
         shopViewModel.setState(currentState);
         shopViewModel.firePropertyChange();
     }

@@ -104,7 +104,7 @@ public class ShopView extends JPanel implements ActionListener, PropertyChangeLi
         upgradeClickerPanel = createItemPanel(
             ShopImageConstants.UPGRADE_CLICKER_IMG,
             ShopViewConstants.UPGRADE_CLICKER_TITLE,
-            ShopViewConstants.UPGRADE_CLICKER_DESC + " (Level: 1)",//set as default level
+            ShopViewConstants.UPGRADE_CLICKER_DESC + " (Level: "+Constants.INITIAL_CLICKBONUS_TIME+")",//set as default level
             upgradeClickerButton,
             Constants.UPGRADE_CLICKER_BASE_PRICE
         );
@@ -113,7 +113,7 @@ public class ShopView extends JPanel implements ActionListener, PropertyChangeLi
         unlockSlotPanel = createItemPanel(
             ShopImageConstants.UNLOCK_SLOT_IMG,
             ShopViewConstants.UNLOCK_SLOT_TITLE,
-            ShopViewConstants.UNLOCK_SLOT_DESC + " (Slots: 2)",//set as default slots
+            ShopViewConstants.UNLOCK_SLOT_DESC + " (Slots: "+Constants.INITIAL_SLOTS+")",//set as default slots
             unlockSlotButton,
             Constants.UNLOCK_SLOT_BASE_PRICE
         );
