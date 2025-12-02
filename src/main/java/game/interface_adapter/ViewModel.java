@@ -7,26 +7,52 @@ import java.beans.PropertyChangeSupport;
  * @param <T> The type of state object contained in the model.
  */
 public class ViewModel<T> {
+    /**
+     * View name.
+     */
     private final String viewName;
 
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    /**
+     * Property change support.
+     */
+    private final PropertyChangeSupport support =
+            new PropertyChangeSupport(this);
 
+    /**
+     * State object.
+     */
     private T state;
 
-    public ViewModel(String viewName) {
-        this.viewName = viewName;
+    /**
+     * Constructs ViewModel.
+     * @param name view name
+     */
+    public ViewModel(final String name) {
+        this.viewName = name;
     }
 
+    /**
+     * Gets view name.
+     * @return view name
+     */
     public String getViewName() {
         return this.viewName;
     }
 
+    /**
+     * Gets state.
+     * @return state object
+     */
     public T getState() {
         return this.state;
     }
 
-    public void setState(T state) {
-        this.state = state;
+    /**
+     * Sets state.
+     * @param newState state object
+     */
+    public void setState(final T newState) {
+        this.state = newState;
     }
 
     /**
@@ -42,7 +68,7 @@ public class ViewModel<T> {
      * when a class is listening for multiple kinds of property changes.
      * @param propertyName the label for the property that was changed
      */
-    public void firePropertyChange(String propertyName) {
+    public void firePropertyChange(final String propertyName) {
         this.support.firePropertyChange(propertyName, null, this.state);
     }
 
@@ -50,7 +76,8 @@ public class ViewModel<T> {
      * Adds a PropertyChangeListener to this ViewModel.
      * @param listener The PropertyChangeListener to be added
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    public void addPropertyChangeListener(
+            final PropertyChangeListener listener) {
         this.support.addPropertyChangeListener(listener);
     }
 

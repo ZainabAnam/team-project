@@ -10,25 +10,38 @@ import game.use_case.PetShop.UnlockSlot.UnlockSlotDataAccessInterface;
  * Data Access Object for Shop operations.
  * Implements all shop-related data access interfaces.
  */
-public class ShopDataAccessObject implements BuyItemDataAccessInterface, 
+public class ShopDataAccessObject implements BuyItemDataAccessInterface,
                                            BuyLootBoxDataAccessInterface,
                                            UpgradeClickerDataAccessInterface,
                                            UnlockSlotDataAccessInterface {
 
+    /**
+     * Current user.
+     */
     private User currentUser;
 
+    /**
+     * Initialize with a default user for demo purposes.
+     */
     public ShopDataAccessObject() {
-        // Initialize with a default user for demo purposes
         this.currentUser = new User();
     }
 
+    /**
+     * Gets current user.
+     * @return current user
+     */
     @Override
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Saves user.
+     * @param user user to save
+     */
     @Override
-    public void saveUser(User user) {
+    public void saveUser(final User user) {
         this.currentUser = user;
         //TODO: save database here
     }
@@ -37,7 +50,7 @@ public class ShopDataAccessObject implements BuyItemDataAccessInterface,
      * Updates the current user (for testing purposes).
      * @param user the new user
      */
-    public void setCurrentUser(User user) {
+    public void setCurrentUser(final User user) {
         this.currentUser = user;
     }
 }

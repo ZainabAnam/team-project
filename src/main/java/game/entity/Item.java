@@ -1,23 +1,53 @@
 package game.entity;
 
 public abstract class Item {
-        private String name;
-        private String type;
-        private int price;
+    /**
+     * Item name.
+     */
+    private String name;
+    /**
+     * Item type.
+     */
+    private String type;
+    /**
+     * Item price.
+     */
+    private int price;
 
-        public Item(String name, int price,String type) {
-            this.name = name;
-            this.price = price;
-            this.type=type;
-        }
-        public String getName() {
-            return this.name;
-        }
+    /**
+     * Constructs Item.
+     * @param itemName item name
+     * @param itemPrice item price
+     * @param itemType item type
+     */
+    public Item(final String itemName, final int itemPrice,
+               final String itemType) {
+        this.name = itemName;
+        this.price = itemPrice;
+        this.type = itemType;
+    }
 
-        public String getType(){
-                return this.type;}
+    /**
+     * Gets name.
+     * @return item name
+     */
+    public String getName() {
+        return this.name;
+    }
 
-        public int getPrice() {
-            return this.price;
-        }
+    /**
+     * Gets type.
+     * @return item type
+     */
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Gets price.
+     * @return item price
+     */
+    public int getPrice() {
+        return this.price;
+    }
 }

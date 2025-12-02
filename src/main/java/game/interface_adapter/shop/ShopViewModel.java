@@ -8,8 +8,14 @@ import game.entity.User;
  */
 public class ShopViewModel extends ViewModel<ShopState> {
 
+    /**
+     * Title label.
+     */
     public static final String TITLE_LABEL = "Pet Shop";
 
+    /**
+     * Constructs ShopViewModel.
+     */
     public ShopViewModel() {
         super("shop");
         setState(new ShopState());
@@ -19,7 +25,7 @@ public class ShopViewModel extends ViewModel<ShopState> {
      * Updates the current user in the state and fires property change.
      * @param user the current user
      */
-    public void updateUser(User user) {
+    public void updateUser(final User user) {
         ShopState currentState = getState();
         currentState.setCurrentUser(user);
         setState(currentState);
