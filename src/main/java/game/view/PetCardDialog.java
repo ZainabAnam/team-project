@@ -1,12 +1,33 @@
 package game.view;
 
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
+import game.interface_adapter.PetCard.PetCardState;
+import game.interface_adapter.PetCard.PetCardViewModel;
+import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.collections.CollectionsState;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class PetCardDialog extends JDialog {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import static game.Constants.ITEM_KIBBLE;
+import static game.Constants.ITEM_CANNED_FOOD;
+import static game.Constants.ITEM_HOME_COOKED;
+import static game.Constants.ITEM_CHEW_TOY;
+import static game.Constants.ITEM_TOSS_TOY;
+import static game.Constants.ITEM_PLUSH_TOY;
+
+public class PetCardDialog extends JDialog implements ActionListener, PropertyChangeListener {
+
+    private final String viewName = "pet card";
+    private final PetCardViewModel petCardViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     private final JLabel nameLabel = new JLabel();
     private final JLabel breedLabel = new JLabel();
@@ -21,20 +42,28 @@ public class PetCardDialog extends JDialog {
 
     private final EnergyBar energyBar = new EnergyBar();
 
-    public PetCardDialog(Window owner, CollectionsState.PetCardState pet) {
+    private IncreaseAffectionController increaseAffectionController;
+    private IncreaseEnergyController increaseEnergyController;
+
+    public PetCardDialog(Window owner, CollectionsState.PetCardState pet, PetCardViewModel petCardViewModel, ViewManagerModel viewManagerModel) {
         super(owner, "Pet Details", ModalityType.APPLICATION_MODAL);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
+        this.petCardViewModel = petCardViewModel;
+        this.petCardViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
-        buildUI();
+        // roughly “card sized”
+        setPreferredSize(new Dimension(380, 520));
+
+        buildUI(pet);
         fillFromPet(pet);
         pack();
         setLocationRelativeTo(owner);
     }
 
-    private void buildUI() {
-        JPanel root = new JPanel();
-        root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
+    private void buildUI(CollectionsState.PetCardState pet) {
+        JPanel root = new JPanel(new BorderLayout());
         root.setBorder(new EmptyBorder(16, 16, 16, 16));
         root.setBackground(Color.WHITE);
         setContentPane(root);
@@ -133,6 +162,69 @@ public class PetCardDialog extends JDialog {
         factColumn.setOpaque(false);
         factColumn.setLayout(new BoxLayout(factColumn, BoxLayout.Y_AXIS));
 
+        JButton feedButton = new JButton("Feed");
+        buttons.add(feedButton);
+
+        JPopupMenu foodPopup = new JPopupMenu();
+        JMenuItem kibbleItem = new JMenuItem(ITEM_KIBBLE);
+        foodPopup.add(kibbleItem);
+        JMenuItem cannedFoodItem = new JMenuItem(ITEM_CANNED_FOOD);
+        foodPopup.add(cannedFoodItem);
+        JMenuItem homeCookedItem = new JMenuItem(ITEM_HOME_COOKED);
+        foodPopup.add(homeCookedItem);
+
+        feedButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(feedButton)) {
+                            foodPopup.show(feedButton, 0, feedButton.getHeight());
+                        }
+                    }
+                });
+        ActionListener feedListener;
+        feedListener = evt -> {
+            String food = evt.getActionCommand();
+            increaseEnergyController.execute(pet, food);
+        };
+
+        kibbleItem.addActionListener(feedListener);
+        cannedFoodItem.addActionListener(feedListener);
+        homeCookedItem.addActionListener(feedListener);
+
+
+
+        JButton playButton = new JButton("Play");
+        buttons.add(playButton);
+
+        JPopupMenu toyPopup = new JPopupMenu();
+        JMenuItem chewToyItem = new JMenuItem(ITEM_CHEW_TOY);
+        toyPopup.add(chewToyItem);
+        JMenuItem tossToyItem = new JMenuItem(ITEM_TOSS_TOY);
+        toyPopup.add(tossToyItem);
+        JMenuItem plushToyItem = new JMenuItem(ITEM_PLUSH_TOY);
+        toyPopup.add(plushToyItem);
+
+        playButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(playButton)) {
+                            toyPopup.show(playButton, 0, playButton.getHeight());
+                        }
+                    }
+                });
+
+        ActionListener playListener;
+        playListener = evt -> {
+            String toy = evt.getActionCommand();
+            increaseAffectionController.execute(pet, toy);
+        };
+
+        chewToyItem.addActionListener(playListener);
+        tossToyItem.addActionListener(playListener);
+        plushToyItem.addActionListener(playListener);
+
+
+        buttons.add(new JButton("Sell"));
         JLabel didYouKnowLabel = new JLabel("Did you know?");
         didYouKnowLabel.setFont(didYouKnowLabel.getFont().deriveFont(Font.BOLD, 12f));
         didYouKnowLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -142,6 +234,8 @@ public class PetCardDialog extends JDialog {
         factLabel.setFont(factLabel.getFont().deriveFont(12f));
         factLabel.setBorder(new EmptyBorder(4, 0, 0, 0));
         factLabel.setOpaque(false);
+
+        root.add(bottom, BorderLayout.SOUTH);
 
         factColumn.add(didYouKnowLabel);
         factColumn.add(factLabel);
@@ -220,9 +314,68 @@ public class PetCardDialog extends JDialog {
 
     public static void showForPet(Component parent, CollectionsState.PetCardState pet) {
         Window owner = SwingUtilities.getWindowAncestor(parent);
-        PetCardDialog dialog = new PetCardDialog(owner, pet);
+        PetCardDialog dialog = new PetCardDialog(owner, pet, new PetCardViewModel(), new ViewManagerModel());
         dialog.setVisible(true);
     }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setAffectionController(IncreaseAffectionController increaseAffectionController) {
+        this.increaseAffectionController = increaseAffectionController;
+    }
+
+    public void setEnergyController(IncreaseEnergyController increaseEnergyController) {
+        this.increaseEnergyController = increaseEnergyController;
+    }
+
+    private void updateEnergyLevel() {
+        final PetCardState state = petCardViewModel.getState();
+        energyLabel.setText("Energy: " + state.getNewEnergyLevel() + "%");
+    }
+
+    private void updateEnergyBar() {
+        final PetCardState state = petCardViewModel.getState();
+        energyBar.setValue(state.getNewEnergyLevel());
+    }
+
+    private void updateAffectionXP() {
+        final PetCardState state = petCardViewModel.getState();
+        affectionLabel.setText("Affection XP: " + state.getNewAffectionXP() + "/30");
+
+    }
+
+    private void updateAffectionLevel() {
+        final PetCardState state = petCardViewModel.getState();
+        levelLabel.setText("Lvl " + state.getNewPetLevel());
+    }
+
+    private void updateClickingSpeed() {
+        final PetCardState state = petCardViewModel.getState();
+        clickingSpeedLabel.setText("CPM: " + state.getNewClickingSpeed() + " coins/min");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println(evt.getActionCommand());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (!evt.getPropertyName().equals("state")) {
+            return;
+        }
+        else {
+            final PetCardState state = (PetCardState) evt.getNewValue();
+            updateEnergyLevel();
+            updateEnergyBar();
+            updateAffectionXP();
+            updateAffectionLevel();
+            updateClickingSpeed();
+        }
+    }
+
 
     private static class EnergyBar extends JComponent {
         private int value = 0;

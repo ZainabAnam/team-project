@@ -1,25 +1,22 @@
 package game.use_case.PetCard.IncreaseEnergy;
 
+import game.entity.Pet;
+import game.interface_adapter.collections.CollectionsState;
+
 public class IncreaseEnergyInputData {
-    private final String userID;
     private final String petName;
-    private final int energyIncrease;
+    private final String food;
 
-    public IncreaseEnergyInputData(String userID, String petName,  int energyBoost) {
-        this.userID = userID;
+    public IncreaseEnergyInputData(String petName, String food) {
         this.petName = petName;
-        this.energyIncrease = energyBoost;
-    }
-
-    public String getUserID() {
-        return userID;
+        this.food = food;
     }
 
     public String getPetName() {
         return petName;
     }
 
-    public int getEnergyIncrease() {
-        return energyIncrease;
+    public String getFood() {
+        return food;
     }
 }

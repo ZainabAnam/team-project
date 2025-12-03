@@ -1,23 +1,13 @@
 package game.app;
 
-import game.data_access.CatApiPetFactDataAccessObject;
-import game.data_access.CompositePetFactDataAccessObject;
-import game.data_access.DogApiPetFactDataAccessObject;
-import game.data_access.MainDataAccessObject;
-
-import game.interface_adapter.ViewManagerModel;
-import game.interface_adapter.main_page.MainController;
-import game.interface_adapter.main_page.MainPresenter;
-import game.interface_adapter.main_page.MainViewModel;
-import game.interface_adapter.shop.ShopViewModel;
-import game.interface_adapter.shop.ShopPresenter;
-
-import game.use_case.MainScreenManualClicker.ManualClickerInputBoundary;
-import game.use_case.MainScreenManualClicker.ManualClickerInteractor;
-
+import game.data_access.PetCardDataAccessObject;
 import game.entity.Pet;
 import game.entity.User;
-
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionController;
+import game.interface_adapter.PetCard.IncreaseAffection.IncreaseAffectionPresenter;
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyController;
+import game.interface_adapter.PetCard.IncreaseEnergy.IncreaseEnergyPresenter;
+import game.interface_adapter.PetCard.PetCardViewModel;
 import game.interface_adapter.ViewManagerModel;
 import game.interface_adapter.collections.CollectionsController;
 import game.interface_adapter.collections.CollectionsPresenter;
@@ -28,24 +18,11 @@ import game.interface_adapter.shop.ShopPresenter;
 import game.use_case.Collections.CollectionsDataAccessInterface;
 import game.use_case.Collections.CollectionsInputBoundary;
 import game.use_case.Collections.CollectionsInteractor;
-import game.use_case.GetPetFact.PetFactDataAccessInterface;
-
-import game.view.CollectionsView;
-import game.view.MainView;
-import game.view.PetCardView;
-
-import game.interface_adapter.RenamePet.RenamePetViewModel;
-import game.interface_adapter.RenamePet.RenamePetPresenter;
-import game.interface_adapter.RenamePet.RenamePetController;
-import game.interface_adapter.Sell_Pet.SellPetViewModel;
-import game.interface_adapter.Sell_Pet.SellPetPresenter;
-import game.interface_adapter.Sell_Pet.SellPetController;
-
-import game.view.ShopView;
-import game.view.PetRenameView;
-import game.view.SellPetView;
-import game.view.ViewManager;
-
+import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInputBoundary;
+import game.use_case.PetCard.IncreaseAffection.IncreaseAffectionInteractor;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInputBoundary;
+import game.use_case.PetCard.IncreaseEnergy.IncreaseEnergyInteractor;
+import game.view.*;
 import game.use_case.PetShop.ShopController;
 import game.use_case.PetShop.BuyItem.*;
 import game.use_case.PetShop.BuyLootBox.*;
@@ -102,6 +79,15 @@ public class AppBuilder {
     private SellPetView sellPetView;
     private SellPetViewModel sellPetViewModel;
     private SellPetController sellPetController;
+
+    private PetCardDialog petCardView;
+    private PetCardViewModel petCardViewModel;
+    private IncreaseEnergyPresenter  increaseEnergyPresenter;
+    private IncreaseEnergyController  increaseEnergyController;
+    private IncreaseAffectionPresenter increaseAffectionPresenter;
+    private IncreaseAffectionController increaseAffectionController;
+    private PetCardDataAccessObject  petCardDataAccessObject;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -276,6 +262,22 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addPetCardUseCases() {
+        petCardDataAccessObject = new PetCardDataAccessObject();
+        increaseEnergyPresenter = new IncreaseEnergyPresenter(viewManagerModel, petCardViewModel,  petCardDataAccessObject);
+        increaseAffectionPresenter = new IncreaseAffectionPresenter(viewManagerModel, petCardViewModel,  petCardDataAccessObject);
+
+        IncreaseEnergyInputBoundary increaseEnergyInteractor = new IncreaseEnergyInteractor(petCardDataAccessObject, increaseEnergyPresenter);
+        IncreaseAffectionInputBoundary increaseAffectionInteractor = new IncreaseAffectionInteractor(petCardDataAccessObject, increaseAffectionPresenter);
+
+        increaseEnergyController = new IncreaseEnergyController(increaseEnergyInteractor);
+        increaseAffectionController = new IncreaseAffectionController(increaseAffectionInteractor);
+
+        petCardView.setEnergyController(increaseEnergyController);
+        petCardView.setAffectionController(increaseAffectionController);
+
+        return this;
+    }
     ImageIcon goldenIcon = new ImageIcon(
             getClass().getResource("/images/Pet Images/Dog Images/Golden Retriever Icon.png")
     );

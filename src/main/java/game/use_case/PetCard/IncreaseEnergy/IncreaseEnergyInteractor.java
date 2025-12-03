@@ -16,22 +16,24 @@ public class IncreaseEnergyInteractor implements IncreaseEnergyInputBoundary {
 
     @Override
     public void execute (IncreaseEnergyInputData inputData) {
-        if (!dAO.userExists(inputData.getUserID())) {
-//            userPresenter.prepareFailView("Energy error.");
+        try {
+            String petName = inputData.getPetName();
+            User user = dAO.getUser();
+            List<Pet> petList = user.getPetInventory();
 
-        }
-        else {
-            final User user = dAO.getUser(inputData.getUserID());
-            final List<Pet> petInventory = user.getPetInventory();
-            final String petName = inputData.getPetName();
-            for (Pet pet : petInventory) {
-                if (petName.equals(pet.getName())) {
-                    pet.increaseEnergyLevel(inputData.getEnergyIncrease());
-                    final IncreaseEnergyOutputData outputData = new IncreaseEnergyOutputData(pet.getEnergyLevel());
+            for (Pet pet : petList) {
+                if (petName.equals(pet.getName()) && user.itemCheck(inputData.getFood())) {
+                    user.usePetItem(pet, inputData.getFood());
+                    IncreaseEnergyOutputData outputData = new IncreaseEnergyOutputData(pet.getEnergyLevel());
                     userPresenter.prepareSuccessView(outputData);
                 }
+                else if (!user.itemCheck(inputData.getFood())) {
+                    IncreaseEnergyOutputData outputData = new IncreaseEnergyOutputData(pet.getEnergyLevel());
+                    userPresenter.prepareFailView("You don't have this food.");
+                }
             }
-            userPresenter.prepareFailView("Energy error");
+        } catch (Exception e) {
+            userPresenter.prepareFailView("Pet not found");
         }
     }
 }
