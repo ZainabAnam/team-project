@@ -2,6 +2,7 @@ package game.interface_adapter.collections;
 
 import game.use_case.Collections.CollectionsOutputBoundary;
 import game.use_case.Collections.CollectionsOutputData;
+import game.view.CollectionsView;
 
 import java.util.ArrayList;
 import java.util.List;
