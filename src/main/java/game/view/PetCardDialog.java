@@ -116,9 +116,72 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         JPanel buttonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 16, 0));
         buttonsRow.setOpaque(false);
 
-        buttonsRow.add(new JButton("Feed"));
-        buttonsRow.add(new JButton("Play"));
-        buttonsRow.add(new JButton("Sell"));
+        // set up feed button
+        JButton feedButton = new JButton("Feed");
+
+        JPopupMenu foodPopup = new JPopupMenu();
+        JMenuItem kibbleItem = new JMenuItem(ITEM_KIBBLE);
+        foodPopup.add(kibbleItem);
+        JMenuItem cannedFoodItem = new JMenuItem(ITEM_CANNED_FOOD);
+        foodPopup.add(cannedFoodItem);
+        JMenuItem homeCookedItem = new JMenuItem(ITEM_HOME_COOKED);
+        foodPopup.add(homeCookedItem);
+
+        feedButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(feedButton)) {
+                            foodPopup.show(feedButton, 0, feedButton.getHeight());
+                        }
+                    }
+                });
+        ActionListener feedListener;
+        feedListener = evt -> {
+            String food = evt.getActionCommand();
+            increaseEnergyController.execute(pet, food);
+        };
+
+        kibbleItem.addActionListener(feedListener);
+        cannedFoodItem.addActionListener(feedListener);
+        homeCookedItem.addActionListener(feedListener);
+
+        buttonsRow.add(feedButton);
+
+        // set up play button
+        JButton playButton = new JButton("Play");
+
+        JPopupMenu toyPopup = new JPopupMenu();
+        JMenuItem chewToyItem = new JMenuItem(ITEM_CHEW_TOY);
+        toyPopup.add(chewToyItem);
+        JMenuItem tossToyItem = new JMenuItem(ITEM_TOSS_TOY);
+        toyPopup.add(tossToyItem);
+        JMenuItem plushToyItem = new JMenuItem(ITEM_PLUSH_TOY);
+        toyPopup.add(plushToyItem);
+
+        playButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(playButton)) {
+                            toyPopup.show(playButton, 0, playButton.getHeight());
+                        }
+                    }
+                });
+
+        ActionListener playListener;
+        playListener = evt -> {
+            String toy = evt.getActionCommand();
+            increaseAffectionController.execute(pet, toy);
+        };
+
+        chewToyItem.addActionListener(playListener);
+        tossToyItem.addActionListener(playListener);
+        plushToyItem.addActionListener(playListener);
+
+        buttonsRow.add(playButton);
+
+        //set up sell button
+        JButton sellButton = new JButton("Sell");
+        buttonsRow.add(sellButton);
 
         root.add(buttonsRow);
         root.add(Box.createVerticalStrut(16));
@@ -162,69 +225,7 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         factColumn.setOpaque(false);
         factColumn.setLayout(new BoxLayout(factColumn, BoxLayout.Y_AXIS));
 
-        JButton feedButton = new JButton("Feed");
-        buttons.add(feedButton);
 
-        JPopupMenu foodPopup = new JPopupMenu();
-        JMenuItem kibbleItem = new JMenuItem(ITEM_KIBBLE);
-        foodPopup.add(kibbleItem);
-        JMenuItem cannedFoodItem = new JMenuItem(ITEM_CANNED_FOOD);
-        foodPopup.add(cannedFoodItem);
-        JMenuItem homeCookedItem = new JMenuItem(ITEM_HOME_COOKED);
-        foodPopup.add(homeCookedItem);
-
-        feedButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(feedButton)) {
-                            foodPopup.show(feedButton, 0, feedButton.getHeight());
-                        }
-                    }
-                });
-        ActionListener feedListener;
-        feedListener = evt -> {
-            String food = evt.getActionCommand();
-            increaseEnergyController.execute(pet, food);
-        };
-
-        kibbleItem.addActionListener(feedListener);
-        cannedFoodItem.addActionListener(feedListener);
-        homeCookedItem.addActionListener(feedListener);
-
-
-
-        JButton playButton = new JButton("Play");
-        buttons.add(playButton);
-
-        JPopupMenu toyPopup = new JPopupMenu();
-        JMenuItem chewToyItem = new JMenuItem(ITEM_CHEW_TOY);
-        toyPopup.add(chewToyItem);
-        JMenuItem tossToyItem = new JMenuItem(ITEM_TOSS_TOY);
-        toyPopup.add(tossToyItem);
-        JMenuItem plushToyItem = new JMenuItem(ITEM_PLUSH_TOY);
-        toyPopup.add(plushToyItem);
-
-        playButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(playButton)) {
-                            toyPopup.show(playButton, 0, playButton.getHeight());
-                        }
-                    }
-                });
-
-        ActionListener playListener;
-        playListener = evt -> {
-            String toy = evt.getActionCommand();
-            increaseAffectionController.execute(pet, toy);
-        };
-
-        chewToyItem.addActionListener(playListener);
-        tossToyItem.addActionListener(playListener);
-        plushToyItem.addActionListener(playListener);
-
-
-        buttons.add(new JButton("Sell"));
         JLabel didYouKnowLabel = new JLabel("Did you know?");
         didYouKnowLabel.setFont(didYouKnowLabel.getFont().deriveFont(Font.BOLD, 12f));
         didYouKnowLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -235,7 +236,7 @@ public class PetCardDialog extends JDialog implements ActionListener, PropertyCh
         factLabel.setBorder(new EmptyBorder(4, 0, 0, 0));
         factLabel.setOpaque(false);
 
-        root.add(bottom, BorderLayout.SOUTH);
+//        root.add(bottom, BorderLayout.SOUTH);
 
         factColumn.add(didYouKnowLabel);
         factColumn.add(factLabel);

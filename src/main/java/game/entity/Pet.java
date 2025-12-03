@@ -155,14 +155,17 @@ public class Pet {
 
     public int getLevel() { return this.affectionLevel; }
 
+//    public int getAffectionXP() { return this.affectionLevel; }
+
     public int getSellingPrice() { return this.sellingPrice; }
+
+//    public int getEnergyLevel() { return energyLevel; }
 
     public int getClickingSpeed() {
         return this.clickingSpeed;
     }
 
-    public void increaseAffectionLevel() {
-        this.affectionLevel++;
-    }
-}
+//    public void increaseAffectionLevel() {
+//        this.affectionLevel++;
+//    }
 }
